@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import {GoogleAuthService} from "ng-gapi"
 import GoogleUser = gapi.auth2.GoogleUser
+import {Observable} from "rxjs/Observable"
+import {fromPromise} from "rxjs/observable/fromPromise"
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class AuthService {
@@ -10,19 +14,21 @@ export class AuthService {
   constructor(private googleAuth: GoogleAuthService){
   }
 
-  public getToken(): string {
+  public getToken(): string | boolean {
     let token: string = sessionStorage.getItem(AuthService.SESSION_STORAGE_KEY);
-    if (!token) {
-      this.signIn()
-    }
+    if (!token) return false
     return sessionStorage.getItem(AuthService.SESSION_STORAGE_KEY);
   }
 
-  public signIn(): void {
-    this.googleAuth.getAuth()
-      .subscribe((auth) => {
-        auth.signIn().then(res => this.signInSuccessHandler(res));
-      });
+  public signIn(): Observable<boolean> {
+    return this.googleAuth.getAuth()
+      .switchMap( auth => {
+        return fromPromise(auth.signIn())
+      })
+      .map((res: GoogleUser) => {
+        this.signInSuccessHandler(res)
+        return true
+      })
   }
 
   private signInSuccessHandler(res: GoogleUser) {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {AuthService} from "./services/auth.service"
+import {AuthService} from "./services/auth/auth.service"
+import {CalendarService} from "./services/calendar/caledar.service"
 
 @Component({
   selector: 'app-root',
@@ -9,8 +10,10 @@ import {AuthService} from "./services/auth.service"
 export class AppComponent {
   viewDate: Date = new Date()
 
-  constructor(authService: AuthService){
-    authService.getToken()
+  constructor(authService: AuthService, calendarService: CalendarService ){
+    !authService.getToken() && authService.signIn().subscribe(
+      value => value && console.log(' !!!!',)
+    )
   }
 
 }
