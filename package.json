@@ -25,6 +25,7 @@
     "angular-calendar": "^0.23.6",
     "core-js": "^2.4.1",
     "immutable": "^3.8.2",
+    "ng-gapi": "0.0.45",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
   },
