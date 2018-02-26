@@ -13,6 +13,7 @@ import {AuthEffects} from "../store/auth/auth.effects"
 import {CalendarEffects} from "../store/calendar/calendar.effects"
 import {environment} from "../environments/environment"
 import {StoreDevtoolsModule} from "@ngrx/store-devtools"
+import {calendarReducer} from "../store/calendar/calendar.reducer"
 
 let gapiClientConfig: NgGapiClientConfig = {
   client_id: "57344781856-79hcun89s3lsaimo8086e9pqmgo4uavv.apps.googleusercontent.com",
@@ -38,7 +39,7 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
       provide: NG_GAPI_CONFIG,
       useValue: gapiClientConfig
     }),
-    StoreModule.forRoot({auth: authReducer}),
+    StoreModule.forRoot({auth: authReducer, calendar : calendarReducer}),
     EffectsModule.forRoot([AuthEffects, CalendarEffects]),
     ...DEV_TOOLS_MODULE
 ],

@@ -11,7 +11,7 @@ export class FetchEvents implements Action {
 
 export class FetchEventsSuccess implements Action {
   readonly type = FETCH_EVENTS_SUCCESS;
-  constructor(public payload: {}){}
+  constructor(public payload: any[]){}
 }
 
 export class InitCalendar implements Action {

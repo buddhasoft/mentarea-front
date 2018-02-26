@@ -1,13 +1,11 @@
 import {Injectable} from "@angular/core"
 import {Actions, Effect} from "@ngrx/effects"
-import {Observable} from "rxjs/Observable"
 
 import {of} from "rxjs/observable/of"
 import 'rxjs/Rx';
 import * as CalendarActions from "./calendar.actions"
 import {fromPromise} from "rxjs/observable/fromPromise"
 import {GoogleApiService} from "ng-gapi"
-import * as events from "events"
 import {Store} from "@ngrx/store"
 import {FetchEvents, FetchEventsSuccess, InitCalendarSuccess} from "./calendar.actions"
 
@@ -29,6 +27,7 @@ export class CalendarEffects{
   fetchEvents = this.actions$
     .ofType(CalendarActions.FETCH_EVENTS)
     .switchMap(() => fromPromise(this.fetchUpcomingEvents()))
+    .map(events => events.map( event => ({start: event.start.dateTime, end: event.end.dateTime})))
     .switchMap( events => of(new FetchEventsSuccess(events)))
 
 
