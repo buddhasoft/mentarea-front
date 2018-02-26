@@ -43,6 +43,11 @@ export class AuthEffects {
     .switchMap(() => of(new TryLogin()))
 
   @Effect()
+  checkTokenSuccess = this.actions$
+    .ofType(AuthActions.CHECK_TOKEN_SUCCESS)
+    .switchMap(() => of(new LoginSuccess()))
+
+  @Effect()
   tryLogin = this.actions$
     .ofType(AuthActions.TRY_LOGIN)
     .switchMap(() => this.signIn())
