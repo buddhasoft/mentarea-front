@@ -6,6 +6,8 @@ import { GoogleApiModule, NG_GAPI_CONFIG, NgGapiClientConfig } from "ng-gapi"
 import { AppComponent } from './app.component';
 import { AuthService} from "./services/auth/auth.service"
 import {CalendarService} from "./services/calendar/caledar.service"
+import {StoreModule} from "@ngrx/store"
+import {authReducer} from "../reducers/auth/auth.reducer"
 
 let gapiClientConfig: NgGapiClientConfig = {
   // key: 'AIzaSyDGe0IAMJilnIpQYapviFBjO8rQppho3mA',
@@ -29,6 +31,7 @@ let gapiClientConfig: NgGapiClientConfig = {
       provide: NG_GAPI_CONFIG,
       useValue: gapiClientConfig
     }),
+    StoreModule.forRoot({auth: authReducer})
   ],
   providers: [
     AuthService,
