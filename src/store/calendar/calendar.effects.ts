@@ -33,8 +33,8 @@ export class CalendarEffects{
       end: new Date(event.end.dateTime),
       title: event.summary,
       color: {
-        primary: 'green',
-        secondary: 'green'
+        primary: '#3ee0c666',
+        secondary: '#3ee0c666'
       }
     })))
     .switchMap( events => of(new FetchEventsSuccess(events)))

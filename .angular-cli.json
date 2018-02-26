@@ -20,7 +20,9 @@
       "prefix": "app",
       "styles": [
         "styles.css",
-        "../node_modules/angular-calendar/css/angular-calendar.css"
+        "../node_modules/angular-calendar/css/angular-calendar.css",
+        "../node_modules/bootstrap/dist/css/bootstrap.css",
+        "../node_modules/bootstrap/dist/css/bootstrap-grid.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

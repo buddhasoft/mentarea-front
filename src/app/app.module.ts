@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule } from 'angular-calendar';
 import { GoogleApiModule, NG_GAPI_CONFIG, NgGapiClientConfig } from "ng-gapi"
 import { AppComponent } from './app.component';
-import {CalendarService} from "./services/calendar/caledar.service"
 import {StoreModule} from "@ngrx/store"
 import {authReducer} from "../store/auth/auth.reducer";
 import { CalendarComponent } from './components/calendar/calendar.component'
@@ -14,6 +13,7 @@ import {CalendarEffects} from "../store/calendar/calendar.effects"
 import {environment} from "../environments/environment"
 import {StoreDevtoolsModule} from "@ngrx/store-devtools"
 import {calendarReducer} from "../store/calendar/calendar.reducer"
+import {FormsModule} from "@angular/forms"
 
 let gapiClientConfig: NgGapiClientConfig = {
   client_id: "57344781856-79hcun89s3lsaimo8086e9pqmgo4uavv.apps.googleusercontent.com",
@@ -41,10 +41,10 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
     }),
     StoreModule.forRoot({auth: authReducer, calendar : calendarReducer}),
     EffectsModule.forRoot([AuthEffects, CalendarEffects]),
-    ...DEV_TOOLS_MODULE
+    ...DEV_TOOLS_MODULE,
+    FormsModule
 ],
   providers: [
-    CalendarService
   ],
   bootstrap: [AppComponent]
 })
