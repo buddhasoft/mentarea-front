@@ -7,7 +7,8 @@ import { AppComponent } from './app.component';
 import { AuthService} from "./services/auth/auth.service"
 import {CalendarService} from "./services/calendar/caledar.service"
 import {StoreModule} from "@ngrx/store"
-import {authReducer} from "../reducers/auth/auth.reducer"
+import {authReducer} from "../reducers/auth/auth.reducer";
+import { CalendarComponent } from './components/calendar/calendar.component'
 
 let gapiClientConfig: NgGapiClientConfig = {
   // key: 'AIzaSyDGe0IAMJilnIpQYapviFBjO8rQppho3mA',
@@ -21,7 +22,8 @@ let gapiClientConfig: NgGapiClientConfig = {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
