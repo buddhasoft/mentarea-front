@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import {AuthService} from "./services/auth/auth.service"
-import {CalendarService} from "./services/calendar/caledar.service"
 
 @Component({
   selector: 'app-root',
@@ -9,10 +7,7 @@ import {CalendarService} from "./services/calendar/caledar.service"
 })
 export class AppComponent {
 
-  constructor(authService: AuthService, calendarService: CalendarService ){
-    // !authService.getToken() && authService.signIn().subscribe(
-    //   value => value && console.log(' !!!!',)
-    // )
+  constructor(){
   }
 
 }

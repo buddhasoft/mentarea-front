@@ -13,6 +13,7 @@ import {
 } from "./auth.actions"
 
 import {of} from "rxjs/observable/of"
+import 'rxjs/Rx';
 
 @Injectable()
 export class AuthEffects {

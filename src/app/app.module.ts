@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule } from 'angular-calendar';
 import { GoogleApiModule, NG_GAPI_CONFIG, NgGapiClientConfig } from "ng-gapi"
 import { AppComponent } from './app.component';
-import { AuthService} from "./services/auth/auth.service"
 import {CalendarService} from "./services/calendar/caledar.service"
 import {StoreModule} from "@ngrx/store"
 import {authReducer} from "../store/auth/auth.reducer";
@@ -43,7 +42,6 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
     ...DEV_TOOLS_MODULE
 ],
   providers: [
-    AuthService,
     CalendarService
   ],
   bootstrap: [AppComponent]
