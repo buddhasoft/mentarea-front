@@ -40,11 +40,11 @@ export class CalendarService {
       // updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
       // authorizeButton.onclick = handleAuthClick;
       // signoutButton.onclick = handleSignoutClick;
-    });
+    }).catch( err => console.error('ERROR: ', err))
   }
 
   listUpcomingEvents() {
-    gapi.client.calendar.events.list({
+    gapi.client['calendar'].events.list({
       'calendarId': 'primary',
       'timeMin': (new Date()).toISOString(),
       'showDeleted': false,
