@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Store} from "@ngrx/store"
-import {TryLogin} from "../../../store/auth/auth.actions"
+import * as authActions from "../../../store/auth/auth.actions"
 
 @Component({
   selector: 'app-calendar',
@@ -8,11 +8,12 @@ import {TryLogin} from "../../../store/auth/auth.actions"
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
+  viewDate: Date = new Date()
 
   constructor(private store: Store<{auth: object}>) { }
 
   ngOnInit() {
-    this.store.dispatch(new TryLogin())
+    this.store.dispatch(new authActions.CheckToken())
   }
 
 }

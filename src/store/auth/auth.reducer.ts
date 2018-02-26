@@ -13,13 +13,12 @@ export function authReducer(state = initilalState, action: Action) {
   switch (action.type) {
     case TRY_LOGIN:
       return state.set('loggingIn', true);
-      break;
-    case LOGIN_SUCCESS:
-      return;
-      break;
-    case LOGIN_FAILURE:
-      return;
-      break;
+    // case LOGIN_SUCCESS:
+    //   return;
+    //   break;
+    // case LOGIN_FAILURE:
+    //   return;
+    //   break;
 
   }
   return state

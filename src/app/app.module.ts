@@ -9,9 +9,12 @@ import {CalendarService} from "./services/calendar/caledar.service"
 import {StoreModule} from "@ngrx/store"
 import {authReducer} from "../store/auth/auth.reducer";
 import { CalendarComponent } from './components/calendar/calendar.component'
+import {EffectsModule} from "@ngrx/effects"
+import {AuthEffects} from "../store/auth/auth.effects"
+import {environment} from "../environments/environment"
+import {StoreDevtoolsModule} from "@ngrx/store-devtools"
 
 let gapiClientConfig: NgGapiClientConfig = {
-  // key: 'AIzaSyDGe0IAMJilnIpQYapviFBjO8rQppho3mA',
   client_id: "57344781856-79hcun89s3lsaimo8086e9pqmgo4uavv.apps.googleusercontent.com",
   discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
   scope: [
@@ -19,6 +22,8 @@ let gapiClientConfig: NgGapiClientConfig = {
   ].join(" ")
 };
 
+const DEV_TOOLS_MODULE = environment.production ? [] :
+  [StoreDevtoolsModule.instrument()];
 
 @NgModule({
   declarations: [
@@ -33,8 +38,10 @@ let gapiClientConfig: NgGapiClientConfig = {
       provide: NG_GAPI_CONFIG,
       useValue: gapiClientConfig
     }),
-    StoreModule.forRoot({auth: authReducer})
-  ],
+    StoreModule.forRoot({auth: authReducer}),
+    EffectsModule.forRoot([AuthEffects]),
+    ...DEV_TOOLS_MODULE
+],
   providers: [
     AuthService,
     CalendarService

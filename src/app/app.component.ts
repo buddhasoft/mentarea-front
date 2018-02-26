@@ -8,12 +8,11 @@ import {CalendarService} from "./services/calendar/caledar.service"
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  viewDate: Date = new Date()
 
   constructor(authService: AuthService, calendarService: CalendarService ){
-    !authService.getToken() && authService.signIn().subscribe(
-      value => value && console.log(' !!!!',)
-    )
+    // !authService.getToken() && authService.signIn().subscribe(
+    //   value => value && console.log(' !!!!',)
+    // )
   }
 
 }
