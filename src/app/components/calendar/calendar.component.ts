@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Store} from "@ngrx/store"
+import {TryLogin} from "../../../store/auth/auth.actions"
 
 @Component({
   selector: 'app-calendar',
@@ -7,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CalendarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private store: Store<{auth: object}>) { }
 
   ngOnInit() {
+    this.store.dispatch(new TryLogin())
   }
 
 }
