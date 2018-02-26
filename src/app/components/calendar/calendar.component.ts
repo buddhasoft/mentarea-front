@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Store} from "@ngrx/store"
 import * as authActions from "../../../store/auth/auth.actions"
 import * as calendarActions from "../../../store/calendar/calendar.actions"
+import {Observable} from "rxjs/Observable"
 
 @Component({
   selector: 'app-calendar',
@@ -10,14 +11,17 @@ import * as calendarActions from "../../../store/calendar/calendar.actions"
 })
 export class CalendarComponent implements OnInit {
   viewDate: Date = new Date()
+  events: Observable<any>
 
-  constructor(private store: Store<{auth: any}>) { }
+  constructor(private store: Store<any>) { }
 
   ngOnInit() {
     this.store.dispatch(new authActions.CheckToken())
     this.store.select(state =>  state.auth.get('isLoggedIn')).subscribe( isLoggedIn => {
       isLoggedIn && this.store.dispatch(new calendarActions.InitCalendar())
     })
+
+    this.events = this.store.select(state =>  state.calendar.get('events').toArray())
   }
 
 }

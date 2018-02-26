@@ -28,7 +28,15 @@ export class CalendarEffects{
   fetchEvents = this.actions$
     .ofType(CalendarActions.FETCH_EVENTS)
     .switchMap((): Observable<any[]> => fromPromise(this.fetchUpcomingEvents()))
-    .map(events => events.map( event => ({start: event.start.dateTime, end: event.end.dateTime})))
+    .map(events => events.map( event => ({
+      start: new Date(event.start.dateTime),
+      end: new Date(event.end.dateTime),
+      title: event.summary,
+      color: {
+        primary: 'green',
+        secondary: 'green'
+      }
+    })))
     .switchMap( events => of(new FetchEventsSuccess(events)))
 
 

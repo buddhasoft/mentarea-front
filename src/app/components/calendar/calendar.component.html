@@ -1,4 +1,5 @@
 <mwl-calendar-week-view
   [viewDate]="viewDate"
-  [events]="events">
+  [events]="events | async">
 </mwl-calendar-week-view>
+<div>{{(events | async)?.start}}</div>
