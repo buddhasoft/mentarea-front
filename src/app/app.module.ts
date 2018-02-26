@@ -10,6 +10,7 @@ import {authReducer} from "../store/auth/auth.reducer";
 import { CalendarComponent } from './components/calendar/calendar.component'
 import {EffectsModule} from "@ngrx/effects"
 import {AuthEffects} from "../store/auth/auth.effects"
+import {CalendarEffects} from "../store/calendar/calendar.effects"
 import {environment} from "../environments/environment"
 import {StoreDevtoolsModule} from "@ngrx/store-devtools"
 
@@ -38,7 +39,7 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
       useValue: gapiClientConfig
     }),
     StoreModule.forRoot({auth: authReducer}),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, CalendarEffects]),
     ...DEV_TOOLS_MODULE
 ],
   providers: [
