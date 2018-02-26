@@ -9,7 +9,7 @@ import {GoogleApiService} from "ng-gapi"
 import {Store} from "@ngrx/store"
 import {FetchEvents, FetchEventsSuccess, InitCalendarSuccess} from "./calendar.actions"
 import {Observable} from "rxjs/Observable"
-import {environment} from "../../environments/environment"
+import {environment} from "../../../environments/environment"
 
 const CLIENT_ID = environment.production
   ?  '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'

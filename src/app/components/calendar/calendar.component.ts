@@ -17,8 +17,8 @@ import {
 import { Subject } from 'rxjs/Subject';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import * as authActions from "../../../store/auth/auth.actions"
-import * as calendarActions from "../../../store/calendar/calendar.actions"
+import * as authActions from "../../store/auth/auth.actions"
+import * as calendarActions from "../../store/calendar/calendar.actions"
 
 import {
   CalendarEvent,

@@ -5,14 +5,14 @@ import { CalendarModule } from 'angular-calendar';
 import { GoogleApiModule, NG_GAPI_CONFIG, NgGapiClientConfig } from "ng-gapi"
 import { AppComponent } from './app.component';
 import {StoreModule} from "@ngrx/store"
-import {authReducer} from "../store/auth/auth.reducer";
+import {authReducer} from "./store/auth/auth.reducer";
 import { CalendarComponent } from './components/calendar/calendar.component'
 import {EffectsModule} from "@ngrx/effects"
-import {AuthEffects} from "../store/auth/auth.effects"
-import {CalendarEffects} from "../store/calendar/calendar.effects"
+import {AuthEffects} from "./store/auth/auth.effects"
+import {CalendarEffects} from "./store/calendar/calendar.effects"
 import {environment} from "../environments/environment"
 import {StoreDevtoolsModule} from "@ngrx/store-devtools"
-import {calendarReducer} from "../store/calendar/calendar.reducer"
+import {calendarReducer} from "./store/calendar/calendar.reducer"
 import {FormsModule} from "@angular/forms"
 
 const CLIENT_ID = environment.production
