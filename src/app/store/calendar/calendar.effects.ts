@@ -9,10 +9,12 @@ import {Store} from "@ngrx/store"
 import {AddAll, CalendarActions, CalendarActionTypes, FetchEvents, FetchEventsSuccess} from "./calendar.actions"
 import {Observable} from "rxjs/Observable"
 import {CalendarService} from "../../services/calendar/caledar.service"
+import {CalendarState} from "./calendar.reducer"
 
 @Injectable()
 export class CalendarEffects{
   constructor(
+    private store: Store<CalendarState>,
     public actions$: Actions,
     public gapiService: GoogleApiService,
     public calendarService: CalendarService

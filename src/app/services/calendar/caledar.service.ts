@@ -2,8 +2,9 @@ import {Injectable} from '@angular/core';
 import {GoogleApiService} from "ng-gapi"
 import {environment} from "../../../environments/environment"
 import {Store} from "@ngrx/store"
-import {CalendarState} from "../../store/calendar/calendar.reducer"
 import {InitCalendarSuccess} from "../../store/calendar/calendar.actions"
+import {CalendarState} from "../../store/calendar/calendar.reducer"
+import {AuthState} from "../../store/auth/auth.reducer"
 
 const CLIENT_ID = environment.production
   ? '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
@@ -18,11 +19,8 @@ const API_KEY = environment.production
 export class CalendarService {
 
   constructor(private gapiService: GoogleApiService,
-              private store: Store<{ calendar: CalendarState }>) {
-    gapiService.onLoad().subscribe(() => {
-      gapi.load('client:auth2', this.initClient.bind(this));
-    })
-  }
+              private store: Store<CalendarState>,
+  ) {}
 
   initClient() {
     return gapi.client.init({
@@ -30,7 +28,9 @@ export class CalendarService {
       clientId: CLIENT_ID,
       discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
       scope: "https://www.googleapis.com/auth/calendar"
-    }).then(() => this.store.dispatch(new InitCalendarSuccess()))
+    }).then(() => {
+      this.store.dispatch(new InitCalendarSuccess())
+    })
   }
 
   fetchUpcomingEvents() {

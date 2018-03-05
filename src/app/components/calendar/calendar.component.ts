@@ -125,7 +125,7 @@ export class CalendarComponent implements OnInit {
       isLoggedIn && this.store.dispatch(new calendarActions.InitCalendar())
     })
 
-    this.events$ = this.store.select(state =>  state.calendar.get('events').toArray())
+    this.events$ = this.store.select(state =>  state.calendar.events)
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {

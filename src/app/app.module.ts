@@ -1,23 +1,24 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CalendarModule } from 'angular-calendar';
-import { GoogleApiModule, NG_GAPI_CONFIG, NgGapiClientConfig } from "ng-gapi"
-import { AppComponent } from './app.component';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CalendarModule} from 'angular-calendar';
+import {GoogleApiModule, NG_GAPI_CONFIG, NgGapiClientConfig} from "ng-gapi"
+import {AppComponent} from './app.component';
 import {StoreModule} from "@ngrx/store"
 import {authReducer} from "./store/auth/auth.reducer";
-import { CalendarComponent } from './components/calendar/calendar.component'
+import {CalendarComponent} from './components/calendar/calendar.component'
 import {EffectsModule} from "@ngrx/effects"
 import {AuthEffects} from "./store/auth/auth.effects"
 import {CalendarEffects} from "./store/calendar/calendar.effects"
+import {CalendarService} from "./services/calendar/caledar.service"
 import {environment} from "../environments/environment"
 import {StoreDevtoolsModule} from "@ngrx/store-devtools"
 import {calendarReducer} from "./store/calendar/calendar.reducer"
 import {FormsModule} from "@angular/forms"
 
 const CLIENT_ID = environment.production
-  ?  '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
-  :  '57344781856-79hcun89s3lsaimo8086e9pqmgo4uavv.apps.googleusercontent.com'
+  ? '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
+  : '57344781856-79hcun89s3lsaimo8086e9pqmgo4uavv.apps.googleusercontent.com'
 
 let gapiClientConfig: NgGapiClientConfig = {
   client_id: CLIENT_ID,
@@ -43,13 +44,15 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
       provide: NG_GAPI_CONFIG,
       useValue: gapiClientConfig
     }),
-    StoreModule.forRoot({auth: authReducer, calendar : calendarReducer}),
+    StoreModule.forRoot({auth: authReducer, calendar: calendarReducer}),
     EffectsModule.forRoot([AuthEffects, CalendarEffects]),
     ...DEV_TOOLS_MODULE,
     FormsModule
-],
+  ],
   providers: [
+    CalendarService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

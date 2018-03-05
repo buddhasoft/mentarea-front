@@ -1,7 +1,12 @@
 import {Action} from '@ngrx/store'
 import {LOGIN_FAILURE, LOGIN_SUCCESS, TRY_LOGIN} from "./auth.actions"
 
-const initilalState = {
+export interface AuthState {
+  isLoggedIn : boolean,
+  loggingIn : boolean,
+}
+
+const initilalState: AuthState = {
   isLoggedIn : false,
   loggingIn : false,
 }
