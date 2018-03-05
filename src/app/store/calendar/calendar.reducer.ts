@@ -22,7 +22,7 @@ export function calendarReducer(state: CalendarState = initialState, action: Cal
         changes: action.changes,
       }, state);
     case CalendarActionTypes.DELETE_ONE:
-      return calendarAdapter.deleteOne(action.id, state);
+      return calendarAdapter.removeOne(action.id, state);
     case CalendarActionTypes.ADD_ALL:
       return calendarAdapter.addAll(action.events, state);
     // case CalendarActionTypes.FETCH_EVENTS_SUCCESS:

@@ -8,6 +8,7 @@ CalendarActionTypes
   UPDATE_ONE = '[Events] Update One',
   DELETE_ONE = '[Events] Delete One',
   ADD_ALL = '[Events] Add All',
+  ADD_MANY = '[Events] Add Many',
   FETCH_EVENTS = 'FETCH_EVENTS',
   FETCH_EVENTS_SUCCESS = 'FETCH_EVENTS_SUCCESS',
   INIT_CALENDAR = 'INIT_CALENDAR',
@@ -21,7 +22,6 @@ export class FetchEvents implements Action {
 
 export class FetchEventsSuccess implements Action {
   readonly type = CalendarActionTypes.FETCH_EVENTS_SUCCESS;
-  constructor(public payload: any[]){}
 }
 
 export class InitCalendar implements Action {
@@ -38,6 +38,12 @@ export class AddOne implements Action {
   constructor(public event: CalendarEvent) {}
 }
 
+export class addMany implements Action {
+  readonly type = CalendarActionTypes.ADD_MANY;
+
+  constructor(public events: CalendarEvent[]) {}
+}
+
 export class UpdateOne implements Action {
   readonly type = CalendarActionTypes.UPDATE_ONE;
 
@@ -52,7 +58,7 @@ export class DeleteOne implements Action {
   constructor(public id: string) {}
 }
 
-export class GetAll implements Action {
+export class AddAll implements Action {
   readonly type = CalendarActionTypes.ADD_ALL;
 
   constructor(public events: CalendarEvent[]) {}
@@ -61,10 +67,11 @@ export class GetAll implements Action {
 
 
 export type CalendarActions =
-  GetOne |
+  AddOne |
+  addMany |
   UpdateOne |
   DeleteOne |
-  GetAll |
+  AddAll |
   FetchEvents |
   InitCalendar |
   InitCalendarSuccess |
