@@ -1,4 +1,4 @@
-import {ICalendarEvent} from "./calendar.interfaces"
+import {ICalendarEvent} from "../interfaces/calendar.interfaces"
 
 const PRIMARY_COLOR = '#3ee0c666'
 const SECONDARY_COLOR = '#3ee0c666'

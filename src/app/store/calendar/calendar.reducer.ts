@@ -1,5 +1,5 @@
 import {CalendarActions, CalendarActionTypes} from "./calendar.actions"
-import {ICalendarEvent} from "./calendar.interfaces"
+import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
 import {createEntityAdapter} from '@ngrx/entity';
 import {EntityState} from '@ngrx/entity';
 

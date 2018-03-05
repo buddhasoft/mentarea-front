@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store'
-import {ICalendarEvent} from "./calendar.interfaces"
+import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
 
 export enum
 CalendarActionTypes
