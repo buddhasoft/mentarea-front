@@ -10,6 +10,7 @@ import {AddAll, CalendarActions, CalendarActionTypes, FetchEvents, FetchEventsSu
 import {Observable} from "rxjs/Observable"
 import {CalendarService} from "../../services/calendar/caledar.service"
 import {CalendarState} from "./calendar.reducer"
+import {CalendarEvent} from "./CalendarEvent"
 
 @Injectable()
 export class CalendarEffects{
@@ -30,16 +31,7 @@ export class CalendarEffects{
   fetchEvents = this.actions$
     .ofType(CalendarActionTypes.FETCH_EVENTS)
     .switchMap((): Observable<any[]> => fromPromise(this.calendarService.fetchUpcomingEvents()))
-    .map(events => events.map( event => ({
-      id: event.id,
-      start: new Date(event.start.dateTime),
-      end: new Date(event.end.dateTime),
-      title: event.summary,
-      color: {
-        primary: '#3ee0c666',
-        secondary: '#3ee0c666'
-      }
-    })))
+    .map(events => events.map( event => ( new CalendarEvent(event))))
     .switchMap( events => {
       return [ new FetchEventsSuccess(), new AddAll(events)]
     })

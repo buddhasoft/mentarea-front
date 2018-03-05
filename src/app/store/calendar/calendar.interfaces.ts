@@ -1,6 +1,6 @@
-export interface CalendarEvent {
+export interface ICalendarEvent {
   id: string,
-  start: Date
+  start: Date,
   end: Date,
   title: string,
   color: {

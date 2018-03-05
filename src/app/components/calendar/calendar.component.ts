@@ -81,7 +81,7 @@ export class CalendarComponent implements OnInit {
 
   events$: Observable<any>
 
-  // events: CalendarEvent[] = [
+  // events: ICalendarEvent[] = [
   //   {
   //     start: subDays(startOfDay(new Date()), 1),
   //     end: addDays(new Date(), 1),

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store'
-import {CalendarEvent} from "./calendar.interfaces"
+import {ICalendarEvent} from "./calendar.interfaces"
 
 export enum
 CalendarActionTypes
@@ -35,20 +35,20 @@ export class InitCalendarSuccess implements Action {
 export class AddOne implements Action {
   readonly type = CalendarActionTypes.ADD_ONE;
 
-  constructor(public event: CalendarEvent) {}
+  constructor(public event: ICalendarEvent) {}
 }
 
 export class addMany implements Action {
   readonly type = CalendarActionTypes.ADD_MANY;
 
-  constructor(public events: CalendarEvent[]) {}
+  constructor(public events: ICalendarEvent[]) {}
 }
 
 export class UpdateOne implements Action {
   readonly type = CalendarActionTypes.UPDATE_ONE;
 
   constructor(public id: string,
-              public changes: Partial<CalendarEvent>,
+              public changes: Partial<ICalendarEvent>,
   ) {}
 }
 
@@ -61,7 +61,7 @@ export class DeleteOne implements Action {
 export class AddAll implements Action {
   readonly type = CalendarActionTypes.ADD_ALL;
 
-  constructor(public events: CalendarEvent[]) {}
+  constructor(public events: ICalendarEvent[]) {}
 }
 
 

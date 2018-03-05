@@ -1,12 +1,12 @@
 import {CalendarActions, CalendarActionTypes} from "./calendar.actions"
-import {CalendarEvent} from "./calendar.interfaces"
+import {ICalendarEvent} from "./calendar.interfaces"
 import {createEntityAdapter} from '@ngrx/entity';
 import {EntityState} from '@ngrx/entity';
 
-export interface CalendarState extends EntityState<CalendarEvent> {
+export interface CalendarState extends EntityState<ICalendarEvent> {
 }
 
-const calendarAdapter = createEntityAdapter<CalendarEvent>();
+const calendarAdapter = createEntityAdapter<ICalendarEvent>();
 
 const initialState: CalendarState = calendarAdapter.getInitialState();
 
