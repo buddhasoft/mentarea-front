@@ -6,18 +6,17 @@ import 'rxjs/Rx';
 import {fromPromise} from "rxjs/observable/fromPromise"
 import {GoogleApiService} from "ng-gapi"
 import {Store} from "@ngrx/store"
-import {AddAll, CalendarActionTypes, FetchEvents, FetchEventsSuccess} from "./calendar.actions"
+import {AddAll, EventsActionTypes, FetchEvents, FetchEventsSuccess} from "./events.actions"
 import {Observable} from "rxjs/Observable"
 import {CalendarService} from "../../services/calendar/caledar.service"
-import {CalendarState} from "./calendar.reducer"
+import {EventsState} from "./events.reducer"
 import {CalendarEvent} from "../../shared/models/calendarEvent.model"
-import * as events from "events"
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
 
 @Injectable()
-export class CalendarEffects{
+export class EventsEffects{
   constructor(
-    private store: Store<CalendarState>,
+    private store: Store<EventsState>,
     public actions$: Actions,
     public gapiService: GoogleApiService,
     public calendarService: CalendarService
@@ -25,20 +24,20 @@ export class CalendarEffects{
 
   @Effect({dispatch : false})
   initCalendar = this.actions$
-    .ofType(CalendarActionTypes.INIT_CALENDAR)
+    .ofType(EventsActionTypes.INIT_CALENDAR)
     .switchMap(() => this.gapiService.onLoad())
     .map(() => gapi.load('client:auth2', this.calendarService.initClient.bind(this)))
 
   @Effect()
   fetchEvents = this.actions$
-    .ofType(CalendarActionTypes.FETCH_EVENTS)
+    .ofType(EventsActionTypes.FETCH_EVENTS)
     .switchMap((): Observable<any[]> => fromPromise(this.calendarService.fetchUpcomingEvents()))
     .map(events => events.map( event => ( new CalendarEvent(event))))
     .switchMap( (events: ICalendarEvent[]) => ([ new FetchEventsSuccess(), new AddAll(events) ]))
 
   @Effect()
   initCalendarSuccess = this.actions$
-    .ofType(CalendarActionTypes.INIT_CALENDAR_SUCCESS)
+    .ofType(EventsActionTypes.INIT_CALENDAR_SUCCESS)
     .switchMap( () => of(new FetchEvents()))
 
 }

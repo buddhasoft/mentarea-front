@@ -5,16 +5,16 @@ import {CalendarModule} from 'angular-calendar';
 import {GoogleApiModule, NG_GAPI_CONFIG, NgGapiClientConfig} from "ng-gapi"
 import {AppComponent} from './app.component';
 import {StoreModule} from "@ngrx/store"
-import {authReducer} from "./store/auth/auth.reducer";
 import {CalendarComponent} from './components/calendar/calendar.component'
 import {EffectsModule} from "@ngrx/effects"
 import {AuthEffects} from "./store/auth/auth.effects"
-import {CalendarEffects} from "./store/calendar/calendar.effects"
+import {EventsEffects} from "./store/events/events.effects"
 import {CalendarService} from "./services/calendar/caledar.service"
 import {environment} from "../environments/environment"
 import {StoreDevtoolsModule} from "@ngrx/store-devtools"
-import {calendarReducer} from "./store/calendar/calendar.reducer"
 import {FormsModule} from "@angular/forms"
+import {authReducer} from "./store/auth/auth.reducer";
+import {eventsReducer} from "./store/events/events.reducer"
 
 const CLIENT_ID = environment.production
   ? '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
@@ -44,8 +44,8 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
       provide: NG_GAPI_CONFIG,
       useValue: gapiClientConfig
     }),
-    StoreModule.forRoot({auth: authReducer, calendar: calendarReducer}),
-    EffectsModule.forRoot([AuthEffects, CalendarEffects]),
+    StoreModule.forRoot({auth: authReducer, events: eventsReducer}),
+    EffectsModule.forRoot([AuthEffects, EventsEffects]),
     ...DEV_TOOLS_MODULE,
     FormsModule
   ],

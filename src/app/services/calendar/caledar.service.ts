@@ -1,15 +1,14 @@
 import {Injectable} from '@angular/core';
-import {GoogleApiService} from "ng-gapi"
 import {Store} from "@ngrx/store"
-import {InitCalendarSuccess} from "../../store/calendar/calendar.actions"
-import {CalendarState} from "../../store/calendar/calendar.reducer"
+import {InitCalendarSuccess} from "../../store/events/events.actions"
+import {EventsState} from "../../store/events/events.reducer"
 import gapiConfig from "./gapi.config"
 
 
 @Injectable()
 export class CalendarService {
 
-  constructor(private store: Store<CalendarState>) {}
+  constructor(private store: Store<EventsState>) {}
 
   initClient() {
     return gapi.client.init(gapiConfig).then(() => {
