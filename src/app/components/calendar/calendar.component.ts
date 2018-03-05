@@ -19,6 +19,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as authActions from "../../store/auth/auth.actions"
 import * as calendarActions from "../../store/events/events.actions"
+import {selectAllEvents} from "../../store/events/events.selectors"
 
 import {
   CalendarEvent,
@@ -125,7 +126,8 @@ export class CalendarComponent implements OnInit {
       isLoggedIn && this.store.dispatch(new calendarActions.InitCalendar())
     })
 
-    this.events$ = this.store.select(state => state.calendar.events)
+    this.events$ = this.store.select(selectAllEvents)
+    // this.events$ = this.store.select(state => state.calendar.events)
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {

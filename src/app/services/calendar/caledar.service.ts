@@ -14,7 +14,7 @@ export class CalendarService {
     return gapi.client.init(gapiConfig).then(() => {
       this.store.dispatch(new InitCalendarSuccess())
     })
-  }
+  }s
 
   fetchUpcomingEvents() {
     return gapi.client['calendar'].events.list({

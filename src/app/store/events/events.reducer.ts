@@ -6,9 +6,9 @@ import {EntityState} from '@ngrx/entity';
 export interface EventsState extends EntityState<ICalendarEvent> {
 }
 
-const eventsAdapter = createEntityAdapter<ICalendarEvent>();
+export const eventsAdapter = createEntityAdapter<ICalendarEvent>();
 
-const initialState: EventsState = eventsAdapter.getInitialState();
+export const initialState: EventsState = eventsAdapter.getInitialState();
 
 export function eventsReducer(state: EventsState = initialState, action: EventsActions,): EventsState {
   switch (action.type) {
