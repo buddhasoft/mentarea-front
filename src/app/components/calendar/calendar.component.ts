@@ -121,7 +121,7 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(){
     this.store.dispatch(new authActions.CheckToken())
-    this.store.select(state =>  state.auth.get('isLoggedIn')).subscribe( isLoggedIn => {
+    this.store.select(state =>  state.auth.isLoggedIn).subscribe( isLoggedIn => {
       isLoggedIn && this.store.dispatch(new calendarActions.InitCalendar())
     })
 

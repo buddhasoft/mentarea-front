@@ -1,16 +1,33 @@
-import {Action} from '@ngrx/store'
-import {List, Map} from 'immutable'
-import {FETCH_EVENTS_SUCCESS} from "./calendar.actions"
-// import {calendar} from '../../shared/models/calendar.model'
+import {CalendarActions, CalendarActionTypes} from "./calendar.actions"
+import {CalendarEvent} from "./calendar.interfaces"
+import {createEntityAdapter} from '@ngrx/entity';
+import {EntityState} from '@ngrx/entity';
 
-const initilalState = Map({
-  events: List([])
-})
+export interface CalendarState extends EntityState<CalendarEvent> {
+}
 
-export function calendarReducer(state = initilalState, action: Action) {
+const calendarAdapter = createEntityAdapter<CalendarEvent>();
+
+const initialState: CalendarState = calendarAdapter.getInitialState();
+
+export function calendarReducer(state: CalendarState = initialState, action: CalendarActions,): CalendarState {
   switch (action.type) {
-    case FETCH_EVENTS_SUCCESS:
-      return state.set('events', List(action['payload']));
+    case CalendarActionTypes.ADD_ONE:
+      return calendarAdapter.addOne(action.event, state);
+    case CalendarActionTypes.ADD_MANY:
+      return calendarAdapter.addMany(action.events, state);
+    case CalendarActionTypes.UPDATE_ONE:
+      return calendarAdapter.updateOne({
+        id: action.id,
+        changes: action.changes,
+      }, state);
+    case CalendarActionTypes.DELETE_ONE:
+      return calendarAdapter.deleteOne(action.id, state);
+    case CalendarActionTypes.ADD_ALL:
+      return calendarAdapter.addAll(action.events, state);
+    // case CalendarActionTypes.FETCH_EVENTS_SUCCESS:
+    //   return state.set('events', List(action['payload']));
+    default:
+      return state;
   }
-  return state
 }
