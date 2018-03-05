@@ -25,9 +25,6 @@ export function calendarReducer(state: CalendarState = initialState, action: Cal
       return calendarAdapter.removeOne(action.id, state);
     case CalendarActionTypes.ADD_ALL:
       return calendarAdapter.addAll(action.events, state);
-    // case CalendarActionTypes.FETCH_EVENTS_SUCCESS:
-    //   return state.set('events', List(action['payload']));
-    default:
-      return state;
   }
+  return state;
 }

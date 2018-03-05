@@ -1,34 +1,42 @@
 import { Action } from '@ngrx/store'
 
-export const CHECK_TOKEN = '[AUTH] CHECK_TOKEN'
-export const CHECK_TOKEN_SUCCESS = '[AUTH] CHECK_TOKEN_SUCCESS'
-export const CHECK_TOKEN_FAILURE = '[AUTH] CHECK_TOKEN_FAILURE'
-export const TRY_LOGIN = '[AUTH] TRY_LOGIN'
-export const LOGIN_SUCCESS = '[AUTH] LOGIN_SUCCESS'
-export const LOGIN_FAILURE = '[AUTH] LOGIN_FAILURE'
+
+
+export enum
+AuthActionTypes
+{
+  CHECK_TOKEN = '[AUTH] CHECK_TOKEN',
+  CHECK_TOKEN_SUCCESS = '[AUTH] CHECK_TOKEN_SUCCESS',
+  CHECK_TOKEN_FAILURE = '[AUTH] CHECK_TOKEN_FAILURE',
+  TRY_LOGIN = '[AUTH] TRY_LOGIN',
+  LOGIN_SUCCESS = '[AUTH] LOGIN_SUCCESS',
+  LOGIN_FAILURE = '[AUTH] LOGIN_FAILURE',
+}
+
+
 
 export class TryLogin implements Action {
-  readonly type = TRY_LOGIN;
+  readonly type = AuthActionTypes.TRY_LOGIN;
 }
 
 export class LoginSuccess implements Action {
-  readonly type = LOGIN_SUCCESS;
+  readonly type = AuthActionTypes.LOGIN_SUCCESS;
 }
 
 export class LoginFailure implements Action {
-  readonly type = LOGIN_FAILURE;
+  readonly type = AuthActionTypes.LOGIN_FAILURE;
 }
 
 export class CheckToken implements Action {
-  readonly type = CHECK_TOKEN;
+  readonly type = AuthActionTypes.CHECK_TOKEN;
 }
 
 export class CheckTokenFailure implements Action {
-  readonly type = CHECK_TOKEN_FAILURE;
+  readonly type = AuthActionTypes.CHECK_TOKEN_FAILURE;
 }
 
 export class CheckTokenSuccess implements Action {
-  readonly type = CHECK_TOKEN_SUCCESS;
+  readonly type = AuthActionTypes.CHECK_TOKEN_SUCCESS;
 }
 
 export type AuthActions =

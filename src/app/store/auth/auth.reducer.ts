@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store'
-import {LOGIN_FAILURE, LOGIN_SUCCESS, TRY_LOGIN} from "./auth.actions"
+import {AuthActionTypes} from "./auth.actions"
 
 export interface AuthState {
   isLoggedIn : boolean,
@@ -13,13 +13,12 @@ const initilalState: AuthState = {
 
 export function authReducer(state = initilalState, action: Action) {
   switch (action.type) {
-    case TRY_LOGIN:
+    case AuthActionTypes.TRY_LOGIN:
       return {...state, loggingIn: true}
-    case LOGIN_SUCCESS:
+    case AuthActionTypes.LOGIN_SUCCESS:
       return {...state, loggingIn: false, isLoggedIn: true}
-    case LOGIN_FAILURE:
+    case AuthActionTypes.LOGIN_FAILURE:
       return {...state, loggingIn: false}
-
   }
   return state
 }
