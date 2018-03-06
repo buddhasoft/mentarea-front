@@ -150,18 +150,18 @@
         (change)="refresh.next()">
     </td>
     <td>
-      <!--<mwl-demo-utils-date-time-picker-->
-        <!--[(ngModel)]="event.start"-->
-        <!--(ngModelChange)="refresh.next()"-->
-        <!--placeholder="Not set">-->
-      <!--</mwl-demo-utils-date-time-picker>-->
-    <!--</td>-->
-    <!--<td>-->
-      <!--<mwl-demo-utils-date-time-picker-->
-        <!--[(ngModel)]="event.end"-->
-        <!--(ngModelChange)="refresh.next()"-->
-        <!--placeholder="Not set">-->
-      <!--</mwl-demo-utils-date-time-picker>-->
+      <app-date-time-picker
+        [(ngModel)]="event.start"
+        (ngModelChange)="refresh.next()"
+        placeholder="Not set">
+      </app-date-time-picker>
+    </td>
+    <td>
+      <app-date-time-picker
+        [(ngModel)]="event.end"
+        (ngModelChange)="refresh.next()"
+        placeholder="Not set">
+      </app-date-time-picker>
     </td>
     <td>
       <button
