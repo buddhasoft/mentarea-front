@@ -14,7 +14,7 @@ export class CalendarService {
     return gapi.client.init(gapiConfig).then(() => {
       this.store.dispatch(new InitCalendarSuccess())
     })
-  }s
+  }
 
   fetchUpcomingEvents() {
     return gapi.client['calendar'].events.list({
@@ -22,7 +22,7 @@ export class CalendarService {
       'timeMin': (new Date()).toISOString(),
       'showDeleted': false,
       'singleEvents': true,
-      'maxResults': 10,
+      // 'maxResults': 10,
       'orderBy': 'startTime'
     }).then(response => response.result.items);
   }

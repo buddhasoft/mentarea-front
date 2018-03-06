@@ -22,6 +22,7 @@ import * as authActions from "../../store/auth/auth.actions"
 import * as calendarActions from "../../store/events/events.actions"
 import * as usersActions from "../../store/users/users.actions"
 import {selectAllEvents} from "../../store/events/events.selectors"
+import {selectAllUsers} from "../../store/users/users.selectors"
 
 import {
   CalendarEvent,
@@ -31,6 +32,7 @@ import {
 import {Store} from "@ngrx/store"
 import {Observable} from "rxjs/Observable"
 import {USERS} from "../../shared/constants/users"
+import {IUser} from "../../shared/interfaces/users.interfaces"
 
 
 @Component({
@@ -70,6 +72,7 @@ export class CalendarComponent implements OnInit {
   refresh: Subject<any> = new Subject();
 
   events$: Observable<any>
+  users$: Observable<IUser[]>
 
   // events: ICalendarEvent[] = [
   //   {
@@ -98,6 +101,7 @@ export class CalendarComponent implements OnInit {
     })
 
     this.events$ = this.store.select(selectAllEvents)
+    this.users$ = this.store.select(selectAllUsers)
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {

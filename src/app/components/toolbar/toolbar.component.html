@@ -1,3 +1,8 @@
-<p>
-  toolbar works!
-</p>
+<div class="form-group">
+  <label for="users">Сalendar of:</label>
+  <select class="form-control" id="users">
+    <option *ngFor="let user of users; let index = index">
+      {{user.name}}
+    </option>
+  </select>
+</div>
