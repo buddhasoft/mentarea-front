@@ -6,25 +6,25 @@ import {EntityState} from '@ngrx/entity';
 export interface EventsState extends EntityState<IUser> {
 }
 
-export const eventsAdapter = createEntityAdapter<IUser>();
+export const usersAdapter = createEntityAdapter<IUser>();
 
-export const initialState: EventsState = eventsAdapter.getInitialState();
+export const initialState: EventsState = usersAdapter.getInitialState();
 
 export function usersReducer(state: EventsState = initialState, action: UsersActions,): EventsState {
   switch (action.type) {
     case UsersActionTypes.ADD_ONE:
-      return eventsAdapter.addOne(action.event, state);
+      return usersAdapter.addOne(action.user, state);
     case UsersActionTypes.ADD_MANY:
-      return eventsAdapter.addMany(action.events, state);
+      return usersAdapter.addMany(action.users, state);
     case UsersActionTypes.UPDATE_ONE:
-      return eventsAdapter.updateOne({
+      return usersAdapter.updateOne({
         id: action.id,
         changes: action.changes,
       }, state);
     case UsersActionTypes.DELETE_ONE:
-      return eventsAdapter.removeOne(action.id, state);
+      return usersAdapter.removeOne(action.id, state);
     case UsersActionTypes.ADD_ALL:
-      return eventsAdapter.addAll(action.events, state);
+      return usersAdapter.addAll(action.users, state);
   }
   return state;
 }

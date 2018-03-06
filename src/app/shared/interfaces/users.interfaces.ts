@@ -1,5 +1,5 @@
 export interface IUser {
-  calendarId: string,
+  id: string,
   name: string,
 }
 

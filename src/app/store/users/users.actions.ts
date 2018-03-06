@@ -15,25 +15,24 @@ UsersActionTypes
   INIT_CALENDAR_SUCCESS = '[USERS] INIT_CALENDAR_SUCCESS'
 }
 
-
 export class FetchUsers implements Action {
   readonly type = UsersActionTypes.FETCH_USERS;
 }
 
 export class FetchUsersSuccess implements Action {
-  readonly type = UsersActionTypes.FETCH_EVENTS_SUCCESS;
+  readonly type = UsersActionTypes.FETCH_USERS_SUCCESS;
 }
 
 export class AddOne implements Action {
   readonly type = UsersActionTypes.ADD_ONE;
 
-  constructor(public event: IUser) {}
+  constructor(public user: IUser) {}
 }
 
 export class addMany implements Action {
   readonly type = UsersActionTypes.ADD_MANY;
 
-  constructor(public events: IUser[]) {}
+  constructor(public users: IUser[]) {}
 }
 
 export class UpdateOne implements Action {
@@ -53,7 +52,7 @@ export class DeleteOne implements Action {
 export class AddAll implements Action {
   readonly type = UsersActionTypes.ADD_ALL;
 
-  constructor(public events: IUser[]) {}
+  constructor(public users: IUser[]) {}
 }
 
 
@@ -63,6 +62,6 @@ export type UsersActions =
   addMany |
   UpdateOne |
   DeleteOne |
-  AddAll |
-  FetchUsers |
-  FetchUsersSuccess
+  AddAll
+  // FetchUsers |
+  // FetchUsersSuccess

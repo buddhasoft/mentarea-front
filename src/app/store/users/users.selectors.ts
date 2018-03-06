@@ -6,6 +6,6 @@ import {
 
 import * as fromUsers from './users.reducer';
 
-export const reducers: ActionReducerMap<any> = {events: fromUsers.eventsReducer};
+export const reducers: ActionReducerMap<any> = {events: fromUsers.usersReducer};
 export const selectUsersState = createFeatureSelector<fromUsers.EventsState>('events');
-export const {selectAll: selectAllEvents} = fromUsers.eventsAdapter.getSelectors(selectUsersState);
+export const {selectAll: selectAllEvents} = fromUsers.usersAdapter.getSelectors(selectUsersState);

@@ -20,6 +20,7 @@ import { COLORS } from './calendar.constants';
 
 import * as authActions from "../../store/auth/auth.actions"
 import * as calendarActions from "../../store/events/events.actions"
+import * as usersActions from "../../store/users/users.actions"
 import {selectAllEvents} from "../../store/events/events.selectors"
 
 import {
@@ -29,6 +30,7 @@ import {
 } from 'angular-calendar';
 import {Store} from "@ngrx/store"
 import {Observable} from "rxjs/Observable"
+import {USERS} from "../../shared/constants/users"
 
 
 @Component({
@@ -71,25 +73,6 @@ export class CalendarComponent implements OnInit {
 
   // events: ICalendarEvent[] = [
   //   {
-  //     start: subDays(startOfDay(new Date()), 1),
-  //     end: addDays(new Date(), 1),
-  //     title: 'A 3 day event',
-  //     color: COLORS.red,
-  //     actions: this.actions
-  //   },
-  //   {
-  //     start: startOfDay(new Date()),
-  //     title: 'An event with no end date',
-  //     color: COLORS.yellow,
-  //     actions: this.actions
-  //   },
-  //   {
-  //     start: subDays(endOfMonth(new Date()), 3),
-  //     end: addDays(endOfMonth(new Date()), 3),
-  //     title: 'A long event that spans 2 months',
-  //     color: COLORS.blue
-  //   },
-  //   {
   //     start: addHours(startOfDay(new Date()), 2),
   //     end: new Date(),
   //     title: 'A draggable and resizable event',
@@ -111,6 +94,7 @@ export class CalendarComponent implements OnInit {
     this.store.dispatch(new authActions.CheckToken())
     this.store.select(state =>  state.auth.isLoggedIn).subscribe( isLoggedIn => {
       isLoggedIn && this.store.dispatch(new calendarActions.InitCalendar())
+      isLoggedIn && this.store.dispatch(new usersActions.AddAll(USERS))
     })
 
     this.events$ = this.store.select(selectAllEvents)
