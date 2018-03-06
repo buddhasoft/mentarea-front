@@ -12,15 +12,28 @@ export class CalendarEvent implements ICalendarEvent {
     primary: string,
     secondary: string
   }
+  public resizable: {
+    beforeStart: boolean,
+    afterEnd: boolean
+  }
+  public draggable: boolean
 
   constructor(event) {
     this.id = event.id
     this.start = new Date(event.start.dateTime)
     this.end = new Date(event.end.dateTime)
     this.title = event.summary
+
     this.color = {
       primary: PRIMARY_COLOR,
       secondary: SECONDARY_COLOR
     }
+
+    this.resizable = {
+      beforeStart: true,
+      afterEnd: true,
+    }
+
+    this.draggable = true
   }
 }

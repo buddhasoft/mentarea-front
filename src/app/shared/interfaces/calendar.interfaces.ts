@@ -6,7 +6,12 @@ export interface ICalendarEvent {
   color: {
     primary: string,
     secondary: string
-  }
+  },
+  resizable: {
+          beforeStart: boolean,
+          afterEnd: boolean
+        },
+  draggable: boolean
 }
 
 
