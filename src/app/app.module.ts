@@ -18,6 +18,7 @@ import {eventsReducer} from "./store/events/events.reducer"
 import {NgbModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { DateTimePickerComponent } from './components/date-time-picker/date-time-picker.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component'
+import {usersReducer} from "./store/users/users.reducer"
 
 const CLIENT_ID = environment.production
   ? '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
@@ -49,7 +50,7 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
       provide: NG_GAPI_CONFIG,
       useValue: gapiClientConfig
     }),
-    StoreModule.forRoot({auth: authReducer, events: eventsReducer}),
+    StoreModule.forRoot({auth: authReducer, events: eventsReducer, users: usersReducer}),
     EffectsModule.forRoot([AuthEffects, EventsEffects]),
     ...DEV_TOOLS_MODULE,
     FormsModule,
