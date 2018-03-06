@@ -16,7 +16,8 @@ import {FormsModule} from "@angular/forms"
 import {authReducer} from "./store/auth/auth.reducer";
 import {eventsReducer} from "./store/events/events.reducer"
 import {NgbModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import { DateTimePickerComponent } from './components/date-time-picker/date-time-picker.component'
+import { DateTimePickerComponent } from './components/date-time-picker/date-time-picker.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component'
 
 const CLIENT_ID = environment.production
   ? '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
@@ -37,7 +38,8 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
   declarations: [
     AppComponent,
     CalendarComponent,
-    DateTimePickerComponent
+    DateTimePickerComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
