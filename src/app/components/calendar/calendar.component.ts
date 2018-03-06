@@ -16,6 +16,7 @@ import {
 } from 'date-fns';
 import { Subject } from 'rxjs/Subject';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { COLORS } from './calendar.constants';
 
 import * as authActions from "../../store/auth/auth.actions"
 import * as calendarActions from "../../store/events/events.actions"
@@ -29,20 +30,6 @@ import {
 import {Store} from "@ngrx/store"
 import {Observable} from "rxjs/Observable"
 
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -87,26 +74,26 @@ export class CalendarComponent implements OnInit {
   //     start: subDays(startOfDay(new Date()), 1),
   //     end: addDays(new Date(), 1),
   //     title: 'A 3 day event',
-  //     color: colors.red,
+  //     color: COLORS.red,
   //     actions: this.actions
   //   },
   //   {
   //     start: startOfDay(new Date()),
   //     title: 'An event with no end date',
-  //     color: colors.yellow,
+  //     color: COLORS.yellow,
   //     actions: this.actions
   //   },
   //   {
   //     start: subDays(endOfMonth(new Date()), 3),
   //     end: addDays(endOfMonth(new Date()), 3),
   //     title: 'A long event that spans 2 months',
-  //     color: colors.blue
+  //     color: COLORS.blue
   //   },
   //   {
   //     start: addHours(startOfDay(new Date()), 2),
   //     end: new Date(),
   //     title: 'A draggable and resizable event',
-  //     color: colors.yellow,
+  //     color: COLORS.yellow,
   //     actions: this.actions,
   //     resizable: {
   //       beforeStart: true,
@@ -118,7 +105,7 @@ export class CalendarComponent implements OnInit {
 
   activeDayIsOpen: boolean = true;
 
-  constructor(/*private modal: NgbModal*/ private store: Store<any>) {}
+  constructor(private modal: NgbModal, private store: Store<any>) {}
 
   ngOnInit(){
     this.store.dispatch(new authActions.CheckToken())
@@ -156,8 +143,8 @@ export class CalendarComponent implements OnInit {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    // this.modalData = { event, action };
-    // this.modal.open(this.modalContent, { size: 'lg' });
+    this.modalData = { event, action };
+    this.modal.open(this.modalContent, { size: 'lg' });
   }
 
   addEvent(): void {
@@ -165,7 +152,7 @@ export class CalendarComponent implements OnInit {
     //   title: 'New event',
     //   start: startOfDay(new Date()),
     //   end: endOfDay(new Date()),
-    //   color: colors.red,
+    //   color: COLORS.red,
     //   draggable: true,
     //   resizable: {
     //     beforeStart: true,

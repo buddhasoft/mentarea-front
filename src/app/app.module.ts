@@ -15,6 +15,7 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools"
 import {FormsModule} from "@angular/forms"
 import {authReducer} from "./store/auth/auth.reducer";
 import {eventsReducer} from "./store/events/events.reducer"
+import {NgbModal, NgbModule} from "@ng-bootstrap/ng-bootstrap"
 
 const CLIENT_ID = environment.production
   ? '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
@@ -47,10 +48,12 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
     StoreModule.forRoot({auth: authReducer, events: eventsReducer}),
     EffectsModule.forRoot([AuthEffects, EventsEffects]),
     ...DEV_TOOLS_MODULE,
-    FormsModule
+    FormsModule,
+    NgbModule.forRoot()
   ],
   providers: [
-    CalendarService
+    CalendarService,
+    NgbModal
   ],
   bootstrap: [AppComponent]
 })
