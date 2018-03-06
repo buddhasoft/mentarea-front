@@ -20,7 +20,10 @@
   </div>
 </ng-template>
 
-<app-toolbar [users]="users$ | async"></app-toolbar>
+<app-toolbar
+  [users]="users$ | async"
+  (changeUser)="changeUser($event)"
+></app-toolbar>
 
 <div class="row text-center">
   <div class="col-md-4">

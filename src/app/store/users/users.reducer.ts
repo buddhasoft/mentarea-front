@@ -3,14 +3,18 @@ import {IUser} from "../../shared/interfaces/users.interfaces"
 import {createEntityAdapter} from '@ngrx/entity';
 import {EntityState} from '@ngrx/entity';
 
-export interface EventsState extends EntityState<IUser> {
+export interface UsersState extends EntityState<IUser> {
+  selectedUser: IUser;
 }
 
 export const usersAdapter = createEntityAdapter<IUser>();
 
-export const initialState: EventsState = usersAdapter.getInitialState();
+export const initialState: UsersState = usersAdapter.getInitialState({
+  // additional entity state properties
+  selectedUser: null
+});
 
-export function usersReducer(state: EventsState = initialState, action: UsersActions,): EventsState {
+export function usersReducer(state: UsersState = initialState, action: UsersActions,): UsersState {
   switch (action.type) {
     case UsersActionTypes.ADD_ONE:
       return usersAdapter.addOne(action.user, state);
@@ -25,6 +29,11 @@ export function usersReducer(state: EventsState = initialState, action: UsersAct
       return usersAdapter.removeOne(action.id, state);
     case UsersActionTypes.ADD_ALL:
       return usersAdapter.addAll(action.users, state);
+    case UsersActionTypes.SET_ACTIVE_USER:
+      return {
+        ...state,
+        selectedUser: action.user,
+      };
   }
   return state;
 }

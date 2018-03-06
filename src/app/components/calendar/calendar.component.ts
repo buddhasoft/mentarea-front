@@ -104,6 +104,10 @@ export class CalendarComponent implements OnInit {
     this.users$ = this.store.select(selectAllUsers)
   }
 
+  changeUser($event){
+    this.store.dispatch(new usersActions.SetActiveUser($event))
+  }
+
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (

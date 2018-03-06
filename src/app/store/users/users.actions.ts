@@ -11,6 +11,7 @@ UsersActionTypes
   ADD_MANY = '[USERS] ADD_MANY',
   FETCH_USERS = '[USERS] FETCH_USERS',
   FETCH_USERS_SUCCESS = '[USERS] FETCH_USERS_SUCCESS',
+  SET_ACTIVE_USER = '[USERS] SET_ACTIVE_USER',
   INIT_CALENDAR = '[USERS] INIT_CALENDAR',
   INIT_CALENDAR_SUCCESS = '[USERS] INIT_CALENDAR_SUCCESS'
 }
@@ -55,6 +56,12 @@ export class AddAll implements Action {
   constructor(public users: IUser[]) {}
 }
 
+export class SetActiveUser implements Action {
+  readonly type = UsersActionTypes.SET_ACTIVE_USER;
+
+  constructor(public user: IUser) {}
+}
+
 
 
 export type UsersActions =
@@ -62,6 +69,7 @@ export type UsersActions =
   addMany |
   UpdateOne |
   DeleteOne |
-  AddAll
+  AddAll |
+  SetActiveUser
   // FetchUsers |
   // FetchUsersSuccess

@@ -1,7 +1,10 @@
 <div class="form-group">
   <label for="users">Сalendar of:</label>
-  <select class="form-control" id="users">
-    <option *ngFor="let user of users; let index = index">
+  <select class="form-control"
+          id="users"
+          [(ngModel)]="selectedValue"
+          (change)="onChangeUser(selectedValue)">
+    <option *ngFor="let user of users; let index = index"  [ngValue]="user">
       {{user.name}}
     </option>
   </select>
