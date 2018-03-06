@@ -114,7 +114,6 @@ export class CalendarComponent implements OnInit {
     })
 
     this.events$ = this.store.select(selectAllEvents)
-    // this.events$ = this.store.select(state => state.calendar.events)
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
