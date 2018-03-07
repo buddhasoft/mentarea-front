@@ -104,8 +104,8 @@ export class CalendarComponent implements OnInit {
     this.users$ = this.store.select(selectAllUsers)
   }
 
-  changeUser($event){
-    this.store.dispatch(new usersActions.SetActiveUser($event))
+  changeUser(user){
+    this.store.dispatch(new usersActions.SetActiveUser(user))
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
