@@ -18,6 +18,8 @@ EventsActionTypes
 
 export class FetchEvents implements Action {
   readonly type = EventsActionTypes.FETCH_EVENTS;
+
+  constructor(public id: string = 'primary') {}
 }
 
 export class FetchEventsSuccess implements Action {

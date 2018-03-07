@@ -16,9 +16,9 @@ export class CalendarService {
     })
   }
 
-  fetchUpcomingEvents() {
+  fetchUpcomingEvents(calendarId: string = 'primary') {
     return gapi.client['calendar'].events.list({
-      'calendarId': 'primary',
+      'calendarId': calendarId,
       'timeMin': (new Date()).toISOString(),
       'showDeleted': false,
       'singleEvents': true,

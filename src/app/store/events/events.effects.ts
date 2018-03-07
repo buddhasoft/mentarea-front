@@ -31,7 +31,9 @@ export class EventsEffects{
   @Effect()
   fetchEvents = this.actions$
     .ofType(EventsActionTypes.FETCH_EVENTS)
-    .switchMap((): Observable<any[]> => fromPromise(this.calendarService.fetchUpcomingEvents()))
+    .switchMap((action : FetchEvents): Observable<any[]> =>
+      fromPromise(this.calendarService.fetchUpcomingEvents(action.id))
+    )
     .map(events => events.map( event => ( new CalendarEvent(event))))
     .switchMap( (events: ICalendarEvent[]) => ([ new FetchEventsSuccess(), new AddAll(events) ]))
 
