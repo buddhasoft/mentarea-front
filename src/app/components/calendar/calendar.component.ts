@@ -33,6 +33,7 @@ import {Store} from "@ngrx/store"
 import {Observable} from "rxjs/Observable"
 import {USERS} from "../../shared/constants/users"
 import {IUser} from "../../shared/interfaces/users.interfaces"
+import {CreateEvent} from "../../store/events/events.actions"
 
 
 @Component({
@@ -139,6 +140,7 @@ export class CalendarComponent implements OnInit {
   }
 
   addEvent(): void {
+    this.store.dispatch(new CreateEvent())
     // this.events.push({
     //   title: 'New event',
     //   start: startOfDay(new Date()),

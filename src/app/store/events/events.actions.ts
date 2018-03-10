@@ -12,7 +12,8 @@ EventsActionTypes
   FETCH_EVENTS = '[EVENTS] FETCH_EVENTS',
   FETCH_EVENTS_SUCCESS = '[EVENTS] FETCH_EVENTS_SUCCESS',
   INIT_CALENDAR = '[EVENTS] INIT_CALENDAR',
-  INIT_CALENDAR_SUCCESS = '[EVENTS] INIT_CALENDAR_SUCCESS'
+  INIT_CALENDAR_SUCCESS = '[EVENTS] INIT_CALENDAR_SUCCESS',
+  CREATE_EVENT = '[EVENTS] СREATE_EVENT'
 }
 
 
@@ -64,6 +65,12 @@ export class AddAll implements Action {
   readonly type = EventsActionTypes.ADD_ALL;
 
   constructor(public events: ICalendarEvent[]) {}
+}
+
+export class CreateEvent implements Action {
+  readonly type = EventsActionTypes.CREATE_EVENT;
+
+  // constructor(public event: any) {}
 }
 
 

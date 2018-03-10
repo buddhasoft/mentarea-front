@@ -6,7 +6,7 @@ import 'rxjs/Rx';
 import {fromPromise} from "rxjs/observable/fromPromise"
 import {GoogleApiService} from "ng-gapi"
 import {Store} from "@ngrx/store"
-import {AddAll, EventsActionTypes, FetchEvents, FetchEventsSuccess} from "./events.actions"
+import {AddAll, AddOne, EventsActionTypes, FetchEvents, FetchEventsSuccess} from "./events.actions"
 import {Observable} from "rxjs/Observable"
 import {CalendarService} from "../../services/calendar/caledar.service"
 import {EventsState} from "./events.reducer"
@@ -42,4 +42,10 @@ export class EventsEffects{
     .ofType(EventsActionTypes.INIT_CALENDAR_SUCCESS)
     .switchMap( () => of(new FetchEvents()))
 
+  @Effect()
+  createEvent = this.actions$
+    .ofType(EventsActionTypes.CREATE_EVENT)
+    .switchMap( () => fromPromise(this.calendarService.createEvent()))
+    .map(event => new CalendarEvent(event))
+    .switchMap( event => of(new AddOne(event)))
 }
