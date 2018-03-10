@@ -9,7 +9,8 @@ import {MAIN_CALENDAR_ID, USERS} from "../../shared/constants/users"
 @Injectable()
 export class CalendarService {
 
-  constructor(private store: Store<EventsState>) {}
+  constructor(private store: Store<EventsState>) {
+  }
 
   initClient() {
     return gapi.client.init(gapiConfig).then(() => {
@@ -39,8 +40,10 @@ export class CalendarService {
         "dateTime": "2018-03-10T20:25:00",
         "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone
       },
-      'attendees': Object.values(USERS.map(user => user.id)),
+      'attendees': Object.values(USERS.map(user => ({email: user.id}))),
       'singleEvents': true,
+      'sendNotifications': true,
+      'summary': 'test'
     }).then(req => req.result)
   }
 }
