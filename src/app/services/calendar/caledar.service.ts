@@ -33,11 +33,11 @@ export class CalendarService {
     return gapi.client['calendar'].events.insert({
       'calendarId': calendarId,
       "start": {
-        "dateTime": "2018-03-10T18:00:00",
+        "dateTime": "2018-03-10T23:00:00",
         "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone
       },
       "end": {
-        "dateTime": "2018-03-10T20:25:00",
+        "dateTime": "2018-03-10T23:50:00",
         "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone
       },
       'attendees': Object.values(USERS.map(user => ({email: user.id}))),

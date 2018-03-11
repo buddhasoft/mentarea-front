@@ -3,8 +3,8 @@ export const USERS = [
   {name: 'Vitto', id: 'v.mozharovsky@gmail.com'},
   {name: 'Nikita', id: 'boyko.nikita@gmail.com'},
   {name: 'Boris', id: 'bsmar35@gmail.com'},
-  {name: 'Common', id: 'fnh6kgqiqego15vj2egmd7q2go@group.calendar.google.com'},
   {name: 'test', id: 'creativejusticehere@gmail.com'},
+  {name: 'Common', id: 'fnh6kgqiqego15vj2egmd7q2go@group.calendar.google.com'},
 ]
 
 export const MAIN_CALENDAR_ID =  'fnh6kgqiqego15vj2egmd7q2go@group.calendar.google.com'
