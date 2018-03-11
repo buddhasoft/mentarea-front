@@ -17,9 +17,11 @@ import {FormsModule} from "@angular/forms"
 import {authReducer} from "./store/auth/auth.reducer";
 import {eventsReducer} from "./store/events/events.reducer"
 import {NgbModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import { DateTimePickerComponent } from './components/date-time-picker/date-time-picker.component';
-import { ToolbarComponent } from './components/toolbar/toolbar.component'
+import {DateTimePickerComponent} from './components/date-time-picker/date-time-picker.component';
+import {ToolbarComponent} from './components/toolbar/toolbar.component'
 import {usersReducer} from "./store/users/users.reducer"
+import {RouterModule, Routes} from "@angular/router";
+import {LoginComponent} from './components/login/login.component'
 
 const CLIENT_ID = environment.production
   ? '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
@@ -33,6 +35,11 @@ let gapiClientConfig: NgGapiClientConfig = {
   ].join(" ")
 };
 
+const appRoutes: Routes = [
+  {path: '', component: LoginComponent}
+
+]
+
 const DEV_TOOLS_MODULE = environment.production ? [] :
   [StoreDevtoolsModule.instrument()];
 
@@ -41,7 +48,8 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
     AppComponent,
     CalendarComponent,
     DateTimePickerComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +63,8 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
     EffectsModule.forRoot([AuthEffects, EventsEffects, UsersEffects]),
     ...DEV_TOOLS_MODULE,
     FormsModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [
     CalendarService,

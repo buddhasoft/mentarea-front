@@ -1,2 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 /*@import '~angular2-calendar/dist/css/angular2-calendar.css';*/
+
+html {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  font-family: Roboto;
+  font-size: 14pt;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
