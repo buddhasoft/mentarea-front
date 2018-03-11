@@ -36,7 +36,8 @@ let gapiClientConfig: NgGapiClientConfig = {
 };
 
 const appRoutes: Routes = [
-  {path: '', component: LoginComponent}
+  {path: '', component: LoginComponent},
+  {path: 'calendar', component: CalendarComponent}
 
 ]
 
