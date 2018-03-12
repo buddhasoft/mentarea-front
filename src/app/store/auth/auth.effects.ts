@@ -1,4 +1,4 @@
-import { AuthActionTypes } from './auth.actions'
+import {AuthActionTypes} from './auth.actions'
 import {Injectable} from "@angular/core"
 import {Actions, Effect} from "@ngrx/effects"
 import {Observable} from "rxjs/Observable"
@@ -16,26 +16,27 @@ import {
 
 import {of} from "rxjs/observable/of"
 import 'rxjs/Rx';
+import * as RouterActions from "../router/router.actions"
+import {RouterActionType} from "../router/router.actions"
 
 @Injectable()
 export class AuthEffects {
   private SESSION_STORAGE_KEY: string = 'accessToken';
   private user: GoogleUser;
 
-  constructor(
-    public actions$: Actions,
-    private googleAuth: GoogleAuthService
-  ){}
+  constructor(public actions$: Actions,
+              private googleAuth: GoogleAuthService) {
+  }
 
   @Effect()
   checkToken = this.actions$
     .ofType(AuthActionTypes.CHECK_TOKEN)
-    .map( () => {
+    .map(() => {
       let token: string = sessionStorage.getItem(this.SESSION_STORAGE_KEY);
       if (!token) return false
       return sessionStorage.getItem(this.SESSION_STORAGE_KEY);
     })
-    .switchMap( token => {
+    .switchMap(token => {
       return of(!token ? new CheckTokenFailure() : new CheckTokenSuccess())
     })
 
@@ -53,17 +54,22 @@ export class AuthEffects {
   tryLogin = this.actions$
     .ofType(AuthActionTypes.TRY_LOGIN)
     .switchMap(() => this.signIn())
-    .switchMap( result => of( result ? new LoginSuccess() : new LoginFailure()))
+    .switchMap(result => of(result ? new LoginSuccess() : new LoginFailure()))
+
+  @Effect()
+  loginSuccess = this.actions$
+    .ofType(AuthActionTypes.LOGIN_SUCCESS)
+    .switchMap((): Observable<RouterActionType> => of(new RouterActions.Go({path: ['/calendar']})))
 
   private signIn(): Observable<boolean> {
-  return this.googleAuth.getAuth()
-    .switchMap( auth => {
-      return fromPromise(auth.signIn())
-    })
-    .map((res: GoogleUser) => {
-      this.signInSuccessHandler(res)
-      return true
-    })
+    return this.googleAuth.getAuth()
+      .switchMap(auth => {
+        return fromPromise(auth.signIn())
+      })
+      .map((res: GoogleUser) => {
+        this.signInSuccessHandler(res)
+        return true
+      })
   }
 
   private signInSuccessHandler(res: GoogleUser) {

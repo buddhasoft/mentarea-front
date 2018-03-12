@@ -23,6 +23,7 @@ import {usersReducer} from "./store/users/users.reducer"
 import {RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from './components/login/login.component'
 import {routerReducer, StoreRouterConnectingModule} from "@ngrx/router-store"
+import {RouterEffects} from "./store/router/router.effects"
 
 const CLIENT_ID = environment.production
   ? '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
@@ -67,7 +68,12 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
       users: usersReducer,
       router: routerReducer
     }),
-    EffectsModule.forRoot([AuthEffects, EventsEffects, UsersEffects]),
+    EffectsModule.forRoot([
+      AuthEffects,
+      EventsEffects,
+      UsersEffects,
+      RouterEffects
+    ]),
     ...DEV_TOOLS_MODULE,
     FormsModule,
     NgbModule.forRoot(),
