@@ -23,7 +23,9 @@ import {usersReducer} from "./store/users/users.reducer"
 import {RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from './components/login/login.component'
 import {routerReducer, StoreRouterConnectingModule} from "@ngrx/router-store"
-import {RouterEffects} from "./store/router/router.effects"
+import {RouterEffects} from "./store/router/router.effects";
+import {AddEventFromComponent} from './components/add-event-from/add-event-from.component'
+import {FormsModule, ReactiveFormsModule} from "@angular/forms"
 
 const CLIENT_ID = environment.production
   ? '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
@@ -52,7 +54,8 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
     CalendarComponent,
     DateTimePickerComponent,
     ToolbarComponent,
-    LoginComponent
+    LoginComponent,
+    AddEventFromComponent
   ],
   imports: [
     BrowserModule,
@@ -76,6 +79,7 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
     ]),
     ...DEV_TOOLS_MODULE,
     FormsModule,
+    ReactiveFormsModule,
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     StoreRouterConnectingModule.forRoot({

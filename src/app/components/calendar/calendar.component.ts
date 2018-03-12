@@ -140,7 +140,7 @@ export class CalendarComponent implements OnInit {
   }
 
   addEvent(): void {
-    this.store.dispatch(new CreateEvent())
+    // this.store.dispatch(new CreateEvent())
     // this.events.push({
     //   title: 'New event',
     //   start: startOfDay(new Date()),
