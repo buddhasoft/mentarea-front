@@ -41,8 +41,8 @@ export class AddEventFormComponent implements OnInit {
   onFormSubmit(){
     if (this.addEventForm.valid) {
       this.event.title = this.addEventForm.value.subject
-      this.event.attendee = this.addEventForm.value.usersSelect
-      this.store.dispatch(new CreateEvent(this.event)) 
+      this.event.attendees = this.addEventForm.value.usersSelect
+      this.store.dispatch(new CreateEvent(this.event))
     }
   }
 

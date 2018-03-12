@@ -31,7 +31,6 @@ export class CalendarService {
   }
 
   createEvent(event, calendarId: string = MAIN_CALENDAR_ID) {
-    debugger
     return gapi.client['calendar'].events.insert({
       'calendarId': calendarId,
       "start": {
@@ -42,7 +41,7 @@ export class CalendarService {
         "dateTime": rfc3339(event.end),
         "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone
       },
-      'attendees': event.attendee,
+      'attendees': event.attendees.map(attendee => ({email: attendee})),
       'singleEvents': true,
       'sendNotifications': true,
       'summary': event.title

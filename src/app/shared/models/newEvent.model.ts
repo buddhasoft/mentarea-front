@@ -13,7 +13,7 @@ const defaultEvent = {
     "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone
   },
   "title": '',
-  "attendee": []
+  "attendees": []
 }
 
 export class NewEvent {
