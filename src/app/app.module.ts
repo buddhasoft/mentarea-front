@@ -22,6 +22,7 @@ import {ToolbarComponent} from './components/toolbar/toolbar.component'
 import {usersReducer} from "./store/users/users.reducer"
 import {RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from './components/login/login.component'
+import {routerReducer, StoreRouterConnectingModule} from "@ngrx/router-store"
 
 const CLIENT_ID = environment.production
   ? '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
@@ -60,12 +61,20 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
       provide: NG_GAPI_CONFIG,
       useValue: gapiClientConfig
     }),
-    StoreModule.forRoot({auth: authReducer, events: eventsReducer, users: usersReducer}),
+    StoreModule.forRoot({
+      auth: authReducer,
+      events: eventsReducer,
+      users: usersReducer,
+      router: routerReducer
+    }),
     EffectsModule.forRoot([AuthEffects, EventsEffects, UsersEffects]),
     ...DEV_TOOLS_MODULE,
     FormsModule,
     NgbModule.forRoot(),
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    StoreRouterConnectingModule.forRoot({
+      stateKey: 'router' // name of reducer key
+    })
   ],
   providers: [
     CalendarService,
