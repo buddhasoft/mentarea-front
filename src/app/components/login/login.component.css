@@ -1,14 +1,15 @@
 .login-wrap {
   width: 100%;
   height: 100%;
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  position: absolute;
   display: flex;
   background-color: #043A6B;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
 }
 
 .app-title {
