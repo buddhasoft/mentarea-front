@@ -26,7 +26,9 @@ import {RouterEffects} from "./store/router/router.effects";
 import {AddEventFormComponent} from './components/add-event-form/add-event-form.component'
 import {FormsModule, ReactiveFormsModule} from "@angular/forms"
 
-const CLIENT_ID = environment.production
+const CLIENT_ID =
+  // '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
+  environment.production
   ? '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
   : '57344781856-79hcun89s3lsaimo8086e9pqmgo4uavv.apps.googleusercontent.com'
 
@@ -39,8 +41,14 @@ let gapiClientConfig: NgGapiClientConfig = {
 };
 
 const appRoutes: Routes = [
-  {path: '', component: LoginComponent},
-  {path: 'calendar', component: CalendarComponent}
+  {path: 'auth', component: LoginComponent},
+  {path: 'calendar', component: CalendarComponent},
+  { path: '',
+    redirectTo: 'auth',
+    pathMatch: 'full'
+  },
+  { path: '**', redirectTo:"auth"}
+
 
 ]
 

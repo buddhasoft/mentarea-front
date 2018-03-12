@@ -19,7 +19,7 @@ const defaultEvent = {
 export class NewEvent {
   public start: Date
   public end: Date
-  public attendee: IUser[]
+  public attendees: IUser[]
   public title: string
   public color: {
     primary: string,

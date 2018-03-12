@@ -10,6 +10,7 @@ import {IUser} from "../../shared/interfaces/users.interfaces"
 export class ToolbarComponent implements OnInit {
   @Input() users: IUser[];
   @Output() changeUser = new EventEmitter()
+  selectedValue
 
   constructor() { }
 
