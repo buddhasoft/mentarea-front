@@ -2,5 +2,11 @@
   <span class="app-title">mentarea</span>
   <!--<button class="login-btn" ">Login with Google</button>-->
 
-  <button type="button" class="btn btn-success" (click)="onLoginClick()">Login with Google</button>
+  <button
+    type="button"
+    class="btn btn-success"
+    (click)="onLoginClick()"
+    [disabled]="loading$ | async">
+      Login with Google
+  </button>
 </div>
