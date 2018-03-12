@@ -10,6 +10,14 @@
   box-sizing: border-box;
   top: 0;
   left: 0;
+  transition: ease 1s;
+}
+
+.login-wrap.loading {
+  /*filter: blur(1px) grayscale(0.7);*/
+  /*-webkit-filter: blur(1px) grayscale(0.7);*/
+  filter: grayscale(0.7);
+  -webkit-filter: grayscale(0.7);
 }
 
 .app-title {

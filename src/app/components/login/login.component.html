@@ -1,4 +1,6 @@
-<div class="login-wrap">
+<div class="login-wrap" [class.loading]="loading$ | async">
   <span class="app-title">mentarea</span>
-  <button class="login-btn" (click)="onLoginClick()">Login with Google</button>
+  <!--<button class="login-btn" ">Login with Google</button>-->
+
+  <button type="button" class="btn btn-success" (click)="onLoginClick()">Login with Google</button>
 </div>

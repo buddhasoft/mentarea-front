@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store"
 import * as authActions from "../../store/auth/auth.actions"
+import {Observable} from "rxjs/Observable"
 
 
 @Component({
@@ -10,12 +11,16 @@ import * as authActions from "../../store/auth/auth.actions"
 })
 export class LoginComponent implements OnInit {
 
-  constructor( private store: Store<any>) { }
+  loading$: Observable<boolean>
 
-  ngOnInit() {
+  constructor(private store: Store<any>) {
   }
 
-  onLoginClick(){
+  ngOnInit() {
+    this.loading$ = this.store.select(state => state.auth.loggingIn)
+  }
+
+  onLoginClick() {
     this.store.dispatch(new authActions.TryLogin())
   }
 
