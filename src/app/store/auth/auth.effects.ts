@@ -70,6 +70,7 @@ export class AuthEffects {
         this.signInSuccessHandler(res)
         return true
       })
+      .catch( () => of(false))
   }
 
   private signInSuccessHandler(res: GoogleUser) {
