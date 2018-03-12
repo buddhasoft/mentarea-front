@@ -34,6 +34,7 @@ import {Observable} from "rxjs/Observable"
 import {USERS} from "../../shared/constants/users"
 import {IUser} from "../../shared/interfaces/users.interfaces"
 import {CreateEvent} from "../../store/events/events.actions"
+import {AddEventFormComponent} from "../add-event-form/add-event-form.component"
 
 
 @Component({
@@ -44,6 +45,7 @@ import {CreateEvent} from "../../store/events/events.actions"
 })
 export class CalendarComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
+  @ViewChild('addEventForm') addEventForm: TemplateRef<any>;
 
   view: string = 'month';
 
@@ -140,6 +142,9 @@ export class CalendarComponent implements OnInit {
   }
 
   addEvent(): void {
+    // this.modal.open(this.addEventForm, { size: 'lg' });
+    const modalRef = this.modal.open(AddEventFormComponent);
+    modalRef.componentInstance.name = 'AddEventFormComponent';
     // this.store.dispatch(new CreateEvent())
     // this.events.push({
     //   title: 'New event',

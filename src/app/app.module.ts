@@ -13,7 +13,6 @@ import {UsersEffects} from "./store/users/users.effects"
 import {CalendarService} from "./services/calendar/caledar.service"
 import {environment} from "../environments/environment"
 import {StoreDevtoolsModule} from "@ngrx/store-devtools"
-import {FormsModule} from "@angular/forms"
 import {authReducer} from "./store/auth/auth.reducer";
 import {eventsReducer} from "./store/events/events.reducer"
 import {NgbModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
@@ -24,7 +23,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from './components/login/login.component'
 import {routerReducer, StoreRouterConnectingModule} from "@ngrx/router-store"
 import {RouterEffects} from "./store/router/router.effects";
-import {AddEventFromComponent} from './components/add-event-from/add-event-from.component'
+import {AddEventFormComponent} from './components/add-event-form/add-event-form.component'
 import {FormsModule, ReactiveFormsModule} from "@angular/forms"
 
 const CLIENT_ID = environment.production
@@ -55,7 +54,7 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
     DateTimePickerComponent,
     ToolbarComponent,
     LoginComponent,
-    AddEventFromComponent
+    AddEventFormComponent
   ],
   imports: [
     BrowserModule,
@@ -89,6 +88,9 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
   providers: [
     CalendarService,
     NgbModal
+  ],
+  entryComponents: [
+    AddEventFormComponent
   ],
   bootstrap: [AppComponent]
 })
