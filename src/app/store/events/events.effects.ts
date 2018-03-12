@@ -6,12 +6,16 @@ import 'rxjs/Rx';
 import {fromPromise} from "rxjs/observable/fromPromise"
 import {GoogleApiService} from "ng-gapi"
 import {Store} from "@ngrx/store"
-import {AddAll, AddOne, EventsActionTypes, FetchEvents, FetchEventsSuccess} from "./events.actions"
+import {
+  AddAll, AddOne, CreateEvent, EventsActions, EventsActionTypes, FetchEvents,
+  FetchEventsSuccess
+} from "./events.actions"
 import {Observable} from "rxjs/Observable"
 import {CalendarService} from "../../services/calendar/caledar.service"
 import {EventsState} from "./events.reducer"
 import {CalendarEvent} from "../../shared/models/calendarEvent.model"
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
+import {NewEvent} from "../../shared/models/newEvent.model"
 
 @Injectable()
 export class EventsEffects{
@@ -45,7 +49,7 @@ export class EventsEffects{
   @Effect()
   createEvent = this.actions$
     .ofType(EventsActionTypes.CREATE_EVENT)
-    .switchMap( () => fromPromise(this.calendarService.createEvent()))
+    .switchMap( ( {event}: CreateEvent) => fromPromise(this.calendarService.createEvent(event)))
     .map(event => new CalendarEvent(event))
     .switchMap( event => of(new AddOne(event)))
 }

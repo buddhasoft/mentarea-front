@@ -1,12 +1,25 @@
-import {ICalendarEvent} from "../interfaces/calendar.interfaces"
+import {IUser} from "../interfaces/users.interfaces"
 
 const PRIMARY_COLOR = '#3ee0c666'
 const SECONDARY_COLOR = '#3ee0c666'
 
-export class CalendarEvent implements ICalendarEvent {
-  public id: string
+const defaultEvent = {
+  "start": {
+    "dateTime": new Date(),
+    "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone
+  },
+  "end": {
+    "dateTime": new Date(),
+    "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone
+  },
+  "title": '',
+  "attendee": []
+}
+
+export class NewEvent {
   public start: Date
   public end: Date
+  public attendee: IUser[]
   public title: string
   public color: {
     primary: string,
@@ -18,11 +31,10 @@ export class CalendarEvent implements ICalendarEvent {
   }
   public draggable: boolean
 
-  constructor(event) {
-    this.id = event.id
+  constructor(event = defaultEvent) {
     this.start = new Date(event.start.dateTime)
     this.end = new Date(event.end.dateTime)
-    this.title = event.summary
+    this.title = event.title
 
     this.color = {
       primary: PRIMARY_COLOR,

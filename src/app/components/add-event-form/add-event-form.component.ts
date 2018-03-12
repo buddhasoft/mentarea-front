@@ -4,6 +4,8 @@ import {Store} from "@ngrx/store"
 import {selectAllUsers} from "../../store/users/users.selectors"
 import {Observable} from "rxjs/Observable"
 import {IUser} from "../../shared/interfaces/users.interfaces"
+import {NewEvent} from "../../shared/models/newEvent.model"
+import {CreateEvent} from "../../store/events/events.actions"
 
 @Component({
   selector: 'app-add-event-form',
@@ -25,22 +27,23 @@ export class AddEventFormComponent implements OnInit {
     });
 
     this.users$ = this.store.select(selectAllUsers)
+
+    this.event = new NewEvent()
   }
+
+
 
 
   name:string;
   addEventForm: FormGroup;
-
-  items = [
-    {name: 'One', value: 1},
-    {name: 'Two', value: 2},
-    {name: 'Three', value: 3}
-  ];
+  event: NewEvent;
 
   onFormSubmit(){
-    debugger
-    this.addEventForm
+    if (this.addEventForm.valid) {
+      this.event.title = this.addEventForm.value.subject
+      this.event.attendee = this.addEventForm.value.usersSelect
+      this.store.dispatch(new CreateEvent(this.event)) 
+    }
   }
-
 
 }

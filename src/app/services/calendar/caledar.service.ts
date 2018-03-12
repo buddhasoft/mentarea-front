@@ -4,6 +4,7 @@ import {InitCalendarSuccess} from "../../store/events/events.actions"
 import {EventsState} from "../../store/events/events.reducer"
 import gapiConfig from "./gapi.config"
 import {MAIN_CALENDAR_ID, USERS} from "../../shared/constants/users"
+import rfc3339 from "../../shared/utils/convertDate"
 
 
 @Injectable()
@@ -29,21 +30,22 @@ export class CalendarService {
     }).then(response => response.result.items);
   }
 
-  createEvent(calendarId: string = MAIN_CALENDAR_ID) {
+  createEvent(event, calendarId: string = MAIN_CALENDAR_ID) {
+    debugger
     return gapi.client['calendar'].events.insert({
       'calendarId': calendarId,
       "start": {
-        "dateTime": "2018-03-10T23:00:00",
+        "dateTime": rfc3339(event.start),
         "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone
       },
       "end": {
-        "dateTime": "2018-03-10T23:50:00",
+        "dateTime": rfc3339(event.end),
         "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone
       },
-      'attendees': Object.values(USERS.map(user => ({email: user.id}))),
+      'attendees': event.attendee,
       'singleEvents': true,
       'sendNotifications': true,
-      'summary': 'test'
+      'summary': event.title
     }).then(req => req.result)
   }
 }

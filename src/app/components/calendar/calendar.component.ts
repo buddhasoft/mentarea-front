@@ -145,7 +145,6 @@ export class CalendarComponent implements OnInit {
     // this.modal.open(this.addEventForm, { size: 'lg' });
     const modalRef = this.modal.open(AddEventFormComponent);
     modalRef.componentInstance.name = 'AddEventFormComponent';
-    // this.store.dispatch(new CreateEvent())
     // this.events.push({
     //   title: 'New event',
     //   start: startOfDay(new Date()),

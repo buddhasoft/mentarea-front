@@ -1,4 +1,6 @@
 <div class="container">
+
+
   <form class="form-inline" [formGroup]="addEventForm">
 
     <div class="form-group">
@@ -15,12 +17,17 @@
       <option *ngFor="let user of users$ | async" [value]="user.id">{{user.name}}</option>
     </select>
 
-    <app-date-time-picker
-      [(ngModel)]="event.start"
-      (ngModelChange)="refresh.next()"
-      placeholder="Not set">
-    </app-date-time-picker>
-
-    <button type="submit" class="btn btn-default" (click)="onFormSubmit()">Submit</button>
   </form>
+
+  <app-date-time-picker
+    [(ngModel)]="event.start"
+    placeholder="Not set">
+  </app-date-time-picker>
+
+  <app-date-time-picker
+    [(ngModel)]="event.end"
+    placeholder="Not set">
+  </app-date-time-picker>
+
+  <button type="submit" class="btn btn-default" (click)="onFormSubmit()">Submit</button>
 </div>
