@@ -13,19 +13,20 @@ import {UsersEffects} from "./store/users/users.effects"
 import {CalendarService} from "./services/calendar/caledar.service"
 import {environment} from "../environments/environment"
 import {StoreDevtoolsModule} from "@ngrx/store-devtools"
-import {authReducer} from "./store/auth/auth.reducer";
-import {eventsReducer} from "./store/events/events.reducer"
+import {authReducer, AuthState} from "./store/auth/auth.reducer";
+import {eventsReducer, EventsState} from "./store/events/events.reducer"
 import {NgbModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {DateTimePickerComponent} from './components/date-time-picker/date-time-picker.component';
 import {ToolbarComponent} from './components/toolbar/toolbar.component'
-import {usersReducer} from "./store/users/users.reducer"
-import {RouterModule, Routes} from "@angular/router";
+import {usersReducer, UsersState} from "./store/users/users.reducer"
+import {RouterModule, RouterStateSnapshot, Routes} from "@angular/router";
 import {LoginComponent} from './components/login/login.component'
-import {routerReducer, StoreRouterConnectingModule} from "@ngrx/router-store"
+import {routerReducer, RouterStateSerializer, StoreRouterConnectingModule} from "@ngrx/router-store"
 import {RouterEffects} from "./store/router/router.effects";
 import {AddEventFormComponent} from './components/add-event-form/add-event-form.component'
 import {FormsModule, ReactiveFormsModule} from "@angular/forms"
 import { HttpClientModule } from '@angular/common/http';
+import {CustomSerializer} from "./store/router/router.serializer"
 
 const CLIENT_ID =
   // '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
@@ -54,6 +55,14 @@ const appRoutes: Routes = [
 const DEV_TOOLS_MODULE = environment.production ? [] :
   [StoreDevtoolsModule.instrument()];
 
+export interface AppState {
+  router: RouterStateSnapshot,
+  auth: AuthState,
+  events: EventsState,
+  users: UsersState
+}
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,16 +77,16 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
     HttpClientModule,
     BrowserAnimationsModule,
     StoreModule.forRoot({
+      router: routerReducer,
       auth: authReducer,
       events: eventsReducer,
-      users: usersReducer,
-      router: routerReducer
+      users: usersReducer
     }),
     EffectsModule.forRoot([
+      RouterEffects,
       AuthEffects,
       EventsEffects,
-      UsersEffects,
-      RouterEffects
+      UsersEffects
     ]),
     FormsModule,
     ReactiveFormsModule,
@@ -96,6 +105,7 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
     }),
   ],
   providers: [
+    {provide: RouterStateSerializer, useClass: CustomSerializer},
     CalendarService,
     NgbModal,
   ],

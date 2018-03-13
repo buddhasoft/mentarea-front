@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core"
+import {Injectable, NgZone} from "@angular/core"
 import {Actions, Effect} from "@ngrx/effects"
 
 import {of} from "rxjs/observable/of"
@@ -16,11 +16,12 @@ import {EventsState} from "./events.reducer"
 import {CalendarEvent} from "../../shared/models/calendarEvent.model"
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
 import {NewEvent} from "../../shared/models/newEvent.model"
+import {AppState} from "../../app.module"
 
 @Injectable()
 export class EventsEffects{
   constructor(
-    private store: Store<EventsState>,
+    private store: Store<AppState>,
     public actions$: Actions,
     public gapiService: GoogleApiService,
     public calendarService: CalendarService

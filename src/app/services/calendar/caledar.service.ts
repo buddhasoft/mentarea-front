@@ -5,12 +5,13 @@ import {EventsState} from "../../store/events/events.reducer"
 import gapiConfig from "./gapi.config"
 import {MAIN_CALENDAR_ID, USERS} from "../../shared/constants/users"
 import rfc3339 from "../../shared/utils/convertDate"
+import {AppState} from "../../app.module"
 
 
 @Injectable()
 export class CalendarService {
 
-  constructor(private store: Store<EventsState>) {
+  constructor(private store: Store<AppState>) {
   }
 
   initClient() {

@@ -35,6 +35,7 @@ import {IUser} from "../../shared/interfaces/users.interfaces"
 import {AddEventFormComponent} from "../add-event-form/add-event-form.component"
 import {Subscription} from "rxjs/Subscription"
 import "rxjs/add/operator/do"
+import {AppState} from "../../app.module"
 
 
 @Component({
@@ -94,10 +95,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   activeDayIsOpen: boolean = true;
   isLoggedInSub: Subscription;
-  EventsSub: Subscription;
 
   constructor(private modal: NgbModal,
-              private store: Store<any>,
+              private store: Store<AppState>,
               private cd: ChangeDetectorRef) {
   }
 
@@ -114,7 +114,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.isLoggedInSub.unsubscribe()
-    this.EventsSub.unsubscribe()
   }
 
   changeUser(user) {
@@ -123,7 +122,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
-    debugger
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||

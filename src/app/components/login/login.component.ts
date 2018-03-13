@@ -1,8 +1,9 @@
-import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {ApplicationRef, ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store"
 import * as authActions from "../../store/auth/auth.actions"
 import {Observable} from "rxjs/Observable"
 import {Router} from "@angular/router"
+import {AppState} from "../../app.module"
 
 
 @Component({

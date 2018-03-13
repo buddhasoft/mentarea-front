@@ -6,6 +6,7 @@ import {Observable} from "rxjs/Observable"
 import {IUser} from "../../shared/interfaces/users.interfaces"
 import {NewEvent} from "../../shared/models/newEvent.model"
 import {CreateEvent} from "../../store/events/events.actions"
+import {AppState} from "../../app.module"
 
 @Component({
   selector: 'app-add-event-form',
@@ -16,7 +17,7 @@ export class AddEventFormComponent implements OnInit {
 
   users$: Observable<IUser[]>
 
-  constructor(private fb: FormBuilder, private store: Store<any>) {
+  constructor(private fb: FormBuilder, private store: Store<AppState>) {
 
   }
 
