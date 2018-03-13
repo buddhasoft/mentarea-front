@@ -7,10 +7,10 @@ const CLIENT_ID =
   : '57344781856-79hcun89s3lsaimo8086e9pqmgo4uavv.apps.googleusercontent.com'
 
 const API_KEY =
-  // 'AIzaSyBlm-TsqAHnsazKfouXDWf8RoMjYq--AUI'
-  environment.production
-  ? 'AIzaSyBlm-TsqAHnsazKfouXDWf8RoMjYq--AUI'
-  : 'AIzaSyDGe0IAMJilnIpQYapviFBjO8rQppho3mA'
+  'AIzaSyDGe0IAMJilnIpQYapviFBjO8rQppho3mA'
+  // environment.production
+  // ? 'AIzaSyBlm-TsqAHnsazKfouXDWf8RoMjYq--AUI'
+  // : 'AIzaSyDGe0IAMJilnIpQYapviFBjO8rQppho3mA'
 
 const gapiConfig = {
   apiKey: API_KEY,

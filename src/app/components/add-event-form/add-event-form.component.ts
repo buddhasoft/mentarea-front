@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms"
-import {Store} from "@ngrx/store"
-import {selectAllUsers} from "../../store/users/users.selectors"
-import {Observable} from "rxjs/Observable"
-import {IUser} from "../../shared/interfaces/users.interfaces"
-import {NewEvent} from "../../shared/models/newEvent.model"
-import {CreateEvent} from "../../store/events/events.actions"
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Store} from '@ngrx/store';
+import {selectAllUsers} from '../../store/users/users.selectors';
+import {Observable} from 'rxjs/Observable';
+import {IUser} from '../../shared/interfaces/users.interfaces';
+import {NewEvent} from '../../shared/models/newEvent.model';
+import {CreateEvent} from '../../store/events/events.actions';
+import {AppState} from '../../app.module';
+
 
 @Component({
   selector: 'app-add-event-form',
@@ -14,9 +16,12 @@ import {CreateEvent} from "../../store/events/events.actions"
 })
 export class AddEventFormComponent implements OnInit {
 
-  users$: Observable<IUser[]>
+  public users$: Observable<IUser[]>;
+  public name: string;
+  public addEventForm: FormGroup;
+  public event: NewEvent;
 
-  constructor(private fb: FormBuilder, private store: Store<any>) {
+  constructor(private fb: FormBuilder, private store: Store<AppState>) {
 
   }
 
@@ -26,23 +31,16 @@ export class AddEventFormComponent implements OnInit {
       subject: ['', Validators.required]
     });
 
-    this.users$ = this.store.select(selectAllUsers)
-
-    this.event = new NewEvent()
+    this.users$ = this.store.select(selectAllUsers);
+    console.log('store', this.store.select(selectAllUsers));
+    this.event = new NewEvent();
   }
 
-
-
-
-  name:string;
-  addEventForm: FormGroup;
-  event: NewEvent;
-
-  onFormSubmit(){
+  onFormSubmit() {
     if (this.addEventForm.valid) {
-      this.event.title = this.addEventForm.value.subject
-      this.event.attendees = this.addEventForm.value.usersSelect
-      this.store.dispatch(new CreateEvent(this.event))
+      this.event.title = this.addEventForm.value.subject;
+      this.event.attendees = this.addEventForm.value.usersSelect;
+      this.store.dispatch(new CreateEvent(this.event));
     }
   }
 

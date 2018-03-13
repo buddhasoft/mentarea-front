@@ -1,33 +1,39 @@
-import {Injectable} from '@angular/core';
+import {Injectable, NgZone} from '@angular/core';
 import {Store} from "@ngrx/store"
 import {InitCalendarSuccess} from "../../store/events/events.actions"
 import {EventsState} from "../../store/events/events.reducer"
 import gapiConfig from "./gapi.config"
 import {MAIN_CALENDAR_ID, USERS} from "../../shared/constants/users"
 import rfc3339 from "../../shared/utils/convertDate"
+import {AppState} from "../../app.module"
 
+const gapi: any = {};
 
 @Injectable()
 export class CalendarService {
 
-  constructor(private store: Store<EventsState>) {
-  }
+  constructor(private store: Store<AppState>,
+              private zone: NgZone) {}
 
   initClient() {
-    return gapi.client.init(gapiConfig).then(() => {
-      this.store.dispatch(new InitCalendarSuccess())
-    }).catch(err => console.error('ERROR: ', err));
+    return this.zone.run(() => {
+      gapi.client.init(gapiConfig).then(() => {
+        this.store.dispatch(new InitCalendarSuccess())
+      }).catch(err => console.error('ERROR: ', err));
+    })
   }
 
   fetchUpcomingEvents(calendarId: string = MAIN_CALENDAR_ID) {
-    return gapi.client['calendar'].events.list({
-      'calendarId': calendarId,
-      'timeMin': (new Date()).toISOString(),
-      'showDeleted': false,
-      'singleEvents': true,
-      // 'maxResults': 10,
-      'orderBy': 'startTime'
-    }).then(response => response.result.items).catch(err => console.error('ERROR: ', err));
+    return this.zone.run(() => {
+      return gapi.client['calendar'].events.list({
+        'calendarId': calendarId,
+        'timeMin': (new Date()).toISOString(),
+        'showDeleted': false,
+        'singleEvents': true,
+        // 'maxResults': 10,
+        'orderBy': 'startTime'
+      }).then(response => response.result.items).catch(err => console.error('ERROR: ', err));
+    })
   }
 
   createEvent(event, calendarId: string = MAIN_CALENDAR_ID) {
