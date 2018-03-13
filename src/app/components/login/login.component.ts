@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store"
 import * as authActions from "../../store/auth/auth.actions"
 import {Observable} from "rxjs/Observable"
+import {Router} from "@angular/router"
 
 
 @Component({
@@ -9,11 +10,13 @@ import {Observable} from "rxjs/Observable"
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit  {
+export class LoginComponent implements OnInit, OnDestroy {
 
   loading$: Observable<boolean>
 
-  constructor(private store: Store<any>) {
+  constructor(public store: Store<any>,
+              private zone: NgZone,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -22,6 +25,10 @@ export class LoginComponent implements OnInit  {
 
   onLoginClick() {
     this.store.dispatch(new authActions.TryLogin())
+  }
+
+  ngOnDestroy() {
+    this.zone.run(() => this.router.navigate(['/calendar']));
   }
 
 }

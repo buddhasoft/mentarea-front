@@ -42,15 +42,13 @@ let gapiClientConfig: NgGapiClientConfig = {
 };
 
 const appRoutes: Routes = [
+  {path: 'calendar', component: CalendarComponent,},
+  {path: 'auth', component: LoginComponent,},
   { path: '',
     redirectTo: 'auth',
     pathMatch: 'full'
   },
-  {path: 'calendar', component: CalendarComponent, pathMatch: 'full'},
-  {path: 'auth', component: LoginComponent, pathMatch: 'full'},
   { path: '**', redirectTo:"auth"}
-
-
 ]
 
 const DEV_TOOLS_MODULE = environment.production ? [] :
@@ -84,7 +82,7 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
     FormsModule,
     ReactiveFormsModule,
     NgbModule.forRoot(),
-    RouterModule.forRoot(appRoutes,
+    RouterModule.forRoot(appRoutes, { useHash: false }
       // { enableTracing: true }
     ),
     StoreRouterConnectingModule.forRoot({
@@ -99,7 +97,7 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
   ],
   providers: [
     CalendarService,
-    NgbModal
+    NgbModal,
   ],
   entryComponents: [
     AddEventFormComponent

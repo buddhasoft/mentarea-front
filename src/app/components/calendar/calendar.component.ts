@@ -1,7 +1,7 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  ViewChild,
+  ViewChild, ChangeDetectorRef,
   TemplateRef, OnInit, OnDestroy
 } from '@angular/core';
 import {
@@ -14,9 +14,9 @@ import {
   isSameMonth,
   addHours
 } from 'date-fns';
-import { Subject } from 'rxjs/Subject';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { COLORS } from './calendar.constants';
+import {Subject} from 'rxjs/Subject';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {COLORS} from './calendar.constants';
 
 import * as calendarActions from "../../store/events/events.actions"
 import * as usersActions from "../../store/users/users.actions"
@@ -32,9 +32,9 @@ import {Store} from "@ngrx/store"
 import {Observable} from "rxjs/Observable"
 import {USERS} from "../../shared/constants/users"
 import {IUser} from "../../shared/interfaces/users.interfaces"
-import {CreateEvent} from "../../store/events/events.actions"
 import {AddEventFormComponent} from "../add-event-form/add-event-form.component"
 import {Subscription} from "rxjs/Subscription"
+import "rxjs/add/operator/do"
 
 
 @Component({
@@ -59,13 +59,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
+      onClick: ({event}: { event: CalendarEvent }): void => {
         this.handleEvent('Edited', event);
       }
     },
     {
       label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
+      onClick: ({event}: { event: CalendarEvent }): void => {
         // this.events = this.events.filter(iEvent => iEvent !== event);
         this.handleEvent('Deleted', event);
       }
@@ -94,29 +94,36 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   activeDayIsOpen: boolean = true;
   isLoggedInSub: Subscription;
+  EventsSub: Subscription;
 
-  constructor(private modal: NgbModal, private store: Store<any>) {}
+  constructor(private modal: NgbModal,
+              private store: Store<any>,
+              private cd: ChangeDetectorRef) {
+  }
 
-  ngOnInit(){
-    // debugger
-    this.isLoggedInSub = this.store.select(state =>  state.auth.isLoggedIn).subscribe( isLoggedIn => {
+  ngOnInit() {
+    this.isLoggedInSub = this.store.select(state => state.auth.isLoggedIn).subscribe(isLoggedIn => {
       isLoggedIn && this.store.dispatch(new calendarActions.InitCalendar())
       isLoggedIn && this.store.dispatch(new usersActions.AddAll(USERS))
     })
 
     this.events$ = this.store.select(selectAllEvents)
     this.users$ = this.store.select(selectAllUsers)
+    this.events$.concat(this.users$).delay(0).subscribe(val => this.cd.detectChanges());
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.isLoggedInSub.unsubscribe()
+    this.EventsSub.unsubscribe()
   }
 
-  changeUser(user){
+  changeUser(user) {
     this.store.dispatch(new usersActions.SetActiveUser(user))
+    this.refresh.next()
   }
 
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
+    debugger
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -142,8 +149,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    this.modalData = {event, action};
+    this.modal.open(this.modalContent, {size: 'lg'});
   }
 
   addEvent(): void {
