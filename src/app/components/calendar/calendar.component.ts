@@ -2,7 +2,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   ViewChild, ChangeDetectorRef,
-  TemplateRef, OnInit, OnDestroy
+  TemplateRef, OnInit, OnDestroy, ApplicationRef
 } from '@angular/core';
 import {
   startOfDay,
@@ -98,14 +98,20 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   constructor(private modal: NgbModal,
               private store: Store<AppState>,
-              private cd: ChangeDetectorRef) {
+              private cd: ChangeDetectorRef,
+              private app: ApplicationRef
+  ) {
   }
 
   ngOnInit() {
+    console.log('ngOnInit ',);
+    setTimeout(()=>{},0)
     this.isLoggedInSub = this.store.select(state => state.auth.isLoggedIn).subscribe(isLoggedIn => {
       isLoggedIn && this.store.dispatch(new calendarActions.InitCalendar())
       isLoggedIn && this.store.dispatch(new usersActions.AddAll(USERS))
     })
+
+    console.log('ngOnInit after',);
 
     this.events$ = this.store.select(selectAllEvents)
     this.users$ = this.store.select(selectAllUsers)
