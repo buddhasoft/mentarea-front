@@ -32,7 +32,9 @@ export class AddEventFormComponent implements OnInit {
     });
 
     this.users$ = this.store.select(selectAllUsers);
+
     console.log('store', this.store.select(selectAllUsers));
+
     this.event = new NewEvent();
   }
 
