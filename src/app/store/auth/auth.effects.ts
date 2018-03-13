@@ -40,15 +40,13 @@ export class AuthEffects {
       return of(!token ? new CheckTokenFailure() : new CheckTokenSuccess())
     })
 
-  @Effect()
+  @Effect({dispatch: false})
   checkTokenFailure = this.actions$
     .ofType(AuthActionTypes.CHECK_TOKEN_FAILURE)
-    .switchMap(() => of(new TryLogin()))
 
-  @Effect()
+  @Effect({dispatch: false})
   checkTokenSuccess = this.actions$
     .ofType(AuthActionTypes.CHECK_TOKEN_SUCCESS)
-    .switchMap(() => of(new LoginSuccess()))
 
   @Effect()
   tryLogin = this.actions$
@@ -70,7 +68,10 @@ export class AuthEffects {
         this.signInSuccessHandler(res)
         return true
       })
-      .catch( () => of(false))
+      .catch( (err) => {
+        console.error('ERROR: ', err);
+        return of(false)
+      })
   }
 
   private signInSuccessHandler(res: GoogleUser) {

@@ -25,6 +25,7 @@ import {routerReducer, StoreRouterConnectingModule} from "@ngrx/router-store"
 import {RouterEffects} from "./store/router/router.effects";
 import {AddEventFormComponent} from './components/add-event-form/add-event-form.component'
 import {FormsModule, ReactiveFormsModule} from "@angular/forms"
+import { HttpClientModule } from '@angular/common/http';
 
 const CLIENT_ID =
   // '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
@@ -41,12 +42,12 @@ let gapiClientConfig: NgGapiClientConfig = {
 };
 
 const appRoutes: Routes = [
-  {path: 'auth', component: LoginComponent},
-  {path: 'calendar', component: CalendarComponent},
   { path: '',
     redirectTo: 'auth',
     pathMatch: 'full'
   },
+  {path: 'calendar', component: CalendarComponent, pathMatch: 'full'},
+  {path: 'auth', component: LoginComponent, pathMatch: 'full'},
   { path: '**', redirectTo:"auth"}
 
 
@@ -66,12 +67,8 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
-    CalendarModule.forRoot(),
-    GoogleApiModule.forRoot({
-      provide: NG_GAPI_CONFIG,
-      useValue: gapiClientConfig
-    }),
     StoreModule.forRoot({
       auth: authReducer,
       events: eventsReducer,
@@ -84,14 +81,21 @@ const DEV_TOOLS_MODULE = environment.production ? [] :
       UsersEffects,
       RouterEffects
     ]),
-    ...DEV_TOOLS_MODULE,
     FormsModule,
     ReactiveFormsModule,
     NgbModule.forRoot(),
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes,
+      // { enableTracing: true }
+    ),
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router' // name of reducer key
-    })
+    }),
+    ...DEV_TOOLS_MODULE,
+    CalendarModule.forRoot(),
+    GoogleApiModule.forRoot({
+      provide: NG_GAPI_CONFIG,
+      useValue: gapiClientConfig
+    }),
   ],
   providers: [
     CalendarService,

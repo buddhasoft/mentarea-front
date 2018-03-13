@@ -2,7 +2,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   ViewChild,
-  TemplateRef, OnInit
+  TemplateRef, OnInit, OnDestroy
 } from '@angular/core';
 import {
   startOfDay,
@@ -18,7 +18,6 @@ import { Subject } from 'rxjs/Subject';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { COLORS } from './calendar.constants';
 
-import * as authActions from "../../store/auth/auth.actions"
 import * as calendarActions from "../../store/events/events.actions"
 import * as usersActions from "../../store/users/users.actions"
 import {selectAllEvents} from "../../store/events/events.selectors"
@@ -35,6 +34,7 @@ import {USERS} from "../../shared/constants/users"
 import {IUser} from "../../shared/interfaces/users.interfaces"
 import {CreateEvent} from "../../store/events/events.actions"
 import {AddEventFormComponent} from "../add-event-form/add-event-form.component"
+import {Subscription} from "rxjs/Subscription"
 
 
 @Component({
@@ -43,7 +43,7 @@ import {AddEventFormComponent} from "../add-event-form/add-event-form.component"
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnDestroy {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
   @ViewChild('addEventForm') addEventForm: TemplateRef<any>;
 
@@ -93,18 +93,23 @@ export class CalendarComponent implements OnInit {
   // ];
 
   activeDayIsOpen: boolean = true;
+  isLoggedInSub: Subscription;
 
   constructor(private modal: NgbModal, private store: Store<any>) {}
 
   ngOnInit(){
-    this.store.dispatch(new authActions.CheckToken())
-    this.store.select(state =>  state.auth.isLoggedIn).subscribe( isLoggedIn => {
+    // debugger
+    this.isLoggedInSub = this.store.select(state =>  state.auth.isLoggedIn).subscribe( isLoggedIn => {
       isLoggedIn && this.store.dispatch(new calendarActions.InitCalendar())
       isLoggedIn && this.store.dispatch(new usersActions.AddAll(USERS))
     })
 
     this.events$ = this.store.select(selectAllEvents)
     this.users$ = this.store.select(selectAllUsers)
+  }
+
+  ngOnDestroy(){
+    this.isLoggedInSub.unsubscribe()
   }
 
   changeUser(user){

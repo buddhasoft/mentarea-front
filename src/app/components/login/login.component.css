@@ -1,7 +1,7 @@
 .login-wrap {
   width: 100%;
   height: 100%;
-  position: relative;
+  position: absolute;
   display: flex;
   background-color: #043A6B;
   flex-direction: column;

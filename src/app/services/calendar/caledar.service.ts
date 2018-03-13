@@ -16,7 +16,7 @@ export class CalendarService {
   initClient() {
     return gapi.client.init(gapiConfig).then(() => {
       this.store.dispatch(new InitCalendarSuccess())
-    })
+    }).catch(err => console.error('ERROR: ', err));
   }
 
   fetchUpcomingEvents(calendarId: string = MAIN_CALENDAR_ID) {
@@ -27,7 +27,7 @@ export class CalendarService {
       'singleEvents': true,
       // 'maxResults': 10,
       'orderBy': 'startTime'
-    }).then(response => response.result.items);
+    }).then(response => response.result.items).catch(err => console.error('ERROR: ', err));
   }
 
   createEvent(event, calendarId: string = MAIN_CALENDAR_ID) {
@@ -45,6 +45,6 @@ export class CalendarService {
       'singleEvents': true,
       'sendNotifications': true,
       'summary': event.title
-    }).then(req => req.result)
+    }).then(req => req.result).catch(err => console.error('ERROR: ', err))
   }
 }

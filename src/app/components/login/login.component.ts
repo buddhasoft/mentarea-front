@@ -9,7 +9,7 @@ import {Observable} from "rxjs/Observable"
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit  {
 
   loading$: Observable<boolean>
 
