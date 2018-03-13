@@ -27,21 +27,8 @@ import {AddEventFormComponent} from './components/add-event-form/add-event-form.
 import {FormsModule, ReactiveFormsModule} from "@angular/forms"
 import {HttpClientModule} from '@angular/common/http';
 import {CustomSerializer} from "./store/router/router.serializer"
-import {SocialLoginModule, AuthServiceConfig} from "angular4-social-login";
-import {GoogleLoginProvider} from "angular4-social-login";
-
-const CLIENT_ID =
-  // '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
-  environment.production
-    ? '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
-    : '57344781856-79hcun89s3lsaimo8086e9pqmgo4uavv.apps.googleusercontent.com'
-
-const socialConfig = new AuthServiceConfig([
-  {
-    id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider(CLIENT_ID)
-  },
-]);
+import {AuthServiceConfig, SocialLoginModule} from "angular4-social-login";
+import {CLIENT_ID, provideConfig} from "./shared/constants/auth.config"
 
 let gapiClientConfig: NgGapiClientConfig = {
   client_id: CLIENT_ID,
@@ -98,7 +85,7 @@ export interface AppState {
       EventsEffects,
       UsersEffects
     ]),
-    SocialLoginModule.initialize(socialConfig),
+    SocialLoginModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule.forRoot(),
@@ -116,6 +103,7 @@ export interface AppState {
     }),
   ],
   providers: [
+    {provide: AuthServiceConfig, useFactory: provideConfig},
     {provide: RouterStateSerializer, useClass: CustomSerializer},
     CalendarService,
     NgbModal,

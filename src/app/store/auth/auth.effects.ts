@@ -67,11 +67,7 @@ export class AuthEffects {
     return fromPromise(this.authService.signIn(GoogleLoginProvider.PROVIDER_ID))
       .map((user: SocialUser) => {
         sessionStorage.setItem(this.SESSION_STORAGE_KEY, user.authToken);
-        return true
-      })
-      .catch((err) => {
-        console.error('ERROR: ', err);
-        return false
+        return user && true
       })
   }
 
