@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.zone.run(() => this.router.navigate(['/calendar']));
+    // this.zone.run(() => this.router.navigate(['/calendar']));
   }
 
 }

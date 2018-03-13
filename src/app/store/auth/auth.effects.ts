@@ -1,5 +1,5 @@
 import {AuthActionTypes} from './auth.actions'
-import {Injectable} from "@angular/core"
+import {ApplicationRef, Injectable, NgZone} from "@angular/core"
 import {Actions, Effect} from "@ngrx/effects"
 import {Observable} from "rxjs/Observable"
 import {GoogleAuthService} from "ng-gapi"
@@ -25,7 +25,9 @@ export class AuthEffects {
   private user: GoogleUser;
 
   constructor(public actions$: Actions,
-              private googleAuth: GoogleAuthService) {
+              private googleAuth: GoogleAuthService,
+              private zone: NgZone,
+              private app: ApplicationRef,) {
   }
 
   @Effect()
@@ -47,6 +49,7 @@ export class AuthEffects {
   @Effect({dispatch: false})
   checkTokenSuccess = this.actions$
     .ofType(AuthActionTypes.CHECK_TOKEN_SUCCESS)
+  // .do(() => this.app.tick())
 
   @Effect()
   tryLogin = this.actions$
@@ -54,7 +57,7 @@ export class AuthEffects {
     .switchMap(() => this.signIn())
     .switchMap(result => of(result ? new LoginSuccess() : new LoginFailure()))
 
-  @Effect()
+  @Effect(/*{dispatch: false}*/)
   loginSuccess = this.actions$
     .ofType(AuthActionTypes.LOGIN_SUCCESS)
     .switchMap((): Observable<RouterActionType> => of(new RouterActions.Go({path: ['/calendar']})))
@@ -62,13 +65,15 @@ export class AuthEffects {
   private signIn(): Observable<boolean> {
     return this.googleAuth.getAuth()
       .switchMap(auth => {
-        return fromPromise(auth.signIn())
+        return fromPromise(
+          this.zone.run(() => auth.signIn())
+        )
       })
       .map((res: GoogleUser) => {
         this.signInSuccessHandler(res)
         return true
       })
-      .catch( (err) => {
+      .catch((err) => {
         console.error('ERROR: ', err);
         return of(false)
       })
@@ -77,7 +82,8 @@ export class AuthEffects {
   private signInSuccessHandler(res: GoogleUser) {
     this.user = res;
     sessionStorage.setItem(
-      this.SESSION_STORAGE_KEY, res.getAuthResponse().access_token
+      this.SESSION_STORAGE_KEY,
+      this.zone.run(() => res.getAuthResponse()).access_token
     );
   }
 

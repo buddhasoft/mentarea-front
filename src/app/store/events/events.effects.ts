@@ -19,40 +19,40 @@ import {NewEvent} from "../../shared/models/newEvent.model"
 import {AppState} from "../../app.module"
 
 @Injectable()
-export class EventsEffects{
-  constructor(
-    private store: Store<AppState>,
-    public actions$: Actions,
-    public gapiService: GoogleApiService,
-    public calendarService: CalendarService
-  ){}
+export class EventsEffects {
+  constructor(private store: Store<AppState>,
+              public actions$: Actions,
+              private zone: NgZone,
+              public gapiService: GoogleApiService,
+              public calendarService: CalendarService) {
+  }
 
-  @Effect({dispatch : false})
+  @Effect({dispatch: false})
   initCalendar = this.actions$
     .ofType(EventsActionTypes.INIT_CALENDAR)
     .switchMap(() => this.gapiService.onLoad())
-    .map(() => gapi.load('client:auth2', this.calendarService.initClient.bind(this)))
+    .map(() => gapi.load( 'client:auth2', this.calendarService.initClient.bind(this)))
 
   @Effect()
   fetchEvents = this.actions$
     .ofType(EventsActionTypes.FETCH_EVENTS)
-    .switchMap((action : FetchEvents): Observable<any[]> =>
+    .switchMap((action: FetchEvents): Observable<any[]> =>
       fromPromise(this.calendarService.fetchUpcomingEvents(action.id))
     )
     .map((events = []) => {
-      return events.map( event => ( new CalendarEvent(event)))
+      return events.map(event => ( new CalendarEvent(event)))
     })
-    .switchMap( (events: ICalendarEvent[]) => ([ new FetchEventsSuccess(), new AddAll(events) ]))
+    .switchMap((events: ICalendarEvent[]) => ([new FetchEventsSuccess(), new AddAll(events)]))
 
   @Effect()
   initCalendarSuccess = this.actions$
     .ofType(EventsActionTypes.INIT_CALENDAR_SUCCESS)
-    .switchMap( () => of(new FetchEvents()))
+    .switchMap(() => of(new FetchEvents()))
 
   @Effect()
   createEvent = this.actions$
     .ofType(EventsActionTypes.CREATE_EVENT)
-    .switchMap( ( {event}: CreateEvent) => fromPromise(this.calendarService.createEvent(event)))
+    .switchMap(({event}: CreateEvent) => fromPromise(this.calendarService.createEvent(event)))
     .map(event => new CalendarEvent(event))
-    .switchMap( event => of(new AddOne(event)))
+    .switchMap(event => of(new AddOne(event)))
 }
