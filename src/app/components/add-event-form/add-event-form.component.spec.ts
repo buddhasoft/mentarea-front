@@ -86,18 +86,20 @@ describe('AddEventFromComponent', () => {
     expect(subject).toEqual(component.event.title);
   }));
 
-  it('Should create content ', async(() => {
-    console.log(users);
-
-    function sdf(): Observable<IUser[]>  {
-
-        return Observable.of(users);
-    }
-
-    component.users$ = sdf();
-    // console.log('component.users$', component.users$);
-
-  }));
+  // it('Should test store', async(() => {
+  //   console.log(users);
+  //   component.users$.actionsObserver.value.users = users;
+  //   fixture.whenStable().then( () => {
+  //     fixture.detectChanges();
+  //     component.ngOnInit();
+  //     debugElement = fixture.debugElement.query(By.css('option'));
+  //     // htmlElement = debugElement.nativeElement;
+  //     // let value = htmlElement.getAttribute('ng-reflect-label');
+  //     // expect(value).toBe('Email');
+  //   // console.log(debugElement);
+  //   });
+  //
+  // }));
 
 });
 

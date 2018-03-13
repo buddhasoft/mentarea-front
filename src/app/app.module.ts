@@ -39,14 +39,23 @@ const gapiClientConfig: NgGapiClientConfig = {
 };
 
 const appRoutes: Routes = [
-  {path: 'calendar', component: CalendarComponent,},
-  {path: 'auth', component: LoginComponent,},
+  {
+    path: 'calendar',
+    component: CalendarComponent
+  },
+  {
+    path: 'auth',
+    component: LoginComponent
+  },
   {
     path: '',
     redirectTo: 'auth',
     pathMatch: 'full'
   },
-  {path: '**', redirectTo: 'auth'}
+  {
+    path: '**',
+    redirectTo: 'auth'
+  }
 ];
 
 const DEV_TOOLS_MODULE = environment.production ? [] :
