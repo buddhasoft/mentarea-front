@@ -30,6 +30,7 @@
     "angular-calendar": "^0.23.6",
     "angular-draggable-droppable": "^2.0.0",
     "angular-resizable-element": "^2.0.0",
+    "angular4-social-login": "^1.1.1",
     "bootstrap": "^4.0.0",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.4.1",

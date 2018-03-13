@@ -1,3 +1,5 @@
+import {AuthService, SocialUser} from "angular4-social-login";
+import {FacebookLoginProvider, GoogleLoginProvider} from "angular4-social-login";
 import {AuthActionTypes} from './auth.actions'
 import {ApplicationRef, Injectable, NgZone} from "@angular/core"
 import {Actions, Effect} from "@ngrx/effects"
@@ -27,7 +29,7 @@ export class AuthEffects {
   constructor(public actions$: Actions,
               private googleAuth: GoogleAuthService,
               private zone: NgZone,
-              private app: ApplicationRef,) {
+              private authService: AuthService) {
   }
 
   @Effect()
@@ -49,7 +51,6 @@ export class AuthEffects {
   @Effect({dispatch: false})
   checkTokenSuccess = this.actions$
     .ofType(AuthActionTypes.CHECK_TOKEN_SUCCESS)
-  // .do(() => this.app.tick())
 
   @Effect()
   tryLogin = this.actions$
@@ -57,34 +58,21 @@ export class AuthEffects {
     .switchMap(() => this.signIn())
     .switchMap(result => of(result ? new LoginSuccess() : new LoginFailure()))
 
-  @Effect(/*{dispatch: false}*/)
+  @Effect()
   loginSuccess = this.actions$
     .ofType(AuthActionTypes.LOGIN_SUCCESS)
     .switchMap((): Observable<RouterActionType> => of(new RouterActions.Go({path: ['/calendar']})))
 
   private signIn(): Observable<boolean> {
-    return this.googleAuth.getAuth()
-      .switchMap(auth => {
-        return fromPromise(
-          this.zone.run(() => auth.signIn())
-        )
-      })
-      .map((res: GoogleUser) => {
-        this.signInSuccessHandler(res)
+    return fromPromise(this.authService.signIn(GoogleLoginProvider.PROVIDER_ID))
+      .map((user: SocialUser) => {
+        sessionStorage.setItem(this.SESSION_STORAGE_KEY, user.authToken);
         return true
       })
       .catch((err) => {
         console.error('ERROR: ', err);
-        return of(false)
+        return false
       })
-  }
-
-  private signInSuccessHandler(res: GoogleUser) {
-    this.user = res;
-    sessionStorage.setItem(
-      this.SESSION_STORAGE_KEY,
-      this.zone.run(() => res.getAuthResponse()).access_token
-    );
   }
 
 

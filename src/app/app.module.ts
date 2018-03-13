@@ -25,14 +25,23 @@ import {routerReducer, RouterStateSerializer, StoreRouterConnectingModule} from 
 import {RouterEffects} from "./store/router/router.effects";
 import {AddEventFormComponent} from './components/add-event-form/add-event-form.component'
 import {FormsModule, ReactiveFormsModule} from "@angular/forms"
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {CustomSerializer} from "./store/router/router.serializer"
+import {SocialLoginModule, AuthServiceConfig} from "angular4-social-login";
+import {GoogleLoginProvider} from "angular4-social-login";
 
 const CLIENT_ID =
   // '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
   environment.production
-  ? '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
-  : '57344781856-79hcun89s3lsaimo8086e9pqmgo4uavv.apps.googleusercontent.com'
+    ? '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
+    : '57344781856-79hcun89s3lsaimo8086e9pqmgo4uavv.apps.googleusercontent.com'
+
+const socialConfig = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider(CLIENT_ID)
+  },
+]);
 
 let gapiClientConfig: NgGapiClientConfig = {
   client_id: CLIENT_ID,
@@ -45,11 +54,12 @@ let gapiClientConfig: NgGapiClientConfig = {
 const appRoutes: Routes = [
   {path: 'calendar', component: CalendarComponent,},
   {path: 'auth', component: LoginComponent,},
-  { path: '',
+  {
+    path: '',
     redirectTo: 'auth',
     pathMatch: 'full'
   },
-  { path: '**', redirectTo:"auth"}
+  {path: '**', redirectTo: "auth"}
 ]
 
 const DEV_TOOLS_MODULE = environment.production ? [] :
@@ -88,10 +98,11 @@ export interface AppState {
       EventsEffects,
       UsersEffects
     ]),
+    SocialLoginModule.initialize(socialConfig),
     FormsModule,
     ReactiveFormsModule,
     NgbModule.forRoot(),
-    RouterModule.forRoot(appRoutes, { useHash: false }
+    RouterModule.forRoot(appRoutes, {useHash: false}
       // { enableTracing: true }
     ),
     StoreRouterConnectingModule.forRoot({
