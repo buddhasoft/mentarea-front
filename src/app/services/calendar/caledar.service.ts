@@ -2,7 +2,7 @@ import {Injectable, NgZone} from '@angular/core';
 import {Store} from "@ngrx/store"
 import {InitCalendarSuccess} from "../../store/events/events.actions"
 import {EventsState} from "../../store/events/events.reducer"
-import gapiConfig from "./gapi.config"
+import gapiConfig from "../../shared/constants/gapi.config"
 import {MAIN_CALENDAR_ID, USERS} from "../../shared/constants/users"
 import rfc3339 from "../../shared/utils/convertDate"
 import {AppState} from "../../app.module"

@@ -28,7 +28,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms"
 import {HttpClientModule} from '@angular/common/http';
 import {CustomSerializer} from "./store/router/router.serializer"
 import {AuthServiceConfig, SocialLoginModule} from "angular4-social-login";
-import {CLIENT_ID, provideConfig} from "./shared/constants/auth.config"
+import {CLIENT_ID, provideConfig} from "./shared/constants/gapi.config"
 
 let gapiClientConfig: NgGapiClientConfig = {
   client_id: CLIENT_ID,

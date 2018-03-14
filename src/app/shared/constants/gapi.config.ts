@@ -1,6 +1,15 @@
+import {AuthServiceConfig} from "angular4-social-login";
+import {GoogleLoginProvider} from "angular4-social-login";
 import {environment} from "../../../environments/environment"
 
-const CLIENT_ID =
+export function provideConfig() {
+  return new AuthServiceConfig([{
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider(CLIENT_ID)
+  }]);
+}
+
+export const CLIENT_ID =
   // '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
   environment.production
   ? '57344781856-5g0quuin3l845gmtjbepllpg7mir6eef.apps.googleusercontent.com'
@@ -12,11 +21,11 @@ const API_KEY =
   // ? 'AIzaSyBlm-TsqAHnsazKfouXDWf8RoMjYq--AUI'
   // : 'AIzaSyDGe0IAMJilnIpQYapviFBjO8rQppho3mA'
 
-const gapiConfig = {
+const GAPI_CONFIG = {
   apiKey: API_KEY,
   clientId: CLIENT_ID,
   discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
   scope: "https://www.googleapis.com/auth/calendar"
 }
 
-export default gapiConfig
+export default GAPI_CONFIG
