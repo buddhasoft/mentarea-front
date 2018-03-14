@@ -1,9 +1,8 @@
 import {Injectable, NgZone} from '@angular/core';
 import {Store} from "@ngrx/store"
 import {InitCalendarSuccess} from "../../store/events/events.actions"
-import {EventsState} from "../../store/events/events.reducer"
-import gapiConfig from "../../shared/constants/gapi.config"
-import {MAIN_CALENDAR_ID, USERS} from "../../shared/constants/users"
+import {GAPI_CONFIG} from "../../shared/constants/gapi.config"
+import {MAIN_CALENDAR_ID} from "../../shared/constants/users"
 import rfc3339 from "../../shared/utils/convertDate"
 import {AppState} from "../../app.module"
 
@@ -12,11 +11,12 @@ import {AppState} from "../../app.module"
 export class CalendarService {
 
   constructor(private store: Store<AppState>,
-              private zone: NgZone) {}
+              private zone: NgZone) {
+  }
 
   initClient() {
     return this.zone.run(() => {
-      gapi.client.init(gapiConfig).then(() => {
+      gapi.client.init(GAPI_CONFIG).then(() => {
         this.store.dispatch(new InitCalendarSuccess())
       }).catch(err => console.error('ERROR: ', err));
     })

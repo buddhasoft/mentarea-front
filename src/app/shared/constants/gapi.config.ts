@@ -21,11 +21,9 @@ const API_KEY =
   // ? 'AIzaSyBlm-TsqAHnsazKfouXDWf8RoMjYq--AUI'
   // : 'AIzaSyDGe0IAMJilnIpQYapviFBjO8rQppho3mA'
 
-const GAPI_CONFIG = {
+export const GAPI_CONFIG = {
   apiKey: API_KEY,
   clientId: CLIENT_ID,
   discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
   scope: "https://www.googleapis.com/auth/calendar"
 }
-
-export default GAPI_CONFIG
