@@ -2,8 +2,7 @@ import {ApplicationRef, ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit}
 import {Store} from "@ngrx/store"
 import * as authActions from "../../store/auth/auth.actions"
 import {Observable} from "rxjs/Observable"
-import {Router} from "@angular/router"
-import {AppState} from "../../app.module"
+import {AppState} from "../../store/index"
 
 
 @Component({
@@ -15,9 +14,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loading$: Observable<boolean>
 
-  constructor(public store: Store<any>,
-              private zone: NgZone,
-              private router: Router) {
+  constructor(public store: Store<AppState>) {
   }
 
   ngOnInit() {

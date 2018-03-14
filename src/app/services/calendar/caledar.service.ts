@@ -4,7 +4,7 @@ import {InitCalendarSuccess} from "../../store/events/events.actions"
 import {GAPI_CONFIG} from "../../shared/constants/gapi.config"
 import {MAIN_CALENDAR_ID} from "../../shared/constants/users"
 import rfc3339 from "../../shared/utils/convertDate"
-import {AppState} from "../../app.module"
+import {AppState} from "../../store/index"
 
 
 @Injectable()

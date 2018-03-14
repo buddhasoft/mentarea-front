@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store"
 import * as authActions from "./store/auth/auth.actions"
-import {AppState} from "./app.module"
+import {AppState} from "./store/index"
 
 
 @Component({

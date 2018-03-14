@@ -35,7 +35,7 @@ import {IUser} from "../../shared/interfaces/users.interfaces"
 import {AddEventFormComponent} from "../add-event-form/add-event-form.component"
 import {Subscription} from "rxjs/Subscription"
 import "rxjs/add/operator/do"
-import {AppState} from "../../app.module"
+import {AppState} from "../../store/index"
 
 
 @Component({
@@ -98,8 +98,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   constructor(private modal: NgbModal,
               private store: Store<AppState>,
-              private cd: ChangeDetectorRef,
-              private app: ApplicationRef
+              private cd: ChangeDetectorRef
   ) {
   }
 

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
-import {Effect, Actions, ofType} from '@ngrx/effects';
+import {Effect, Actions, ofType, EffectsModule} from '@ngrx/effects';
 import {map, tap} from 'rxjs/operators';
 import {RouterActionTypes, Go} from './router.actions';
 
@@ -37,3 +37,4 @@ export class RouterEffects {
               private location: Location) {
   }
 }
+

@@ -3,8 +3,7 @@ import {Actions, Effect} from "@ngrx/effects"
 
 import {of} from "rxjs/observable/of"
 import 'rxjs/Rx';
-import {Store} from "@ngrx/store"
-import {AddAll, SetActiveUser, UsersActionTypes} from "./users.actions"
+import {SetActiveUser, UsersActionTypes} from "./users.actions"
 import {FetchEvents} from "../events/events.actions"
 
 @Injectable()
@@ -21,3 +20,4 @@ export class UsersEffects{
     })
 
 }
+

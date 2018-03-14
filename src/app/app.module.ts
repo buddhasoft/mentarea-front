@@ -4,16 +4,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CalendarModule} from 'angular-calendar';
 import {GoogleApiModule, NG_GAPI_CONFIG, NgGapiClientConfig} from "ng-gapi"
 import {AppComponent} from './app.component';
-import {StoreModule} from "@ngrx/store"
 import {CalendarComponent} from './components/calendar/calendar.component'
-import {EffectsModule} from "@ngrx/effects"
-import {AuthEffects} from "./store/auth/auth.effects"
-import {EventsEffects} from "./store/events/events.effects"
-import {UsersEffects} from "./store/users/users.effects"
 import {CalendarService} from "./services/calendar/caledar.service"
-import {environment} from "../environments/environment"
-import {StoreDevtoolsModule} from "@ngrx/store-devtools"
-import {authReducer, AuthState} from "./store/auth/auth.reducer";
+import {AuthState} from "./store/auth/auth.reducer";
 import {eventsReducer, EventsState} from "./store/events/events.reducer"
 import {NgbModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {DateTimePickerComponent} from './components/date-time-picker/date-time-picker.component';
@@ -28,7 +21,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms"
 import {HttpClientModule} from '@angular/common/http';
 import {CustomSerializer} from "./store/router/router.serializer"
 import {AuthServiceConfig, SocialLoginModule} from "angular4-social-login";
-import {CLIENT_ID, provideConfig, GAPI_CONFIG} from "./shared/constants/gapi.config"
+import {CLIENT_ID, provideConfig} from "./shared/constants/gapi.config"
+import {APP_STORE_MODULE} from "./store/index"
 
 let gapiClientConfig: NgGapiClientConfig = {
   client_id: CLIENT_ID,
@@ -49,17 +43,6 @@ const appRoutes: Routes = [
   {path: '**', redirectTo: "auth"}
 ]
 
-const DEV_TOOLS_MODULE = environment.production ? [] :
-  [StoreDevtoolsModule.instrument()];
-
-export interface AppState {
-  router: RouterStateSnapshot,
-  auth: AuthState,
-  events: EventsState,
-  users: UsersState
-}
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,18 +56,6 @@ export interface AppState {
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({
-      router: routerReducer,
-      auth: authReducer,
-      events: eventsReducer,
-      users: usersReducer
-    }),
-    EffectsModule.forRoot([
-      RouterEffects,
-      AuthEffects,
-      EventsEffects,
-      UsersEffects
-    ]),
     SocialLoginModule,
     FormsModule,
     ReactiveFormsModule,
@@ -92,10 +63,7 @@ export interface AppState {
     RouterModule.forRoot(appRoutes, {useHash: false}
       // { enableTracing: true }
     ),
-    StoreRouterConnectingModule.forRoot({
-      stateKey: 'router' // name of reducer key
-    }),
-    ...DEV_TOOLS_MODULE,
+    ...APP_STORE_MODULE,
     CalendarModule.forRoot(),
     GoogleApiModule.forRoot({
       provide: NG_GAPI_CONFIG,

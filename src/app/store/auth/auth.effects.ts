@@ -2,7 +2,7 @@ import {AuthService, SocialUser} from "angular4-social-login";
 import {FacebookLoginProvider, GoogleLoginProvider} from "angular4-social-login";
 import {AuthActionTypes} from './auth.actions'
 import {ApplicationRef, Injectable, NgZone} from "@angular/core"
-import {Actions, Effect} from "@ngrx/effects"
+import {Actions, Effect, EffectsModule} from "@ngrx/effects"
 import {Observable} from "rxjs/Observable"
 import {GoogleAuthService} from "ng-gapi"
 import {fromPromise} from "rxjs/observable/fromPromise"
@@ -73,3 +73,6 @@ export class AuthEffects {
 
 
 }
+
+
+

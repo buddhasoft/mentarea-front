@@ -6,7 +6,7 @@ import {Observable} from "rxjs/Observable"
 import {IUser} from "../../shared/interfaces/users.interfaces"
 import {NewEvent} from "../../shared/models/newEvent.model"
 import {CreateEvent} from "../../store/events/events.actions"
-import {AppState} from "../../app.module"
+import {AppState} from "../../store/index"
 
 @Component({
   selector: 'app-add-event-form',
