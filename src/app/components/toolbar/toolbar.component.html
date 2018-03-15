@@ -2,8 +2,8 @@
   <label for="users">Сalendar of:</label>
   <select class="form-control"
           id="users"
-          [(ngModel)]="selectedValue"
-          (change)="onChangeUser(selectedValue)">
+          [(ngModel)]="selectedUser"
+          (change)="onChangeUser(selectedUser)">
     <option *ngFor="let user of users; let index = index"  [ngValue]="user">
       {{user.name}}
     </option>

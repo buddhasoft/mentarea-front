@@ -21,6 +21,7 @@
 </ng-template>
 
 <app-toolbar
+  [selectedUser]="selectedUsers$ | async"
   [users]="users$ | async"
   (changeUser)="changeUser($event)"
 ></app-toolbar>

@@ -21,7 +21,7 @@ import {COLORS} from './calendar.constants';
 import * as calendarActions from "../../store/events/events.actions"
 import * as usersActions from "../../store/users/users.actions"
 import {selectAllEvents} from "../../store/events/events.selectors"
-import {selectAllUsers} from "../../store/users/users.selectors"
+import {selectActiveUser, selectAllUsers} from "../../store/users/users.selectors"
 
 import {
   CalendarEvent,
@@ -77,6 +77,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   events$: Observable<any>
   users$: Observable<IUser[]>
+  selectedUsers$: Observable<IUser>
 
   // events: ICalendarEvent[] = [
   //   {
@@ -114,6 +115,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     this.events$ = this.store.select(selectAllEvents)
     this.users$ = this.store.select(selectAllUsers)
+    this.selectedUsers$ = this.store.select(selectActiveUser)
     this.events$.concat(this.users$).delay(0).subscribe(val => this.cd.detectChanges());
   }
 

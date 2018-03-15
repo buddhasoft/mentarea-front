@@ -13,6 +13,8 @@ import {CalendarService} from "../../services/calendar/caledar.service"
 import {CalendarEvent} from "../../shared/models/calendarEvent.model"
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
 import {AppState} from "../index"
+import {SetActiveUser} from "../users/users.actions"
+import {COMMON_USER} from "../../shared/constants/users"
 
 @Injectable()
 export class EventsEffects {
@@ -43,7 +45,7 @@ export class EventsEffects {
   @Effect()
   initCalendarSuccess = this.actions$
     .ofType(EventsActionTypes.INIT_CALENDAR_SUCCESS)
-    .switchMap(() => of(new FetchEvents()))
+    .switchMap(() => of(new SetActiveUser(COMMON_USER)))
 
   @Effect()
   createEvent = this.actions$
