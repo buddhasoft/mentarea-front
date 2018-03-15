@@ -1,6 +1,6 @@
 import {AuthService, SocialUser} from "angular4-social-login";
 import {GoogleLoginProvider} from "angular4-social-login";
-import {AuthActionTypes} from './auth.actions'
+import {AuthActionsType, AuthActionTypes} from './auth.actions'
 import {Injectable} from "@angular/core"
 import {Actions, Effect, ofType} from "@ngrx/effects"
 import {Observable} from "rxjs/Observable"
@@ -35,7 +35,9 @@ export class AuthEffects {
       if (!token) return false
       return sessionStorage.getItem(this.SESSION_STORAGE_KEY);
     }),
-    switchMap(token => of(!token ? new CheckTokenFailure() : new CheckTokenSuccess()))
+    switchMap((token): Observable<AuthActionsType> =>
+      of(!token ? new CheckTokenFailure() : new CheckTokenSuccess())
+    )
   )
 
 
@@ -51,7 +53,9 @@ export class AuthEffects {
   tryLogin = this.actions$.pipe(
     ofType(AuthActionTypes.TRY_LOGIN),
     switchMap(() => this.signIn()),
-    switchMap(result => of(result ? new LoginSuccess() : new LoginFailure())),
+    switchMap((result): Observable<AuthActionsType> =>
+      of(result ? new LoginSuccess() : new LoginFailure())
+    ),
     catchError(error => of(null))
   )
 
@@ -61,7 +65,7 @@ export class AuthEffects {
     switchMap((): Observable<RouterActionType> => of(new RouterActions.Go({path: ['/calendar']})))
   )
 
-  private signIn(): Observable<string | boolean> {
+  private signIn(): Observable<boolean> {
     return fromPromise(this.authService.signIn(GoogleLoginProvider.PROVIDER_ID))
       .pipe(
         map((user: SocialUser) => {

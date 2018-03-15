@@ -39,7 +39,7 @@ export class CheckTokenSuccess implements Action {
   readonly type = AuthActionTypes.CHECK_TOKEN_SUCCESS;
 }
 
-export type AuthActions =
+export type AuthActionsType =
   TryLogin |
   CheckToken |
   CheckTokenFailure |
