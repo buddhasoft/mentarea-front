@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms"
 import {Store} from "@ngrx/store"
 import {selectAllUsers} from "../../store/users/users.selectors"
@@ -33,13 +33,11 @@ export class AddEventFormComponent implements OnInit {
   }
 
 
-
-
-  name:string;
+  name: string;
   addEventForm: FormGroup;
   event: NewEvent;
 
-  onFormSubmit(){
+  onFormSubmit() {
     if (this.addEventForm.valid) {
       this.event.title = this.addEventForm.value.subject
       this.event.attendees = this.addEventForm.value.usersSelect
