@@ -1,48 +1,43 @@
 import {AuthService, SocialUser} from "angular4-social-login";
-import {FacebookLoginProvider, GoogleLoginProvider} from "angular4-social-login";
+import {GoogleLoginProvider} from "angular4-social-login";
 import {AuthActionTypes} from './auth.actions'
-import {ApplicationRef, Injectable, NgZone} from "@angular/core"
-import {Actions, Effect, EffectsModule} from "@ngrx/effects"
+import {Injectable} from "@angular/core"
+import {Actions, Effect, ofType} from "@ngrx/effects"
 import {Observable} from "rxjs/Observable"
-import {GoogleAuthService} from "ng-gapi"
 import {fromPromise} from "rxjs/observable/fromPromise"
-import GoogleUser = gapi.auth2.GoogleUser
 
 import {
   CheckTokenFailure,
   CheckTokenSuccess,
   LoginFailure,
   LoginSuccess,
-  TryLogin
 } from "./auth.actions"
 
 import {of} from "rxjs/observable/of"
-import 'rxjs/Rx';
 import * as RouterActions from "../router/router.actions"
 import {RouterActionType} from "../router/router.actions"
+import {catchError, map, switchMap} from "rxjs/operators"
 
 @Injectable()
 export class AuthEffects {
   private SESSION_STORAGE_KEY: string = 'accessToken';
-  private user: GoogleUser;
+  private user: SocialUser;
 
   constructor(public actions$: Actions,
-              private googleAuth: GoogleAuthService,
-              private zone: NgZone,
               private authService: AuthService) {
   }
 
   @Effect()
-  checkToken = this.actions$
-    .ofType(AuthActionTypes.CHECK_TOKEN)
-    .map(() => {
+  checkToken = this.actions$.pipe(
+    ofType(AuthActionTypes.CHECK_TOKEN),
+    map(() => {
       let token: string = sessionStorage.getItem(this.SESSION_STORAGE_KEY);
       if (!token) return false
       return sessionStorage.getItem(this.SESSION_STORAGE_KEY);
-    })
-    .switchMap(token => {
-      return of(!token ? new CheckTokenFailure() : new CheckTokenSuccess())
-    })
+    }),
+    switchMap(token => of(!token ? new CheckTokenFailure() : new CheckTokenSuccess()))
+  )
+
 
   @Effect({dispatch: false})
   checkTokenFailure = this.actions$
@@ -53,25 +48,29 @@ export class AuthEffects {
     .ofType(AuthActionTypes.CHECK_TOKEN_SUCCESS)
 
   @Effect()
-  tryLogin = this.actions$
-    .ofType(AuthActionTypes.TRY_LOGIN)
-    .switchMap(() => this.signIn())
-    .switchMap(result => of(result ? new LoginSuccess() : new LoginFailure()))
+  tryLogin = this.actions$.pipe(
+    ofType(AuthActionTypes.TRY_LOGIN),
+    switchMap(() => this.signIn()),
+    switchMap(result => of(result ? new LoginSuccess() : new LoginFailure())),
+    catchError(error => of(null))
+  )
 
   @Effect()
-  loginSuccess = this.actions$
-    .ofType(AuthActionTypes.LOGIN_SUCCESS)
-    .switchMap((): Observable<RouterActionType> => of(new RouterActions.Go({path: ['/calendar']})))
+  loginSuccess = this.actions$.pipe(
+    ofType(AuthActionTypes.LOGIN_SUCCESS),
+    switchMap((): Observable<RouterActionType> => of(new RouterActions.Go({path: ['/calendar']})))
+  )
 
-  private signIn(): Observable<boolean> {
+  private signIn(): Observable<string | boolean> {
     return fromPromise(this.authService.signIn(GoogleLoginProvider.PROVIDER_ID))
-      .map((user: SocialUser) => {
-        sessionStorage.setItem(this.SESSION_STORAGE_KEY, user.authToken);
-        return user && true
-      })
+      .pipe(
+        map((user: SocialUser) => {
+          this.user = user
+          sessionStorage.setItem(this.SESSION_STORAGE_KEY, user.authToken);
+          return user && true
+        })
+      )
   }
-
-
 }
 
 
