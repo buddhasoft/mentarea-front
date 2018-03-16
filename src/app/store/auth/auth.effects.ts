@@ -36,7 +36,7 @@ export class AuthEffects {
       return sessionStorage.getItem(this.SESSION_STORAGE_KEY);
     }),
     switchMap((token): Observable<AuthActionsType> =>
-      of(!token ? new CheckTokenFailure() : new CheckTokenSuccess())
+      of(!token ? new LoginFailure() : new LoginSuccess())
     )
   )
 
