@@ -11,6 +11,7 @@ import {eventsReducer, EventsState} from "./events/events.reducer"
 import {usersReducer, UsersState} from "./users/users.reducer"
 import {EffectsModule} from "@ngrx/effects"
 import {RouterStateSnapshot} from "@angular/router"
+import {layoutReducer, LayoutState} from './layout';
 
 
 const EFFECTS_MODULE = EffectsModule.forRoot([
@@ -24,14 +25,16 @@ const STORE_MODULE = StoreModule.forRoot({
   router: routerReducer,
   auth: authReducer,
   events: eventsReducer,
-  users: usersReducer
+  users: usersReducer,
+  layout: layoutReducer
 })
 
 export interface AppState {
   router: RouterStateSnapshot,
   auth: AuthState,
   events: EventsState,
-  users: UsersState
+  users: UsersState,
+  layout: LayoutState
 }
 
 

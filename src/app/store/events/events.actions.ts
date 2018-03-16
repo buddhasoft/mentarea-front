@@ -1,10 +1,8 @@
-import { Action } from '@ngrx/store'
+import {Action} from '@ngrx/store'
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
 import {NewEvent} from "../../shared/models/newEvent.model"
 
-export enum
-EventsActionTypes
-{
+export enum EventsActionTypes {
   ADD_ONE = '[EVENTS] ADD_ONE',
   UPDATE_ONE = '[EVENTS] UPDATE_ONE',
   DELETE_ONE = '[EVENTS] DELETE_ONE',
@@ -21,7 +19,8 @@ EventsActionTypes
 export class FetchEvents implements Action {
   readonly type = EventsActionTypes.FETCH_EVENTS;
 
-  constructor(public id: string = 'primary') {}
+  constructor(public id: string = 'primary') {
+  }
 }
 
 export class FetchEventsSuccess implements Action {
@@ -39,41 +38,45 @@ export class InitCalendarSuccess implements Action {
 export class AddOne implements Action {
   readonly type = EventsActionTypes.ADD_ONE;
 
-  constructor(public event: ICalendarEvent) {}
+  constructor(public event: ICalendarEvent) {
+  }
 }
 
 export class addMany implements Action {
   readonly type = EventsActionTypes.ADD_MANY;
 
-  constructor(public events: ICalendarEvent[]) {}
+  constructor(public events: ICalendarEvent[]) {
+  }
 }
 
 export class UpdateOne implements Action {
   readonly type = EventsActionTypes.UPDATE_ONE;
 
   constructor(public id: string,
-              public changes: Partial<ICalendarEvent>,
-  ) {}
+              public changes: Partial<ICalendarEvent>,) {
+  }
 }
 
 export class DeleteOne implements Action {
   readonly type = EventsActionTypes.DELETE_ONE;
 
-  constructor(public id: string) {}
+  constructor(public id: string) {
+  }
 }
 
 export class AddAll implements Action {
   readonly type = EventsActionTypes.ADD_ALL;
 
-  constructor(public events: ICalendarEvent[]) {}
+  constructor(public events: ICalendarEvent[]) {
+  }
 }
 
 export class CreateEvent implements Action {
   readonly type = EventsActionTypes.CREATE_EVENT;
 
-  constructor(public event: NewEvent) {}
+  constructor(public event: NewEvent) {
+  }
 }
-
 
 
 export type EventsActions =

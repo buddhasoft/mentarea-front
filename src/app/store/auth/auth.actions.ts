@@ -1,10 +1,7 @@
-import { Action } from '@ngrx/store'
+import {Action} from '@ngrx/store'
 
 
-
-export enum
-AuthActionTypes
-{
+export enum AuthActionTypes {
   CHECK_TOKEN = '[AUTH] CHECK_TOKEN',
   CHECK_TOKEN_SUCCESS = '[AUTH] CHECK_TOKEN_SUCCESS',
   CHECK_TOKEN_FAILURE = '[AUTH] CHECK_TOKEN_FAILURE',
@@ -12,7 +9,6 @@ AuthActionTypes
   LOGIN_SUCCESS = '[AUTH] LOGIN_SUCCESS',
   LOGIN_FAILURE = '[AUTH] LOGIN_FAILURE',
 }
-
 
 
 export class TryLogin implements Action {
