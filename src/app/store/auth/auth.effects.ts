@@ -17,6 +17,8 @@ import {of} from "rxjs/observable/of"
 import * as RouterActions from "../router/router.actions"
 import {RouterActionType} from "../router/router.actions"
 import {catchError, map, switchMap} from "rxjs/operators"
+import {from} from "rxjs/observable/from"
+import {LoadersActionsType, showLoader} from "../layout/layout.actions"
 
 @Injectable()
 export class AuthEffects {
@@ -62,7 +64,11 @@ export class AuthEffects {
   @Effect()
   loginSuccess = this.actions$.pipe(
     ofType(AuthActionTypes.LOGIN_SUCCESS),
-    switchMap((): Observable<RouterActionType> => of(new RouterActions.Go({path: ['/calendar']})))
+    switchMap((): Observable<RouterActionType | LoadersActionsType> => from([
+        new RouterActions.Go({path: ['/calendar']}),
+        new showLoader('globalLoader')
+      ])
+    )
   )
 
   private signIn(): Observable<boolean> {

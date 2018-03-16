@@ -28,12 +28,11 @@ export class EventsEffects {
               public calendarService: CalendarService) {
   }
 
-  @Effect()
+  @Effect({dispatch : false})
   initCalendar = this.actions$.pipe(
     ofType(EventsActionTypes.INIT_CALENDAR),
     switchMap(() => this.gapiService.onLoad()),
     map(() => gapi.load('client:auth2', this.calendarService.initClient.bind(this))),
-    switchMap(() => of(new showLoader('globalLoader')))
   )
 
   @Effect()

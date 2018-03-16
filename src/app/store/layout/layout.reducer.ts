@@ -1,12 +1,14 @@
 import {
   LoadersState,
   loadersReducer
-} from './loaders'
-  ;
+} from './loaders';
+
+import {combineReducers} from "@ngrx/store"
+
 export interface LayoutState {
   loaders: LoadersState,
 }
 
-export const layoutReducer = {
+export const layoutReducer = combineReducers({
   loaders: loadersReducer
-}
+})
