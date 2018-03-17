@@ -1,7 +1,7 @@
 import {AuthService, SocialUser} from "angular4-social-login";
 import {GoogleLoginProvider} from "angular4-social-login";
 import {AuthActionsType, AuthActionTypes} from './auth.actions'
-import {Injectable} from "@angular/core"
+import {Injectable, NgZone} from "@angular/core"
 import {Actions, Effect, ofType} from "@ngrx/effects"
 import {Observable} from "rxjs/Observable"
 import {fromPromise} from "rxjs/observable/fromPromise"
@@ -26,7 +26,8 @@ export class AuthEffects {
   private user: SocialUser;
 
   constructor(public actions$: Actions,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private zone: NgZone) {
   }
 
   @Effect()
@@ -72,7 +73,11 @@ export class AuthEffects {
   )
 
   private signIn(): Observable<boolean> {
-    return fromPromise(this.authService.signIn(GoogleLoginProvider.PROVIDER_ID))
+    return fromPromise(this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).catch(err => {
+      this.zone.run(() => {
+        console.error('My error handler ', err);
+      })
+    }))
       .pipe(
         map((user: SocialUser) => {
           this.user = user

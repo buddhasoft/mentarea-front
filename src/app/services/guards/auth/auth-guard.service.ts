@@ -15,14 +15,15 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.store.select(selectLoginState).pipe(
-      take(1),
       map(loginState => {
-        if (loginState) return  loginState
+        if (loginState) return loginState
         else {
-          this.store.dispatch(new Go({path: ['/calendar']}))
+          this.store.dispatch(new Go({path: ['/auth']}))
           return false
         }
-      })
-  )}
+      }),
+      take(1)
+    )
+  }
 
 }
