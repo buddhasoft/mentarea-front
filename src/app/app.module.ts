@@ -20,8 +20,8 @@ import {AddEventFormComponent} from './components/add-event-form/add-event-form.
 import {FormsModule, ReactiveFormsModule} from "@angular/forms"
 import {HttpClientModule} from '@angular/common/http';
 import {CustomSerializer} from "./store/router/router.serializer"
-import {AuthServiceConfig, SocialLoginModule} from "angular4-social-login";
-import {CLIENT_ID, provideConfig} from "./shared/constants/gapi.config"
+import {SocialLoginModule} from "angular4-social-login";
+import {CLIENT_ID} from "./shared/constants/gapi.config"
 import {APP_STORE_MODULE} from "./store/index"
 import {AuthGuard} from "./services/guards/auth/auth-guard.service"
 
@@ -72,7 +72,7 @@ const appRoutes: Routes = [
     }),
   ],
   providers: [
-    {provide: AuthServiceConfig, useFactory: provideConfig},
+    // {provide: AuthServiceConfig, useFactory: provideConfig},
     {provide: RouterStateSerializer, useClass: CustomSerializer},
     CalendarService,
     AuthGuard,

@@ -1,4 +1,4 @@
-import {AuthService, SocialUser} from "angular4-social-login";
+import {SocialUser} from "angular4-social-login";
 import {GoogleLoginProvider} from "angular4-social-login";
 import {AuthActionsType, AuthActionTypes} from './auth.actions'
 import {Injectable, NgZone} from "@angular/core"
@@ -19,14 +19,17 @@ import {RouterActionType} from "../router/router.actions"
 import {catchError, map, switchMap} from "rxjs/operators"
 import {from} from "rxjs/observable/from"
 import {LoadersActionsType, showLoader} from "../layout/layout.actions"
+import GoogleUser = gapi.auth2.GoogleUser
+
+import {GoogleAuthService} from "ng-gapi/lib/GoogleAuthService";
 
 @Injectable()
 export class AuthEffects {
   private SESSION_STORAGE_KEY: string = 'accessToken';
-  private user: SocialUser;
+  private user: GoogleUser;
 
   constructor(public actions$: Actions,
-              private authService: AuthService,
+              private googleAuthService: GoogleAuthService,
               private zone: NgZone) {
   }
 
@@ -73,18 +76,47 @@ export class AuthEffects {
   )
 
   private signIn(): Observable<boolean> {
-    return fromPromise(this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).catch(err => {
-      this.zone.run(() => {
-        console.error('My error handler ', err);
-      })
-    }))
-      .pipe(
-        map((user: SocialUser) => {
-          this.user = user
-          sessionStorage.setItem(this.SESSION_STORAGE_KEY, user.authToken);
-          return user && true
-        })
-      )
+    debugger
+    return this.googleAuthService.getAuth().switchMap((auth): Observable<boolean> => {
+      debugger
+      return fromPromise(auth.signIn().then(
+        (res): boolean => this.signInSuccessHandler(res),
+        (err): boolean => this.signInErrorHandler(err)
+      ))
+    })
+  }
+
+  // }
+  // private signIn(): Observable<boolean> {
+  //   return fromPromise(this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).catch(err => {
+  //     this.zone.run(() => {
+  //       console.error('My error handler ', err);
+  //     })
+  //   }))
+  //     .pipe(
+  //       map((user: SocialUser) => {
+  //         this.user = user
+  //         sessionStorage.setItem(this.SESSION_STORAGE_KEY, user.authToken);
+  //         return user && true
+  //       })
+  //     )
+  // }
+
+  private signInSuccessHandler(res: GoogleUser) {
+    this.zone.run(() => {
+      debugger
+      this.user = res;
+      sessionStorage.setItem(
+        this.SESSION_STORAGE_KEY, res.getAuthResponse().access_token
+      );
+    });
+    return true
+  }
+
+  private signInErrorHandler(err) {
+    debugger
+    console.warn(err);
+    return false
   }
 }
 

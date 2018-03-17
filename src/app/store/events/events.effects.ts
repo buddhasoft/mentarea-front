@@ -17,7 +17,6 @@ import {AppState} from "../index"
 import {SetActiveUser} from "../users/users.actions"
 import {COMMON_USER} from "../../shared/constants/users"
 import {map, switchMap} from "rxjs/operators"
-import {hideLoader, showLoader} from "../layout/loaders/loaders.actions"
 
 @Injectable()
 export class EventsEffects {
@@ -28,11 +27,21 @@ export class EventsEffects {
               public calendarService: CalendarService) {
   }
 
-  @Effect({dispatch : false})
+  @Effect({dispatch: false})
   initCalendar = this.actions$.pipe(
     ofType(EventsActionTypes.INIT_CALENDAR),
     switchMap(() => this.gapiService.onLoad()),
-    map(() => gapi.load('client:auth2', this.calendarService.initClient.bind(this))),
+    map(() => {
+      debugger
+      gapi.load('client', {
+        callback: this.calendarService.initClient.bind(this),
+        onerror: err => console.log('err ', err),
+      })
+
+    }),
+    // map(() => {
+    //   this.calendarService.initClient()
+    // })
   )
 
   @Effect()
