@@ -32,7 +32,6 @@ export class EventsEffects {
     ofType(EventsActionTypes.INIT_CALENDAR),
     switchMap(() => this.gapiService.onLoad()),
     map(() => {
-      debugger
       gapi.load('client', {
         callback: this.calendarService.initClient.bind(this),
         onerror: err => console.log('err ', err),

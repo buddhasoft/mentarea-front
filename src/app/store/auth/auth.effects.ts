@@ -76,9 +76,7 @@ export class AuthEffects {
   )
 
   private signIn(): Observable<boolean> {
-    debugger
     return this.googleAuthService.getAuth().switchMap((auth): Observable<boolean> => {
-      debugger
       return fromPromise(auth.signIn().then(
         (res): boolean => this.signInSuccessHandler(res),
         (err): boolean => this.signInErrorHandler(err)
@@ -104,7 +102,6 @@ export class AuthEffects {
 
   private signInSuccessHandler(res: GoogleUser) {
     this.zone.run(() => {
-      debugger
       this.user = res;
       sessionStorage.setItem(
         this.SESSION_STORAGE_KEY, res.getAuthResponse().access_token
@@ -114,7 +111,6 @@ export class AuthEffects {
   }
 
   private signInErrorHandler(err) {
-    debugger
     console.warn(err);
     return false
   }
