@@ -1,21 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SelectMultipleUserComponent } from './select-multiple-user.component';
 
-import { ToolbarComponent } from './toolbar.component';
-
-describe('ToolbarComponent', () => {
-  let component: ToolbarComponent;
-  let fixture: ComponentFixture<ToolbarComponent>;
+describe('SelectMultipleUserComponent', () => {
+  let component: SelectMultipleUserComponent;
+  let fixture: ComponentFixture<SelectMultipleUserComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ToolbarComponent ]
+      declarations: [ SelectMultipleUserComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ToolbarComponent);
+    fixture = TestBed.createComponent(SelectMultipleUserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

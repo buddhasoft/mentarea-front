@@ -1,0 +1,11 @@
+<div class="form-group">
+  <label for="users">Сalendar of:</label>
+  <select class="form-control"
+          id="users"
+          [(ngModel)]="selectedUser"
+          (change)="onChangeUser(selectedUser)">
+    <option *ngFor="let user of users; let index = index"  [ngValue]="user">
+      {{user.name}}
+    </option>
+  </select>
+</div>
