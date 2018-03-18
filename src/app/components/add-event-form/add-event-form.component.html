@@ -4,7 +4,7 @@
   <form class="form-inline" [formGroup]="addEventForm">
 
     <div class="form-group">
-      <label for="subject">Subject:</label>
+      <label for="subject" class="subject__label">Subject:</label>
       <input class="form-control"
              id="subject"
              placeholder="Enter event subject"
@@ -12,22 +12,31 @@
              formControlName="subject">
     </div>
 
-    <select multiple formControlName="usersSelect">
-      <option value="">Select Attendees</option>
+
+    <label for="attendees" class="attendees__label">Select Attendees:</label>
+    <select multiple formControlName="usersSelect"
+            id="attendees"
+            size="3"
+            class="attendees__list">
+      <!--<option value="">Select Attendees</option>-->
       <option *ngFor="let user of users$ | async" [value]="user.id">{{user.name}}</option>
     </select>
 
   </form>
 
-  <app-date-time-picker
-    [(ngModel)]="event.start"
-    placeholder="Not set">
-  </app-date-time-picker>
+  <div class="date-time__picker">
+    <app-date-time-picker
+      class="app-date-time-picker"
+      [(ngModel)]="event.start"
+      placeholder="Not set">
+    </app-date-time-picker>
 
-  <app-date-time-picker
-    [(ngModel)]="event.end"
-    placeholder="Not set">
-  </app-date-time-picker>
+    <app-date-time-picker
+      class="app-date-time-picker"
+      [(ngModel)]="event.end"
+      placeholder="Not set">
+    </app-date-time-picker>
+  </div>
 
-  <button type="submit" class="btn btn-default" (click)="onFormSubmit()">Submit</button>
+  <button type="submit" class="btn btn-default btn-primary" (click)="onFormSubmit()">Submit</button>
 </div>
