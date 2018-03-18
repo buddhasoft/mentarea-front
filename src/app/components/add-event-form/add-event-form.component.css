@@ -40,6 +40,7 @@ app-add-event-form {
 
 .attendees__list {
   margin-left: 10px;
+  width: 130px;
 }
 .date-time__picker {
   display: flex;
@@ -49,4 +50,8 @@ app-add-event-form {
 
 .btn {
   margin: 0 auto;
+}
+
+.app-date-time-picker {
+  width: 200px;
 }
