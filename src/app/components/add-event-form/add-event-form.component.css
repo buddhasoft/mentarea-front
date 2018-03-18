@@ -1,0 +1,52 @@
+app-add-event-form {
+  width:100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.form-inline {
+  display: flex;
+  align-items: flex-start;
+  max-width: 315px;
+  margin-bottom: 35px;
+}
+
+.form-group {
+  width: 147%;
+}
+.subject__label {
+  margin-left: 4px;
+}
+
+.form-control {
+  margin-bottom: 35px;
+  width: 100%;
+}
+
+.subject__label {
+  width: 100%;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.attendees__label {
+  margin-left: 4px;
+}
+
+.attendees__list {
+  margin-left: 10px;
+}
+.date-time__picker {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.btn {
+  margin: 0 auto;
+}
