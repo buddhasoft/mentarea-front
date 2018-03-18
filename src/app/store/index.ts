@@ -1,4 +1,4 @@
-import {StoreModule} from '@ngrx/store';
+import {ActionReducerMap, combineReducers, compose, StoreModule} from '@ngrx/store';
 import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../../environments/environment';
@@ -12,6 +12,7 @@ import {usersReducer, UsersState} from "./users/users.reducer"
 import {EffectsModule} from "@ngrx/effects"
 import {RouterStateSnapshot} from "@angular/router"
 import {layoutReducer, LayoutState} from './layout';
+import {InjectionToken} from "@angular/core"
 
 
 const EFFECTS_MODULE = EffectsModule.forRoot([
@@ -21,14 +22,6 @@ const EFFECTS_MODULE = EffectsModule.forRoot([
   AuthEffects
 ])
 
-const STORE_MODULE = StoreModule.forRoot({
-  router: routerReducer,
-  auth: authReducer,
-  events: eventsReducer,
-  users: usersReducer,
-  layout: layoutReducer
-})
-
 export interface AppState {
   router: RouterStateSnapshot,
   auth: AuthState,
@@ -37,19 +30,29 @@ export interface AppState {
   layout: LayoutState
 }
 
+export const reducerToken = new InjectionToken<ActionReducerMap<AppState>>('Reducers');
+
+export function getReducers() {
+  return {
+    router: routerReducer,
+    auth: authReducer,
+    events: eventsReducer,
+    users: usersReducer,
+    layout: layoutReducer
+  }
+}
+
+export const reducerProvider = [
+  {provide: reducerToken, useFactory: getReducers}
+];
+
 
 const DEV_TOOLS_MODULE = environment.production ? [] :
   [StoreDevtoolsModule.instrument()];
 
 export const APP_STORE_MODULE = [
   StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
-  STORE_MODULE,
+  StoreModule.forRoot(reducerToken),
   EFFECTS_MODULE,
   DEV_TOOLS_MODULE
 ];
-
-// export * from './seedbox-plans';
-// export * from './store';
-// export * from './selectors'
-// export * from './layout';
-// export * from './dashboard';

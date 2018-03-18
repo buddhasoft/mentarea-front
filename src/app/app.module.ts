@@ -22,7 +22,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {CustomSerializer} from "./store/router/router.serializer"
 import {SocialLoginModule} from "angular4-social-login";
 import {CLIENT_ID} from "./shared/constants/gapi.config"
-import {APP_STORE_MODULE} from "./store/index"
+import {APP_STORE_MODULE, reducerProvider} from "./store/index"
 import {AuthGuard} from "./services/guards/auth/auth-guard.service";
 import { UserRoomComponent } from './components/user-room/user-room.component'
 
@@ -75,7 +75,7 @@ const appRoutes: Routes = [
     }),
   ],
   providers: [
-    // {provide: AuthServiceConfig, useFactory: provideConfig},
+    reducerProvider,
     {provide: RouterStateSerializer, useClass: CustomSerializer},
     CalendarService,
     AuthGuard,
