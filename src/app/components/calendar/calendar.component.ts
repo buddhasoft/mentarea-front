@@ -114,7 +114,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     this.events$ = this.store.select(selectAllEvents)
     this.users$ = this.store.select(selectAllUsers)
-    // this.selectedUsers$ = this.store.select(selectActiveUser)
+    this.selectedUsers$ = this.store.select(selectActiveUser)
     // this.events$.concat(this.users$).delay(0).subscribe(val => this.cd.detectChanges());
   }
 
