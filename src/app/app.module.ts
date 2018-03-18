@@ -23,7 +23,8 @@ import {CustomSerializer} from "./store/router/router.serializer"
 import {SocialLoginModule} from "angular4-social-login";
 import {CLIENT_ID} from "./shared/constants/gapi.config"
 import {APP_STORE_MODULE} from "./store/index"
-import {AuthGuard} from "./services/guards/auth/auth-guard.service"
+import {AuthGuard} from "./services/guards/auth/auth-guard.service";
+import { UserRoomComponent } from './components/user-room/user-room.component'
 
 let gapiClientConfig: NgGapiClientConfig = {
   client_id: CLIENT_ID,
@@ -36,6 +37,7 @@ let gapiClientConfig: NgGapiClientConfig = {
 const appRoutes: Routes = [
   {path: 'calendar', canActivate: [AuthGuard], component: CalendarComponent,},
   {path: 'auth', component: LoginComponent,},
+  {path: 'user-room', component: UserRoomComponent},
   {
     path: '',
     redirectTo: 'auth',
@@ -51,7 +53,8 @@ const appRoutes: Routes = [
     DateTimePickerComponent,
     ToolbarComponent,
     LoginComponent,
-    AddEventFormComponent
+    AddEventFormComponent,
+    UserRoomComponent
   ],
   imports: [
     BrowserModule,

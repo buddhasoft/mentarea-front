@@ -62,7 +62,10 @@ export class AuthEffects {
     switchMap((result): Observable<AuthActionsType> =>
       of(result ? new LoginSuccess() : new LoginFailure())
     ),
-    catchError(error => of(null))
+    catchError(error => {
+      console.error('ERROR ', error);
+      return of(new LoginFailure())
+    })
   )
 
   @Effect()
