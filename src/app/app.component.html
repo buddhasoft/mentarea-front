@@ -1,16 +1,7 @@
+<app-global-loader *ngIf="globalLoaderState$ | async">
 
-<div class="global-loader" *ngIf="globalLoaderState$ | async">
-  <div class="cs-loader">
-    <div class="cs-loader-inner">
-      <label>	●</label>
-      <label>	●</label>
-      <label>	●</label>
-      <label>	●</label>
-      <label>	●</label>
-      <label>	●</label>
-    </div>
-  </div>
-</div>
-<div class="app-wrap">
+</app-global-loader>
+
+<div class="app-wrap" [class.loading]="globalLoaderState$ | async">
   <router-outlet></router-outlet>
 </div>

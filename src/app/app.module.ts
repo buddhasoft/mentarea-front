@@ -24,7 +24,8 @@ import {SocialLoginModule} from "angular4-social-login";
 import {CLIENT_ID} from "./shared/constants/gapi.config"
 import {APP_STORE_MODULE, reducerProvider} from "./store/index"
 import {AuthGuard} from "./services/guards/auth/auth-guard.service";
-import { UserRoomComponent } from './components/user-room/user-room.component'
+import { UserRoomComponent } from './components/user-room/user-room.component';
+import { GlobalLoaderComponent } from './shared/components/global-loader/global-loader.component'
 
 let gapiClientConfig: NgGapiClientConfig = {
   client_id: CLIENT_ID,
@@ -54,7 +55,8 @@ const appRoutes: Routes = [
     ToolbarComponent,
     LoginComponent,
     AddEventFormComponent,
-    UserRoomComponent
+    UserRoomComponent,
+    GlobalLoaderComponent
   ],
   imports: [
     BrowserModule,
