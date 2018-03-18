@@ -1,5 +1,17 @@
-<app-select-multiple-user
-  [users]="users"
-  [selectedUser]="selectedUser"
-  (changeUser)="onChangeUser"
-></app-select-multiple-user>
+<div class="toolbar-wrap">
+
+  <div class="toolbar-part sm left">
+    <app-select-multiple-user
+      [users]="users"
+      [selectedUser]="selectedUser"
+      (changeUser)="onChangeUser"
+    ></app-select-multiple-user>
+  </div>
+
+  <div class="toolbar-part sm right">
+    <button class="btn btn-primary"  (click)="onQuit()">
+      Quit
+    </button>
+  </div>
+
+</div>

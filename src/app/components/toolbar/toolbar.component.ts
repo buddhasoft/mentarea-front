@@ -11,6 +11,7 @@ export class ToolbarComponent implements OnInit {
   @Input() users: IUser[];
   @Input() selectedUser: IUser;
   @Output() changeUser: EventEmitter<IUser> = new EventEmitter()
+  @Output() quit: EventEmitter<void> = new EventEmitter()
 
   constructor() { }
 
@@ -19,6 +20,10 @@ export class ToolbarComponent implements OnInit {
 
   onChangeUser(user){
     this.changeUser.emit(user)
+  }
+
+  onQuit(){
+    this.quit.emit()
   }
 
 }

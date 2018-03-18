@@ -1,0 +1,32 @@
+.toolbar-wrap {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.toolbar-part {
+  align-items: flex-start;
+  height: 120px
+}
+
+
+.toolbar-part.left {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.toolbar-part.right {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+
+.toolbar-part.sm {
+  flex: 1;
+}
+
+.toolbar-part.lg {
+  flex: 3;
+}
