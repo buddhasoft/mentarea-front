@@ -78,6 +78,15 @@ export class AuthEffects {
     )
   )
 
+  @Effect()
+  logout = this.actions$.pipe(
+    ofType(AuthActionTypes.LOGIN_LOGOUT),
+    switchMap((): Observable<RouterActionType> => {
+      sessionStorage.clear()
+      return of(new RouterActions.Go({path: ['/auth']}))
+    })
+  )
+
   private signIn(): Observable<boolean> {
     return this.googleAuthService.getAuth().switchMap((auth): Observable<boolean> => {
       return fromPromise(auth.signIn().then(

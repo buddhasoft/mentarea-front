@@ -36,6 +36,7 @@ import {AddEventFormComponent} from "../add-event-form/add-event-form.component"
 import {Subscription} from "rxjs/Subscription"
 import "rxjs/add/operator/do"
 import {AppState} from "../../store/index"
+import {Logout} from "../../store/auth/auth.actions"
 
 
 @Component({
@@ -113,8 +114,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     this.events$ = this.store.select(selectAllEvents)
     this.users$ = this.store.select(selectAllUsers)
-    this.selectedUsers$ = this.store.select(selectActiveUser)
-    this.events$.concat(this.users$).delay(0).subscribe(val => this.cd.detectChanges());
+    // this.selectedUsers$ = this.store.select(selectActiveUser)
+    // this.events$.concat(this.users$).delay(0).subscribe(val => this.cd.detectChanges());
   }
 
   ngOnDestroy() {
@@ -171,5 +172,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
     //   }
     // });
     // this.refresh.next();
+  }
+
+  quit(){
+    this.store.dispatch(new Logout())
   }
 }

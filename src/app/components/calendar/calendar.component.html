@@ -20,6 +20,10 @@
   </div>
 </ng-template>
 
+<button (click)="quit()">
+  Quit
+</button>
+
 <app-toolbar
   [selectedUser]="selectedUsers$ | async"
   [users]="users$ | async"
