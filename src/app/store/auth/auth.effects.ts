@@ -33,7 +33,7 @@ export class AuthEffects {
     ofType(AuthActionTypes.CHECK_TOKEN),
     map(() => this.authService.checkToken()),
     //TODO here we should be sure about token validity
-    switchMap(() => of(new LoginSuccess()))
+    switchMap((token: string) => of( token ? new LoginSuccess() : new LoginFailure()))
   )
 
 
