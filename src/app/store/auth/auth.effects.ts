@@ -1,14 +1,10 @@
-import {SocialUser} from "angular4-social-login";
-import {GoogleLoginProvider} from "angular4-social-login";
 import {AuthActionsType, AuthActionTypes} from './auth.actions'
-import {Injectable, NgZone} from "@angular/core"
+import {Injectable} from "@angular/core"
 import {Actions, Effect, ofType} from "@ngrx/effects"
 import {Observable} from "rxjs/Observable"
 import {fromPromise} from "rxjs/observable/fromPromise"
 
 import {
-  CheckTokenFailure,
-  CheckTokenSuccess,
   LoginFailure,
   LoginSuccess,
 } from "./auth.actions"
@@ -24,15 +20,14 @@ import GoogleUser = gapi.auth2.GoogleUser
 import {GoogleAuthService} from "ng-gapi/lib/GoogleAuthService";
 import {AuthorizedUser} from "../../shared/models/authorizedUser"
 import {parseGoogleUserResponse} from "../../shared/utils/parseGoogleUserResponse"
+import {IAuthRecovery, IParsedGoogleUser} from "../../shared/interfaces/users.interfaces"
 
 @Injectable()
 export class AuthEffects {
   private SESSION_STORAGE_KEY: string = 'accessToken';
-  private user: GoogleUser;
 
   constructor(public actions$: Actions,
-              private googleAuthService: GoogleAuthService,
-              private zone: NgZone) {
+              private googleAuthService: GoogleAuthService) {
   }
 
   @Effect()
@@ -43,10 +38,17 @@ export class AuthEffects {
       if (!token) return false
       return sessionStorage.getItem(this.SESSION_STORAGE_KEY);
     }),
-    switchMap((token): Observable<AuthActionsType> =>
-      of(!token ? new LoginFailure() : new LoginSuccess())
+    map(token => token && this.getCurrentUser()),
+    switchMap((user: IParsedGoogleUser): Observable<AuthActionsType> =>
+      of(!user ? new LoginFailure() : new LoginSuccess(new AuthorizedUser(user)))
     )
   )
+
+  getCurrentUser() {
+    return parseGoogleUserResponse(
+      gapi.auth2.getAuthInstance().currentUser['Aia'].value
+    )
+  }
 
 
   @Effect({dispatch: false})
@@ -60,9 +62,13 @@ export class AuthEffects {
   @Effect()
   tryLogin = this.actions$.pipe(
     ofType(AuthActionTypes.TRY_LOGIN),
-    switchMap((): Observable<GoogleUser | boolean> => this.signIn()),
-    switchMap((user): Observable<AuthActionsType> => {
-      return of(user ? new LoginSuccess(new AuthorizedUser(parseGoogleUserResponse(user))) : new LoginFailure())
+    switchMap((): Observable<IParsedGoogleUser | boolean> => this.signIn()),
+    switchMap((parsedGoogleUser: IParsedGoogleUser): Observable<AuthActionsType> => {
+      return of(
+        parsedGoogleUser
+          ? new LoginSuccess(new AuthorizedUser(parsedGoogleUser))
+          : new LoginFailure()
+      )
     }),
     catchError(error => {
       console.error('ERROR ', error);
@@ -92,33 +98,18 @@ export class AuthEffects {
   private signIn(): Observable<boolean> {
     return this.googleAuthService.getAuth().switchMap((auth): Observable<boolean> => {
       return fromPromise(auth.signIn().then(
-        (res): GoogleUser => this.signInSuccessHandler(res),
+        (res): IParsedGoogleUser => this.signInSuccessHandler(res),
         (err): boolean => this.signInErrorHandler(err)
       ))
     })
   }
 
-  // }
-  // private signIn(): Observable<boolean> {
-  //   return fromPromise(this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).catch(err => {
-  //     this.zone.run(() => {
-  //       console.error('My error handler ', err);
-  //     })
-  //   }))
-  //     .pipe(
-  //       map((user: SocialUser) => {
-  //         this.user = user
-  //         sessionStorage.setItem(this.SESSION_STORAGE_KEY, user.authToken);
-  //         return user && true
-  //       })
-  //     )
-  // }
-
-  private signInSuccessHandler(user: GoogleUser) {
+  private signInSuccessHandler(user: GoogleUser): IParsedGoogleUser {
+    const parsedGoogleUser = parseGoogleUserResponse(user)
     sessionStorage.setItem(
-      this.SESSION_STORAGE_KEY, user.getAuthResponse().access_token
+      this.SESSION_STORAGE_KEY, user.getAuthResponse().access_token,
     );
-    return user
+    return parsedGoogleUser
   }
 
   private signInErrorHandler(err) {

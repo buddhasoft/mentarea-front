@@ -38,6 +38,7 @@ import "rxjs/add/operator/do"
 import {AppState} from "../../store/index"
 import {Logout} from "../../store/auth/auth.actions"
 import {selectAuthorizedUser} from "../../store/auth/auth.selectors"
+import {AuthorizedUser} from "../../shared/models/authorizedUser"
 
 
 @Component({
@@ -80,6 +81,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   events$: Observable<any>
   users$: Observable<IUser[]>
   selectedUsers$: Observable<IUser>
+  authorizedUser$: Observable<AuthorizedUser>
 
   // events: ICalendarEvent[] = [
   //   {
