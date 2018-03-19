@@ -15,7 +15,7 @@ import {
   addHours
 } from 'date-fns';
 import {Subject} from 'rxjs/Subject';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {COLORS} from './calendar.constants';
 
 import * as calendarActions from "../../store/events/events.actions"
@@ -158,7 +158,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   addEvent(): void {
-    const modalRef = this.modal.open(AddEventFormComponent,{ size: 'lg' });
+    const modalRef = this.modal.open(AddEventFormComponent, {size: 'lg'});
     modalRef.componentInstance.name = 'AddEventFormComponent';
     // this.events.push({
     //   title: 'New event',
@@ -174,7 +174,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     // this.refresh.next();
   }
 
-  quit(){
+  quit() {
     this.store.dispatch(new Logout())
   }
 }

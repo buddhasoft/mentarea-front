@@ -7,6 +7,7 @@ import {IUser} from "../../shared/interfaces/users.interfaces"
 import {NewEvent} from "../../shared/models/newEvent.model"
 import {CreateEvent} from "../../store/events/events.actions"
 import {AppState} from "../../store/index"
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap"
 
 @Component({
   selector: 'app-add-event-form',
@@ -17,7 +18,9 @@ export class AddEventFormComponent implements OnInit {
 
   users$: Observable<IUser[]>
 
-  constructor(private fb: FormBuilder, private store: Store<AppState>) {
+  constructor(private fb: FormBuilder,
+              private store: Store<AppState>,
+              private activeModal: NgbActiveModal) {
 
   }
 
@@ -42,6 +45,7 @@ export class AddEventFormComponent implements OnInit {
       this.event.title = this.addEventForm.value.subject
       this.event.attendees = this.addEventForm.value.usersSelect
       this.store.dispatch(new CreateEvent(this.event))
+      this.activeModal.close()
     }
   }
 

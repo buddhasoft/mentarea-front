@@ -29,7 +29,7 @@ export class CalendarService {
         'timeMin': (new Date()).toISOString(),
         'showDeleted': false,
         'singleEvents': true,
-        // 'maxResults': 10,
+        'maxResults': 30,
         'orderBy': 'startTime'
       }).then(response => response.result.items).catch(err => console.error('ERROR: ', err));
     })
