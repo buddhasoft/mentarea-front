@@ -5,6 +5,13 @@
   align-items: flex-start;
 }
 
+@media (min-width: 640px) {
+  .toolbar-wrap {
+    padding: 10px;
+  }
+
+}
+
 .toolbar-part {
   align-items: flex-start;
   height: 120px
