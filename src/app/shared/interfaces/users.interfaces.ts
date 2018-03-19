@@ -14,5 +14,11 @@ export interface IAuthRecovery {
   user: IParsedGoogleUser,
 }
 
+export interface IAttendee {
+  displayName: string,
+  email: string,
+  responseStatus: string
+}
+
 
 

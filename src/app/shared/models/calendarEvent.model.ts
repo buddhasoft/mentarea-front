@@ -1,4 +1,6 @@
 import {ICalendarEvent} from "../interfaces/calendar.interfaces"
+import {IAttendee} from "../interfaces/users.interfaces"
+
 
 const PRIMARY_COLOR = '#3ee0c666'
 const SECONDARY_COLOR = '#3ee0c666'
@@ -9,6 +11,7 @@ export class CalendarEvent implements ICalendarEvent {
   public end: Date
   public title: string
   public hangoutLink: string
+  public attendees: IAttendee[]
   public color: {
     primary: string,
     secondary: string
@@ -20,6 +23,7 @@ export class CalendarEvent implements ICalendarEvent {
   public draggable: boolean
 
   constructor(event) {
+    this.attendees = event.attendees
     this.id = event.id
     this.start = new Date(event.start.dateTime)
     this.end = new Date(event.end.dateTime)

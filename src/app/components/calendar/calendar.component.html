@@ -1,21 +1,25 @@
 <ng-template #modalContent let-close="close">
   <div class="modal-header">
-    <h5 class="modal-title">Event action occurred</h5>
+    <h5 class="modal-title">{{modalData?.event.title}}</h5>
     <button type="button" class="close" (click)="close()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <div>
-      Action:
-      <pre>{{ modalData?.action }}</pre>
+      <!--<pre>{{ modalData?.action }}</pre>-->
     </div>
-    <div>
-      Event:
-      <!--<pre>{{ modalData?.event | json }}</pre>-->
-      <p>start: {{modalData?.event.start | date:'shortTime'}}</p>
-      <p>end: {{modalData?.event.end | date:'shortTime'}}</p>
+    <div class="event-details-wrap">
+      <span class="event-details-title">Event details:</span>
+      <span>start: {{modalData?.event.start  | date:'yyyy-MM-dd HH:mm'}}</span>
+      <span>end: {{modalData?.event.end | date:'yyyy-MM-dd HH:mm'}}</span>
+      <span *ngFor="let attendee of modalData?.event.attendees; let index = index">
+        {{attendee.displayName}} : {{attendee.responseStatus}}
+      </span>
+      <span>
       <a href="{{modalData?.event.hangoutLink}}" target="_blank">Hangout link</a>
+      </span>
+
     </div>
   </div>
   <div class="modal-footer">

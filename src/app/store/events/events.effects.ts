@@ -1,28 +1,21 @@
-import {Injectable, NgZone} from "@angular/core"
+import {Injectable} from "@angular/core"
 import {Actions, Effect, ofType} from "@ngrx/effects"
 
 import {of} from "rxjs/observable/of"
 import 'rxjs/Rx';
 import {fromPromise} from "rxjs/observable/fromPromise"
-import {GoogleApiService} from "ng-gapi"
-import {Store} from "@ngrx/store"
-import {
-  AddAll, AddOne, CreateEvent, EventsActionTypes, FetchEvents, FetchEventsSuccess
-} from "./events.actions"
+import {AddAll, AddOne, CreateEvent, EventsActionTypes, FetchEvents, FetchEventsSuccess} from "./events.actions"
 import {Observable} from "rxjs/Observable"
 import {CalendarService} from "../../services/calendar/caledar.service"
 import {CalendarEvent} from "../../shared/models/calendarEvent.model"
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
-import {AppState} from "../index"
 import {SetActiveUser} from "../users/users.actions"
 import {COMMON_USER} from "../../shared/constants/users"
-import {map, switchMap} from "rxjs/operators"
+import {switchMap} from "rxjs/operators"
 
 @Injectable()
 export class EventsEffects {
-  constructor(private store: Store<AppState>,
-              public actions$: Actions,
-              private zone: NgZone,
+  constructor(public actions$: Actions,
               public calendarService: CalendarService) {
   }
 

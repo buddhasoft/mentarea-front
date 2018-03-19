@@ -1,0 +1,9 @@
+.event-details-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.event-details-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
