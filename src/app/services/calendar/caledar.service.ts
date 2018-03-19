@@ -5,6 +5,7 @@ import {GAPI_CONFIG} from "../../shared/constants/gapi.config"
 import {MAIN_CALENDAR_ID} from "../../shared/constants/users"
 import rfc3339 from "../../shared/utils/convertDate"
 import {AppState} from "../../store/index"
+import {randomId} from "../../shared/utils/randomId"
 
 
 @Injectable()
@@ -49,7 +50,18 @@ export class CalendarService {
       'attendees': event.attendees.map(attendee => ({email: attendee})),
       'singleEvents': true,
       'sendNotifications': true,
-      'summary': event.title
-    }).then(req => req.result).catch(err => console.error('ERROR: ', err))
+      'summary': event.title,
+      'conferenceData': {
+        createRequest: {
+          conferenceSolutionKey: {
+            type: 'eventHangout'
+          },
+          requestId: randomId()
+        }
+      },
+      'conferenceDataVersion': 1
+    }).then(req => {
+      return req.result
+    }).catch(err => console.error('ERROR: ', err))
   }
 }

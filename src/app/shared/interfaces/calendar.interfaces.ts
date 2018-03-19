@@ -3,6 +3,7 @@ export interface ICalendarEvent {
   start: Date,
   end: Date,
   title: string,
+  hangoutLink: string,
   color: {
     primary: string,
     secondary: string

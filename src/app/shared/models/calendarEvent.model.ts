@@ -8,6 +8,7 @@ export class CalendarEvent implements ICalendarEvent {
   public start: Date
   public end: Date
   public title: string
+  public hangoutLink: string
   public color: {
     primary: string,
     secondary: string
@@ -23,6 +24,7 @@ export class CalendarEvent implements ICalendarEvent {
     this.start = new Date(event.start.dateTime)
     this.end = new Date(event.end.dateTime)
     this.title = event.summary
+    this.hangoutLink = event.hangoutLink
 
     this.color = {
       primary: PRIMARY_COLOR,

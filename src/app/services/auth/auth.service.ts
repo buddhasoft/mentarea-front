@@ -14,15 +14,11 @@ export class AuthService {
 
   private SESSION_STORAGE_KEY: string = 'accessToken';
 
-
   public checkToken() {
-
     let token: string = sessionStorage.getItem(this.SESSION_STORAGE_KEY);
     if (!token) return false
     return sessionStorage.getItem(this.SESSION_STORAGE_KEY);
-
   }
-
 
   getCurrentUser(): IParsedGoogleUser {
     return gapi && parseGoogleUserResponse(
@@ -41,11 +37,10 @@ export class AuthService {
   }
 
   private signInSuccessHandler(user: GoogleUser): IParsedGoogleUser {
-    const parsedGoogleUser = parseGoogleUserResponse(user)
     sessionStorage.setItem(
       this.SESSION_STORAGE_KEY, user.getAuthResponse().access_token,
     );
-    return parsedGoogleUser
+    return parseGoogleUserResponse(user)
   }
 
   private signInErrorHandler(err) {
