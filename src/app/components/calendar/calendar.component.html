@@ -12,7 +12,10 @@
     </div>
     <div>
       Event:
-      <pre>{{ modalData?.event | json }}</pre>
+      <!--<pre>{{ modalData?.event | json }}</pre>-->
+      <p>start: {{modalData?.event.start | date:'shortTime'}}</p>
+      <p>end: {{modalData?.event.end | date:'shortTime'}}</p>
+      <a href="{{modalData?.event.hangoutLink}}" target="_blank">Hangout link</a>
     </div>
   </div>
   <div class="modal-footer">
@@ -26,6 +29,7 @@
   (changeUser)="changeUser($event)"
   (quit)="quit()"
 ></app-toolbar>
+
 <div class="row text-center">
   <div class="col-md-4">
     <div class="btn-group">

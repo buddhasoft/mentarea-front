@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   getCurrentUser(): IParsedGoogleUser {
-    return gapi && parseGoogleUserResponse(
+    if(gapi) return parseGoogleUserResponse(
       gapi.auth2.getAuthInstance().currentUser['Aia'].value
     )
   }
