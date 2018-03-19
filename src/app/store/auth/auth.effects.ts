@@ -22,6 +22,8 @@ import {LoadersActionsType, showLoader} from "../layout/layout.actions"
 import GoogleUser = gapi.auth2.GoogleUser
 
 import {GoogleAuthService} from "ng-gapi/lib/GoogleAuthService";
+import {AuthorizedUser} from "../../shared/models/authorizedUser"
+import {parseGoogleUserResponse} from "../../shared/utils/parseGoogleUserResponse"
 
 @Injectable()
 export class AuthEffects {
@@ -58,10 +60,10 @@ export class AuthEffects {
   @Effect()
   tryLogin = this.actions$.pipe(
     ofType(AuthActionTypes.TRY_LOGIN),
-    switchMap(() => this.signIn()),
-    switchMap((result): Observable<AuthActionsType> =>
-      of(result ? new LoginSuccess() : new LoginFailure())
-    ),
+    switchMap((): Observable<GoogleUser | boolean> => this.signIn()),
+    switchMap((user): Observable<AuthActionsType> => {
+      return of(user ? new LoginSuccess(new AuthorizedUser(parseGoogleUserResponse(user))) : new LoginFailure())
+    }),
     catchError(error => {
       console.error('ERROR ', error);
       return of(new LoginFailure())
@@ -90,7 +92,7 @@ export class AuthEffects {
   private signIn(): Observable<boolean> {
     return this.googleAuthService.getAuth().switchMap((auth): Observable<boolean> => {
       return fromPromise(auth.signIn().then(
-        (res): boolean => this.signInSuccessHandler(res),
+        (res): GoogleUser => this.signInSuccessHandler(res),
         (err): boolean => this.signInErrorHandler(err)
       ))
     })
@@ -112,14 +114,11 @@ export class AuthEffects {
   //     )
   // }
 
-  private signInSuccessHandler(res: GoogleUser) {
-    this.zone.run(() => {
-      this.user = res;
-      sessionStorage.setItem(
-        this.SESSION_STORAGE_KEY, res.getAuthResponse().access_token
-      );
-    });
-    return true
+  private signInSuccessHandler(user: GoogleUser) {
+    sessionStorage.setItem(
+      this.SESSION_STORAGE_KEY, user.getAuthResponse().access_token
+    );
+    return user
   }
 
   private signInErrorHandler(err) {

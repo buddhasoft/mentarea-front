@@ -18,6 +18,7 @@ export class TryLogin implements Action {
 
 export class LoginSuccess implements Action {
   readonly type = AuthActionTypes.LOGIN_SUCCESS;
+  constructor(public user?){}
 }
 
 export class LoginFailure implements Action {
