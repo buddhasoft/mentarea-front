@@ -1,4 +1,4 @@
-import {AuthActionsType, AuthActionTypes} from './auth.actions'
+import {AuthActionsType, AuthActionTypes, SetCurrentUserInfo} from './auth.actions'
 import {Injectable} from "@angular/core"
 import {Actions, Effect, ofType} from "@ngrx/effects"
 import {Observable} from "rxjs/Observable"
@@ -15,27 +15,54 @@ import {LoadersActionsType, showLoader} from "../layout/layout.actions"
 import {AuthorizedUser} from "../../shared/models/authorizedUser"
 import {IParsedGoogleUser} from "../../shared/interfaces/users.interfaces"
 import {AuthService} from "../../services/auth/auth.service"
+import {AppState} from "../index"
+import {Store} from "@ngrx/store"
+import {SetActiveUser} from "../users/users.actions"
+import {COMMON_USER} from "../../shared/constants/users"
 
 @Injectable()
 export class AuthEffects {
 
   constructor(public actions$: Actions,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private store: Store<AppState>) {
   }
 
   @Effect()
   checkToken = this.actions$.pipe(
     ofType(AuthActionTypes.CHECK_TOKEN),
     map(() => this.authService.checkToken()),
-    map(token => token && this.authService.getCurrentUser()),
-    switchMap((user: IParsedGoogleUser): Observable<AuthActionsType> =>
-      of(!user ? new LoginFailure() : new LoginSuccess(new AuthorizedUser(user)))
-    )
+    //TODO here we should be sure about token validity
+    switchMap(() => of(new LoginSuccess()))
   )
+
+
+  @Effect({dispatch: false})
+  initClient = this.actions$.pipe(
+    ofType(AuthActionTypes.INIT_CLIENT),
+    switchMap(() => this.authService.getGapi()),
+    map(() => {
+      gapi.load('client', {
+        callback: this.authService.initClient.bind(this),
+        onerror: err => console.log('err ', err),
+      })
+    }),
+  )
+
+
+  @Effect()
+  initClientSuccess = this.actions$.pipe(
+    ofType(AuthActionTypes.INIT_CLIENT_SUCCESS),
+    map((): IParsedGoogleUser => this.authService.getParsedGoogleUser()),
+    map((user: IParsedGoogleUser) => new AuthorizedUser(user)),
+    switchMap((user: AuthorizedUser) => from([new SetCurrentUserInfo(user), new SetActiveUser(COMMON_USER)]))
+  )
+
 
   @Effect({dispatch: false})
   checkTokenFailure = this.actions$
     .ofType(AuthActionTypes.CHECK_TOKEN_FAILURE)
+
 
   @Effect({dispatch: false})
   checkTokenSuccess = this.actions$
@@ -46,11 +73,7 @@ export class AuthEffects {
     ofType(AuthActionTypes.TRY_LOGIN),
     switchMap((): Observable<IParsedGoogleUser | boolean> => this.authService.signIn()),
     switchMap((parsedGoogleUser: IParsedGoogleUser): Observable<AuthActionsType> => {
-      return of(
-        parsedGoogleUser
-          ? new LoginSuccess(new AuthorizedUser(parsedGoogleUser))
-          : new LoginFailure()
-      )
+      return of(parsedGoogleUser ? new LoginSuccess() : new LoginFailure())
     }),
     catchError(error => {
       console.error('ERROR ', error);

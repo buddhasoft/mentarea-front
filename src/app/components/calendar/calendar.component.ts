@@ -18,7 +18,7 @@ import {Subject} from 'rxjs/Subject';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {COLORS} from './calendar.constants';
 
-import * as calendarActions from "../../store/events/events.actions"
+import * as authActions from "../../store/auth/auth.actions"
 import * as usersActions from "../../store/users/users.actions"
 import {selectAllEvents} from "../../store/events/events.selectors"
 import {selectActiveUser, selectAllUsers} from "../../store/users/users.selectors"
@@ -107,7 +107,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoggedInSub = this.store.select(state => state.auth.isLoggedIn).subscribe(isLoggedIn => {
-      isLoggedIn && this.store.dispatch(new calendarActions.InitCalendar())
+      isLoggedIn && this.store.dispatch(new authActions.InitClient())
       isLoggedIn && this.store.dispatch(new usersActions.AddAll(USERS))
     })
 

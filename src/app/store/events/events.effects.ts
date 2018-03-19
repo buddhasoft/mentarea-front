@@ -23,25 +23,8 @@ export class EventsEffects {
   constructor(private store: Store<AppState>,
               public actions$: Actions,
               private zone: NgZone,
-              public gapiService: GoogleApiService,
               public calendarService: CalendarService) {
   }
-
-  @Effect({dispatch: false})
-  initCalendar = this.actions$.pipe(
-    ofType(EventsActionTypes.INIT_CALENDAR),
-    switchMap(() => this.gapiService.onLoad()),
-    map(() => {
-      gapi.load('client', {
-        callback: this.calendarService.initClient.bind(this),
-        onerror: err => console.log('err ', err),
-      })
-
-    }),
-    // map(() => {
-    //   this.calendarService.initClient()
-    // })
-  )
 
   @Effect()
   fetchEvents = this.actions$
