@@ -24,9 +24,10 @@ import {SocialLoginModule} from "angular4-social-login";
 import {CLIENT_ID} from "./shared/constants/gapi.config"
 import {APP_STORE_MODULE, reducerProvider} from "./store/index"
 import {AuthGuard} from "./services/guards/auth/auth-guard.service";
-import { UserRoomComponent } from './components/user-room/user-room.component';
-import { GlobalLoaderComponent } from './shared/components/global-loader/global-loader.component';
-import { SelectMultipleUserComponent } from './components/toolbar/select-multiple-user/select-multiple-user.component'
+import {AuthService} from "./services/auth/auth.service";
+import {UserRoomComponent} from './components/user-room/user-room.component';
+import {GlobalLoaderComponent} from './shared/components/global-loader/global-loader.component';
+import {SelectMultipleUserComponent} from './components/toolbar/select-multiple-user/select-multiple-user.component'
 
 let gapiClientConfig: NgGapiClientConfig = {
   client_id: CLIENT_ID,
@@ -82,6 +83,7 @@ const appRoutes: Routes = [
     reducerProvider,
     {provide: RouterStateSerializer, useClass: CustomSerializer},
     CalendarService,
+    AuthService,
     AuthGuard,
     NgbModal,
   ],
