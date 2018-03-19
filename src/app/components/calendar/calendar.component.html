@@ -22,6 +22,7 @@
 <app-toolbar
   [selectedUser]="selectedUsers$ | async"
   [users]="users$ | async"
+  [authorizedUser]="authorizedUser$ | async"
   (changeUser)="changeUser($event)"
   (quit)="quit()"
 ></app-toolbar>

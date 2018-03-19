@@ -37,6 +37,7 @@ import {Subscription} from "rxjs/Subscription"
 import "rxjs/add/operator/do"
 import {AppState} from "../../store/index"
 import {Logout} from "../../store/auth/auth.actions"
+import {selectAuthorizedUser} from "../../store/auth/auth.selectors"
 
 
 @Component({
@@ -99,12 +100,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
   isLoggedInSub: Subscription;
 
   constructor(private modal: NgbModal,
-              private store: Store<AppState>,
-              private cd: ChangeDetectorRef) {
+              private store: Store<AppState>) {
   }
 
   ngOnInit() {
-    console.log('ngOnInit ',);
     this.isLoggedInSub = this.store.select(state => state.auth.isLoggedIn).subscribe(isLoggedIn => {
       isLoggedIn && this.store.dispatch(new calendarActions.InitCalendar())
       isLoggedIn && this.store.dispatch(new usersActions.AddAll(USERS))
@@ -114,8 +113,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     this.events$ = this.store.select(selectAllEvents)
     this.users$ = this.store.select(selectAllUsers)
+    this.authorizedUser$ = this.store.select(selectAuthorizedUser)
     this.selectedUsers$ = this.store.select(selectActiveUser)
-    // this.events$.concat(this.users$).delay(0).subscribe(val => this.cd.detectChanges());
   }
 
   ngOnDestroy() {

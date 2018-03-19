@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IUser} from "../../shared/interfaces/users.interfaces"
+import {AuthorizedUser} from "../../shared/models/authorizedUser"
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -10,6 +11,7 @@ import {IUser} from "../../shared/interfaces/users.interfaces"
 export class ToolbarComponent implements OnInit {
   @Input() users: IUser[];
   @Input() selectedUser: IUser;
+  @Input() authorizedUser: AuthorizedUser;
   @Output() changeUser: EventEmitter<IUser> = new EventEmitter()
   @Output() quit: EventEmitter<void> = new EventEmitter()
 

@@ -9,9 +9,12 @@
   </div>
 
   <div class="toolbar-part sm right">
-    <button class="btn btn-primary"  (click)="onQuit()">
-      Quit
-    </button>
+    <div class="auth-info-wrap">
+      <button class="btn btn-primary" (click)="onQuit()">
+        Quit
+      </button>
+      <span>{{authorizedUser?.email}}</span>
+    </div>
   </div>
 
 </div>

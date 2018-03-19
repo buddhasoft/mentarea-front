@@ -37,3 +37,12 @@
 .toolbar-part.lg {
   flex: 3;
 }
+
+.auth-info-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-info-wrap span{
+  font-size: 9pt;
+}
