@@ -5,7 +5,7 @@ export const USERS = [
   {name: 'Alex', id: 'alex.zolotarenko@gmail.com'},
   {name: 'Vitto', id: 'v.mozharovsky@gmail.com'},
   {name: 'Nikita', id: 'boyko.nikita@gmail.com'},
-  {name: 'Denis', id: 'xOnelinx@gmai  l.com'},
+  {name: 'Denis', id: 'xOnelinx@gmail.com'},
   {name: 'Boris', id: 'bsmar35@gmail.com'},
   {name: 'Oleg', id: 'olegpalchyk@gmail.com'},
   {name: 'Roman', id: 'r.sazhnev@gmail.com'},
