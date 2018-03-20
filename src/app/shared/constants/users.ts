@@ -10,6 +10,7 @@ export const USERS = [
   {name: 'Oleg', id: 'olegpalchyk@gmail.com'},
   {name: 'Roman', id: 'r.sazhnev@gmail.com'},
   {name: 'Igor', id: 'igorrizhyi@gmail.com'},
+  {name: 'Jack', id: 'jaklimoff@gmail.com'},
   {name: 'test', id: 'creativejusticehere@gmail.com'},
   COMMON_USER
 ]
