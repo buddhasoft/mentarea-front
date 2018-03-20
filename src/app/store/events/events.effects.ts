@@ -41,10 +41,12 @@ export class EventsEffects {
 
 
   @Effect()
-  createEvent = this.actions$
-    .ofType(EventsActionTypes.CREATE_EVENT)
-    .switchMap(({event}: CreateEvent) => fromPromise(this.calendarService.createEvent(event)))
-    .map(event => new CalendarEvent(event))
-    .switchMap(event => of(new AddOne(event)))
+  createEvent = this.actions$.pipe(
+    ofType(EventsActionTypes.CREATE_EVENT),
+    switchMap(({event}: CreateEvent) => fromPromise(this.calendarService.createEvent(event))),
+    backToZone(this.zone),
+    map(event => new CalendarEvent(event)),
+    switchMap(event => of(new AddOne(event)))
+  )
 }
 
