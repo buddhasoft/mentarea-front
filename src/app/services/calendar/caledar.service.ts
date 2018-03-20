@@ -1,16 +1,22 @@
 import {Injectable, NgZone} from '@angular/core';
-import {Store} from "@ngrx/store"
 import {MAIN_CALENDAR_ID} from "../../shared/constants/users"
 import rfc3339 from "../../shared/utils/convertDate"
-import {AppState} from "../../store/index"
 import {randomId} from "../../shared/utils/randomId"
+import {fromPromise} from "rxjs/observable/fromPromise"
+import {backToZone} from "../../shared/utils/customLetOperators"
+import {Observable} from "rxjs/Observable"
 
 
 @Injectable()
 export class CalendarService {
 
-  constructor(private store: Store<AppState>,
-              private zone: NgZone) {
+  constructor(private zone: NgZone) {
+  }
+
+  callGapiMethod<T>(name, param): Observable<T> {
+    return fromPromise<T>(this[name](param)).pipe<T>(
+      backToZone(this.zone)
+    )
   }
 
   fetchUpcomingEvents(calendarId: string = MAIN_CALENDAR_ID): Promise<any> {
@@ -24,7 +30,7 @@ export class CalendarService {
     }).then(response => response.result.items).catch(err => console.error('ERROR: ', err));
   }
 
-  createEvent(event, calendarId: string = MAIN_CALENDAR_ID) {
+    createEvent({event, calendarId = MAIN_CALENDAR_ID}: { event: any, calendarId: string }) {
     return gapi.client['calendar'].events.insert({
       'calendarId': calendarId,
       "start": {
