@@ -13,17 +13,15 @@ export class CalendarService {
               private zone: NgZone) {
   }
 
-  fetchUpcomingEvents(calendarId: string = MAIN_CALENDAR_ID) {
-    return this.zone.run(() => {
-      return gapi.client['calendar'].events.list({
-        'calendarId': calendarId,
-        'timeMin': (new Date()).toISOString(),
-        'showDeleted': false,
-        'singleEvents': true,
-        'maxResults': 30,
-        'orderBy': 'startTime'
-      }).then(response => response.result.items).catch(err => console.error('ERROR: ', err));
-    })
+  fetchUpcomingEvents(calendarId: string = MAIN_CALENDAR_ID): Promise<any> {
+    return gapi.client['calendar'].events.list({
+      'calendarId': calendarId,
+      'timeMin': (new Date()).toISOString(),
+      'showDeleted': false,
+      'singleEvents': true,
+      'maxResults': 30,
+      'orderBy': 'startTime'
+    }).then(response => response.result.items).catch(err => console.error('ERROR: ', err));
   }
 
   createEvent(event, calendarId: string = MAIN_CALENDAR_ID) {

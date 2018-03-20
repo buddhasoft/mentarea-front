@@ -1,5 +1,5 @@
 import {AuthActionsType, AuthActionTypes, SetCurrentUserInfo} from './auth.actions'
-import {Injectable} from "@angular/core"
+import {Injectable, NgZone} from "@angular/core"
 import {Actions, Effect, ofType} from "@ngrx/effects"
 import {Observable} from "rxjs/Observable"
 
@@ -19,13 +19,16 @@ import {AppState} from "../index"
 import {Store} from "@ngrx/store"
 import {SetActiveUser} from "../users/users.actions"
 import {COMMON_USER} from "../../shared/constants/users"
+import {backToZone} from "../../shared/utils/customLetOperators"
 
 @Injectable()
 export class AuthEffects {
 
   constructor(public actions$: Actions,
               private authService: AuthService,
-              private store: Store<AppState>) {
+              private store: Store<AppState>,
+              private zone: NgZone
+  ) {
   }
 
   @Effect()
@@ -72,6 +75,7 @@ export class AuthEffects {
   tryLogin = this.actions$.pipe(
     ofType(AuthActionTypes.TRY_LOGIN),
     switchMap((): Observable<IParsedGoogleUser | boolean> => this.authService.signIn()),
+    backToZone(this.zone),
     switchMap((parsedGoogleUser: IParsedGoogleUser): Observable<AuthActionsType> => {
       return of(parsedGoogleUser ? new LoginSuccess() : new LoginFailure())
     }),

@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, NgZone} from '@angular/core';
 import {Observable} from "rxjs/Observable"
 import {fromPromise} from "rxjs/observable/fromPromise"
 import {IParsedGoogleUser} from "../../shared/interfaces/users.interfaces"
@@ -11,11 +11,13 @@ import {AppState} from "../../store/index"
 import {Store} from "@ngrx/store"
 import {InitClientSuccess} from "../../store/auth/auth.actions"
 
+
 @Injectable()
 export class AuthService {
 
   constructor(private googleAuthService: GoogleAuthService,
               private gapiService: GoogleApiService,
+              private zone: NgZone,
               private store: Store<AppState>) {
   }
 
@@ -37,11 +39,13 @@ export class AuthService {
 
   initClient() {
     return gapi.client.init(GAPI_CONFIG).then(() => {
-      this.store.dispatch(new InitClientSuccess())
+      this.zone.run(() => {
+        this.store.dispatch(new InitClientSuccess())
+      })
     }).catch(err => console.error('ERROR: ', err));
   }
 
-  public signIn(): Observable<boolean> {
+  public signIn(): Observable<boolean | IParsedGoogleUser> {
     return this.googleAuthService.getAuth().switchMap((auth): Observable<boolean> => {
       return fromPromise(auth.signIn().then(
         (res): IParsedGoogleUser => this.signInSuccessHandler(res),
@@ -51,9 +55,7 @@ export class AuthService {
   }
 
   private signInSuccessHandler(user: GoogleUser): IParsedGoogleUser {
-    sessionStorage.setItem(
-      this.SESSION_STORAGE_KEY, user.getAuthResponse().access_token,
-    );
+    sessionStorage.setItem(this.SESSION_STORAGE_KEY, user.getAuthResponse().access_token);
     return parseGoogleUserResponse(user)
   }
 

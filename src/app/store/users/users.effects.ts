@@ -10,7 +10,7 @@ import {from} from "rxjs/observable/from"
 
 @Injectable()
 export class UsersEffects {
-  constructor(public actions$: Actions,) {
+  constructor(public actions$: Actions) {
   }
 
   @Effect()
