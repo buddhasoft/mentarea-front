@@ -31,7 +31,6 @@ import {
 import {Store} from "@ngrx/store"
 import {Observable} from "rxjs/Observable"
 import {USERS} from "../../shared/constants/users"
-import {IUser} from "../../shared/interfaces/users.interfaces"
 import {AddEventFormComponent} from "../add-event-form/add-event-form.component"
 import {Subscription} from "rxjs/Subscription"
 import "rxjs/add/operator/do"
@@ -39,6 +38,8 @@ import {AppState} from "../../store/index"
 import {Logout} from "../../store/auth/auth.actions"
 import {selectAuthorizedUser} from "../../store/auth/auth.selectors"
 import {AuthorizedUser} from "../../shared/models/authorizedUser"
+import {IUser} from "../../shared/interfaces/users.interfaces"
+import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
 
 
 @Component({
@@ -78,7 +79,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   refresh: Subject<any> = new Subject();
 
-  events$: Observable<any>
+  events$: Observable<ICalendarEvent[]>
   users$: Observable<IUser[]>
   selectedUsers$: Observable<IUser>
   authorizedUser$: Observable<AuthorizedUser>
@@ -110,8 +111,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
       isLoggedIn && this.store.dispatch(new authActions.InitClient())
       isLoggedIn && this.store.dispatch(new usersActions.AddAll(USERS))
     })
-
-    console.log('ngOnInit after',);
 
     this.events$ = this.store.select(selectAllEvents)
     this.users$ = this.store.select(selectAllUsers)
