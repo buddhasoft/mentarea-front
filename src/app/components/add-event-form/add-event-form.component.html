@@ -21,7 +21,18 @@
       <option *ngFor="let user of users$ | async" [value]="user.id">{{user.name}}</option>
     </select>
 
+    <div class="form-group xs-3">
+      <label for="duration" class="subject__label">Duration in minutes:</label>
+      <input class="form-control"
+             type="number"
+             id="duration"
+             placeholder="Duration in minutes"
+             name="duration"
+             formControlName="duration">
+    </div>
+
   </form>
+
 
   <div class="date-time__picker">
     <app-date-time-picker
@@ -30,13 +41,8 @@
       placeholder="Not set"
       (onDateTimeChanged)="onStartTimeChanged($event)">
     </app-date-time-picker>
-
-    <app-date-time-picker
-      class="app-date-time-picker"
-      [(ngModel)]="event.end"
-      placeholder="Not set">
-    </app-date-time-picker>
   </div>
 
+  <p>Event time: {{this.event.start  | date:'yyyy-MM-dd HH:mm'}} - {{this.event.end  | date:'yyyy-MM-dd HH:mm'}}</p>
   <button type="submit" class="btn btn-default btn-primary" (click)="onFormSubmit()">Submit</button>
 </div>

@@ -28,12 +28,23 @@ export class AddEventFormComponent implements OnInit {
   ngOnInit() {
     this.addEventForm = this.fb.group({
       usersSelect: [[''], Validators.required],
-      subject: ['', Validators.required]
+      subject: ['', Validators.required],
+      duration: ['', [
+        Validators.required,
+        Validators.min(0),
+      ]]
     });
 
     this.users$ = this.store.select(selectAllUsers)
 
     this.event = new NewEvent()
+    this.onChanges()
+  }
+
+  onChanges(): void {
+    this.addEventForm.get('duration').valueChanges.subscribe(val => {
+      this.onStartTimeChanged()
+    });
   }
 
 
@@ -50,8 +61,11 @@ export class AddEventFormComponent implements OnInit {
     }
   }
 
-  onStartTimeChanged(newStartTime: Date){
-    if (this.event.end < newStartTime) this.event.end = moment(newStartTime).add(2, 'hours');
+  onStartTimeChanged(newStartTime: Date = this.event.start) {
+    const duration = this.addEventForm.get('duration').value
+    this.event.end = moment(newStartTime).add(
+      duration, 'minutes'
+    ).toDate();
   }
 
 }
