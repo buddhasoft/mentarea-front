@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, forwardRef, Input } from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, Output} from '@angular/core';
 import {
   getSeconds,
   getMinutes,
@@ -13,8 +13,8 @@ import {
   setMonth,
   setYear
 } from 'date-fns';
-import { NgbDateStruct, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {NgbDateStruct, NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 export const DATE_TIME_PICKER_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -37,9 +37,9 @@ export const DATE_TIME_PICKER_CONTROL_VALUE_ACCESSOR: any = {
             (ngModelChange)="updateDate()"
             ngbDatepicker
             #datePicker="ngbDatepicker">
-            <div class="input-group-append" (click)="datePicker.toggle()" >
-              <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-            </div>
+          <div class="input-group-append" (click)="datePicker.toggle()">
+            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+          </div>
         </div>
       </div>
     </form>
@@ -50,16 +50,17 @@ export const DATE_TIME_PICKER_CONTROL_VALUE_ACCESSOR: any = {
     </ngb-timepicker>
   `,
   styles: [
+      `
+      .form-group {
+        width: 100%;
+      }
     `
-    .form-group {
-      width: 100%;
-    }
-  `
   ],
   providers: [DATE_TIME_PICKER_CONTROL_VALUE_ACCESSOR]
 })
 export class DateTimePickerComponent implements ControlValueAccessor {
   @Input() placeholder: string;
+  @Output() onDateTimeChanged: EventEmitter<Date> = new EventEmitter;
 
   date: Date;
 
@@ -92,7 +93,8 @@ export class DateTimePickerComponent implements ControlValueAccessor {
     this.onChangeCallback = fn;
   }
 
-  registerOnTouched(fn: any): void {}
+  registerOnTouched(fn: any): void {
+  }
 
   updateDate(): void {
     const newDate: Date = setYear(
@@ -104,6 +106,7 @@ export class DateTimePickerComponent implements ControlValueAccessor {
     );
     this.writeValue(newDate);
     this.onChangeCallback(newDate);
+    this.onDateTimeChanged.emit(newDate)
   }
 
   updateTime(): void {
@@ -116,5 +119,6 @@ export class DateTimePickerComponent implements ControlValueAccessor {
     );
     this.writeValue(newDate);
     this.onChangeCallback(newDate);
+    this.onDateTimeChanged.emit(newDate)
   }
 }

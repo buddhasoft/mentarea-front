@@ -8,6 +8,7 @@ import {NewEvent} from "../../shared/models/newEvent.model"
 import {CreateEvent} from "../../store/events/events.actions"
 import {AppState} from "../../store/index"
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap"
+import moment = require("moment")
 
 @Component({
   selector: 'app-add-event-form',
@@ -47,6 +48,10 @@ export class AddEventFormComponent implements OnInit {
       this.store.dispatch(new CreateEvent(this.event))
       this.activeModal.close()
     }
+  }
+
+  onStartTimeChanged(newStartTime: Date){
+    if (this.event.end < newStartTime) this.event.end = moment(newStartTime).add(2, 'hours');
   }
 
 }
