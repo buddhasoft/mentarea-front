@@ -18,6 +18,8 @@ import moment = require("moment")
 export class AddEventFormComponent implements OnInit {
 
   users$: Observable<IUser[]>
+  public submitted: boolean = false;
+
 
   constructor(private fb: FormBuilder,
               private store: Store<AppState>,
@@ -29,7 +31,7 @@ export class AddEventFormComponent implements OnInit {
     this.addEventForm = this.fb.group({
       usersSelect: [[''], Validators.required],
       subject: ['', Validators.required],
-      duration: ['', [
+      duration: [30, [
         Validators.required,
         Validators.min(0),
       ]]
@@ -53,6 +55,7 @@ export class AddEventFormComponent implements OnInit {
   event: NewEvent;
 
   onFormSubmit() {
+    this.submitted = true
     if (this.addEventForm.valid) {
       this.event.title = this.addEventForm.value.subject
       this.event.attendees = this.addEventForm.value.usersSelect

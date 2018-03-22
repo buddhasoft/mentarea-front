@@ -44,7 +44,8 @@ app-add-event-form {
 }
 .date-time__picker {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+  align-items: center;
   margin-bottom: 10px;
 }
 
@@ -54,4 +55,10 @@ app-add-event-form {
 
 .app-date-time-picker {
   width: 200px;
+}
+
+input.error {
+  border: 1px solid red;
+  color: red;
+  box-shadow: 0 0 5px red;
 }
