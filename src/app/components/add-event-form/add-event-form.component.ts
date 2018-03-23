@@ -67,7 +67,7 @@ export class AddEventFormComponent implements OnInit {
   }
 
   onStartTimeChanged(newStartTime: Date = this.event.start) {
-    const duration = this.addEventForm.get('duration').value
+    const duration = this.addEventForm.get('timeDate.duration').value
     this.event.end = moment(newStartTime).add(
       duration, 'minutes'
     ).toDate();
