@@ -19,4 +19,8 @@ html::-webkit-scrollbar {
   display: none;
 }
 
+ngb-modal-window::-webkit-scrollbar {
+  display: none;
+}
+
 

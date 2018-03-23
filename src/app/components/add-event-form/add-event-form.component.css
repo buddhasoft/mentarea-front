@@ -81,12 +81,24 @@ input.error {
   justify-content: space-between;
 }
 
+@media (max-width: 360px) {
+
+  .time-details-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+}
+
 .form-half-input {
-  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  margin: 10px 0 0 0
 }
 
 .form-input {
@@ -95,4 +107,5 @@ input.error {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  margin: 10px 0 0 0
 }

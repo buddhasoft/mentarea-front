@@ -2,7 +2,7 @@
 
   <form class="form" [formGroup]="addEventForm">
 
-    <div class="form-input" style="margin: 10px 0 0 0">
+    <div class="form-input">
       <label for="subject" class="subject__label">Subject:</label>
       <input class="form-control"
              [class.error]="!addEventForm.get('subject').valid && submitted && !addEventForm.get('duration').touched"
@@ -13,7 +13,7 @@
              formControlName="subject">
     </div>
 
-    <div class="form-input" style="margin: 10px 0 0 0">
+    <div class="form-input">
       <label for="attendees" class="attendees__label">Select Attendees:</label>
       <select multiple
               style="margin-bottom: 0px;"
@@ -27,7 +27,7 @@
     </div>
     <div formGroupName="timeDate" class="time-details-wrap">
 
-      <div class="form-half-input" style="margin: 10px 0 0 0">
+      <div class="form-half-input">
         <label class="attendees__label">Start:</label>
         <app-date-time-picker
           class="app-date-time-picker"
@@ -38,7 +38,7 @@
         </app-date-time-picker>
       </div>
 
-      <div class="form-half-input" style="margin: 10px 0 0 0">
+      <div class="form-half-input">
         <label for="duration" class="attendees__label">Duration time:</label>
         <input class="form-control"
                style="margin-bottom: 0px;"
