@@ -1,5 +1,5 @@
 app-add-event-form {
-  width:100%;
+  width: 100%;
 }
 
 .container {
@@ -19,6 +19,7 @@ app-add-event-form {
 .form-group {
   width: 147%;
 }
+
 .subject__label {
   margin-left: 4px;
 }
@@ -42,6 +43,7 @@ app-add-event-form {
   margin-left: 10px;
   width: 130px;
 }
+
 .date-time__picker {
   display: flex;
   justify-content: flex-start;
@@ -61,4 +63,36 @@ input.error {
   border: 1px solid red;
   color: red;
   box-shadow: 0 0 5px red;
+}
+
+.event-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.time-details-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.form-half-input {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.form-input {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 }

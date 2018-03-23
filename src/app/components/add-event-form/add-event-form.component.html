@@ -1,8 +1,8 @@
 <div class="container">
 
-  <form class="form-inline" [formGroup]="addEventForm">
+  <form class="form" [formGroup]="addEventForm">
 
-    <div class="form-group" style="margin: 10px 0 0 0">
+    <div class="form-input" style="margin: 10px 0 0 0">
       <label for="subject" class="subject__label">Subject:</label>
       <input class="form-control"
              [class.error]="!addEventForm.get('subject').valid && submitted && !addEventForm.get('duration').touched"
@@ -13,7 +13,7 @@
              formControlName="subject">
     </div>
 
-    <div class="form-group" style="margin: 10px 0 0 0">
+    <div class="form-input" style="margin: 10px 0 0 0">
       <label for="attendees" class="attendees__label">Select Attendees:</label>
       <select multiple
               style="margin-bottom: 0px;"
@@ -25,31 +25,36 @@
         <option *ngFor="let user of users$ | async" [value]="user.id">{{user.name}}</option>
       </select>
     </div>
+    <div formGroupName="timeDate" class="time-details-wrap">
 
-    <div class="form-group" style="margin: 10px 0 0 0">
-      <label for="duration" class="attendees__label">Duration time:</label>
-      <input class="form-control"
-             style="margin-bottom: 0px;"
-             [class.error]="!addEventForm.get('duration').valid && submitted && !addEventForm.get('duration').touched"
-             type="number"
-             id="duration"
-             placeholder="Duration in minutes"
-             name="duration"
-             formControlName="duration">
+      <div class="form-half-input" style="margin: 10px 0 0 0">
+        <label class="attendees__label">Start:</label>
+        <app-date-time-picker
+          class="app-date-time-picker"
+          [(ngModel)]="event.start"
+          [ngModelOptions]="{standalone: true}"
+          placeholder="Not set"
+          (onDateTimeChanged)="onStartTimeChanged($event)">
+        </app-date-time-picker>
+      </div>
+
+      <div class="form-half-input" style="margin: 10px 0 0 0">
+        <label for="duration" class="attendees__label">Duration time:</label>
+        <input class="form-control"
+               style="margin-bottom: 0px;"
+               [class.error]="!addEventForm.get('timeDate.duration').valid && submitted && !addEventForm.get('duration').touched"
+               type="number"
+               id="duration"
+               placeholder="Duration in minutes"
+               name="duration"
+               formControlName="duration">
+      </div>
+
     </div>
 
   </form>
 
-
-  <div class="date-time__picker">
-    <app-date-time-picker
-      class="app-date-time-picker"
-      [(ngModel)]="event.start"
-      placeholder="Not set"
-      (onDateTimeChanged)="onStartTimeChanged($event)">
-    </app-date-time-picker>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: flex-start; justify-content: center">
+  <div class="event-details">
     <span> <b>Start time:</b> {{this.event.start | date:'yyyy-MM-dd HH:mm'}}</span>
     <span><b>End time:</b> {{this.event.end | date:'yyyy-MM-dd HH:mm'}}</span>
   </div>

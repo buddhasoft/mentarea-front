@@ -31,10 +31,12 @@ export class AddEventFormComponent implements OnInit {
     this.addEventForm = this.fb.group({
       usersSelect: [[''], Validators.required],
       subject: ['', Validators.required],
-      duration: [30, [
-        Validators.required,
-        Validators.min(0),
-      ]]
+      timeDate: this.fb.group({
+        duration: [30, [
+          Validators.required,
+          Validators.min(0),
+        ]]
+      })
     });
 
     this.users$ = this.store.select(selectAllUsers)
@@ -44,7 +46,7 @@ export class AddEventFormComponent implements OnInit {
   }
 
   onChanges(): void {
-    this.addEventForm.get('duration').valueChanges.subscribe(val => {
+    this.addEventForm.get('timeDate.duration').valueChanges.subscribe(val => {
       this.onStartTimeChanged()
     });
   }
