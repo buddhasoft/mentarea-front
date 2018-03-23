@@ -5,7 +5,7 @@
     <div class="form-input">
       <label for="subject" class="subject__label">Subject:</label>
       <input class="form-control"
-             [class.error]="!addEventForm.get('subject').valid && submitted && !addEventForm.get('subject').touched"
+             [class.error]="isFieldValid('subject')"
              style="margin-bottom: 0px;"
              id="subject"
              placeholder="Enter event subject"
@@ -42,7 +42,7 @@
         <label for="duration" class="attendees__label">Duration time:</label>
         <input class="form-control"
                style="margin-bottom: 0px;"
-               [class.error]="!addEventForm.get('timeDate.duration').valid && submitted && !addEventForm.get('duration').touched"
+               [class.error]="isFieldValid('timeDate.duration')"
                type="number"
                id="duration"
                placeholder="Duration in minutes"

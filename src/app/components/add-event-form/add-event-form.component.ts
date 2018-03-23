@@ -8,7 +8,7 @@ import {NewEvent} from "../../shared/models/newEvent.model"
 import {CreateEvent} from "../../store/events/events.actions"
 import {AppState} from "../../store/index"
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap"
-import moment = require("moment")
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-add-event-form',
@@ -71,6 +71,16 @@ export class AddEventFormComponent implements OnInit {
     this.event.end = moment(newStartTime).add(
       duration, 'minutes'
     ).toDate();
+  }
+
+
+  isFieldValid(field: string) {
+    return (
+      !this.addEventForm.get(field).valid &&
+      this.addEventForm.get(field).touched) ||
+      (this.addEventForm.get(field).untouched &&
+        this.submitted &&
+        this.addEventForm.get(field).value === "");
   }
 
 }
