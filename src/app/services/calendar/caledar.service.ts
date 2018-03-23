@@ -60,4 +60,33 @@ export class CalendarService {
       'conferenceDataVersion': 1
     })
   }
+
+  updateEvent({event, calendarId = MAIN_CALENDAR_ID}: { event: any, calendarId: string }) {
+    debugger
+    return gapi.client['calendar'].events.update({
+      "calendarId": calendarId,
+      "eventId": event.id,
+      "start": {
+        "dateTime": rfc3339(event.start),
+        "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone
+      },
+      "end": {
+        "dateTime": rfc3339(event.end),
+        "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone
+      },
+      'attendees': event.attendees.map(attendee => ({email: attendee})),
+      'singleEvents': true,
+      'sendNotifications': true,
+      'summary': event.title,
+      'conferenceData': {
+        createRequest: {
+          conferenceSolutionKey: {
+            type: 'eventHangout'
+          },
+          requestId: randomId()
+        }
+      },
+      'conferenceDataVersion': 1
+    })
+  }
 }

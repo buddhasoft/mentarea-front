@@ -3,7 +3,10 @@ import {Actions, Effect, ofType} from "@ngrx/effects"
 
 import {of} from "rxjs/observable/of"
 import 'rxjs/Rx';
-import {AddAll, AddOne, CreateEvent, EventsActionTypes, FetchEvents, FetchEventsSuccess} from "./events.actions"
+import {
+  AddAll, AddOne, CreateEvent, EventsActionTypes, FetchEvents, FetchEventsSuccess,
+  UpdateOne
+} from "./events.actions"
 import {Observable} from "rxjs/Observable"
 import {CalendarService} from "../../services/calendar/caledar.service"
 import {CalendarEvent} from "../../shared/models/calendarEvent.model"
@@ -43,5 +46,15 @@ export class EventsEffects {
     ),
     map(event => new CalendarEvent(event)),
     switchMap(event => of(new AddOne(event)))
+  )
+
+  @Effect()
+  updateEvent = this.actions$.pipe(
+    ofType(EventsActionTypes.UPDATE_EVENT),
+    switchMap(({event}: CreateEvent): Observable<any[]> =>
+      this.calendarService.callGapiMethod('updateEvent', {event})
+    ),
+    map(event => new CalendarEvent(event)),
+    switchMap(event => of(new UpdateOne(event.id, event)))
   )
 }

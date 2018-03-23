@@ -1,9 +1,12 @@
-import {IUser} from "../interfaces/users.interfaces"
+import {IAttendee, IUser} from "../interfaces/users.interfaces"
+import {ICalendarEvent} from "../interfaces/calendar.interfaces"
 
 const PRIMARY_COLOR = '#3ee0c666'
 const SECONDARY_COLOR = '#3ee0c666'
 
 const defaultEvent = {
+  "id": null,
+  "hangoutLink": null,
   "start": {
     "dateTime": new Date(),
     "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -16,11 +19,13 @@ const defaultEvent = {
   "attendees": []
 }
 
-export class NewEvent {
+export class CalendarEvent implements ICalendarEvent {
   public start: Date
   public end: Date
-  public attendees: IUser[]
+  public attendees: IAttendee[]
+  public hangoutLink: string
   public title: string
+  public id: string
   public color: {
     primary: string,
     secondary: string
@@ -35,6 +40,9 @@ export class NewEvent {
     this.start = new Date(event.start.dateTime)
     this.end = new Date(event.end.dateTime)
     this.title = event.title
+    this.id = event.id
+    this.attendees = event.attendees
+    this.hangoutLink = event.hangoutLink
 
     this.color = {
       primary: PRIMARY_COLOR,

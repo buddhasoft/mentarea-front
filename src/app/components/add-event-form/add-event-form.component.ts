@@ -4,8 +4,8 @@ import {Store} from "@ngrx/store"
 import {selectAllUsers} from "../../store/users/users.selectors"
 import {Observable} from "rxjs/Observable"
 import {IUser} from "../../shared/interfaces/users.interfaces"
-import {NewEvent} from "../../shared/models/newEvent.model"
-import {CreateEvent, SelectEventToEdit} from "../../store/events/events.actions"
+import {CalendarEvent} from "../../shared/models/newEvent.model"
+import {CreateEvent, SelectEventToEdit, UpdateEvent} from "../../store/events/events.actions"
 import {AppState} from "../../store/index"
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap"
 import * as moment from 'moment';
@@ -24,7 +24,8 @@ export class AddEventFormComponent implements OnInit {
   public submitted: boolean = false;
   name: string;
   addEventForm: FormGroup;
-  event: NewEvent;
+  event: CalendarEvent;
+  editMode: boolean = false;
 
   constructor(private fb: FormBuilder,
               private store: Store<AppState>,
@@ -34,10 +35,11 @@ export class AddEventFormComponent implements OnInit {
 
   ngOnInit() {
     this.users$ = this.store.select(selectAllUsers)
-    this.event = new NewEvent()
 
     this.store.select(getSelectedEvent).subscribe(event => {
-      this.initForm(event)
+      this.editMode = !!event
+      this.event = event || new CalendarEvent()
+      this.initForm(this.event)
     })
 
     this.onChanges()
@@ -70,7 +72,11 @@ export class AddEventFormComponent implements OnInit {
     if (this.addEventForm.valid) {
       this.event.title = this.addEventForm.value.subject
       this.event.attendees = this.addEventForm.value.usersSelect
-      this.store.dispatch(new CreateEvent(this.event))
+      this.store.dispatch(
+        this.editMode
+          ? new UpdateEvent(this.event)
+          : new CreateEvent(this.event)
+      )
       this.activeModal.close()
     }
   }

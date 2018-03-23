@@ -1,6 +1,6 @@
 import {Action} from '@ngrx/store'
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
-import {NewEvent} from "../../shared/models/newEvent.model"
+import {CalendarEvent} from "../../shared/models/newEvent.model"
 
 export enum EventsActionTypes {
   ADD_ONE = '[EVENTS] ADD_ONE',
@@ -13,6 +13,7 @@ export enum EventsActionTypes {
   INIT_CALENDAR = '[EVENTS] INIT_CALENDAR',
   INIT_CALENDAR_SUCCESS = '[EVENTS] INIT_CALENDAR_SUCCESS',
   CREATE_EVENT = '[EVENTS] СREATE_EVENT',
+  UPDATE_EVENT = '[EVENTS] UPDATE_EVENT',
   SELECT_EVENT_TO_EDIT = '[EVENTS] SELECT_EVENT_TO_EDIT'
 }
 
@@ -76,7 +77,14 @@ export class AddAll implements Action {
 export class CreateEvent implements Action {
   readonly type = EventsActionTypes.CREATE_EVENT;
 
-  constructor(public event: NewEvent) {
+  constructor(public event: CalendarEvent) {
+  }
+}
+
+export class UpdateEvent implements Action {
+  readonly type = EventsActionTypes.UPDATE_EVENT;
+
+  constructor(public event: CalendarEvent) {
   }
 }
 
@@ -99,4 +107,5 @@ export type EventsActionsType =
   InitCalendarSuccess |
   FetchEventsSuccess |
   CreateEvent |
-  SelectEventToEdit
+  SelectEventToEdit |
+  UpdateEvent
