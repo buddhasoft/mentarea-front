@@ -29,8 +29,8 @@ export class AddEventFormComponent implements OnInit {
 
   ngOnInit() {
     this.addEventForm = this.fb.group({
-      usersSelect: [[''], Validators.required],
-      subject: ['', Validators.required],
+      usersSelect: [null, Validators.required],
+      subject: [null, Validators.required],
       timeDate: this.fb.group({
         duration: [30, [
           Validators.required,
@@ -75,12 +75,8 @@ export class AddEventFormComponent implements OnInit {
 
 
   isFieldValid(field: string) {
-    return (
-      !this.addEventForm.get(field).valid &&
-      this.addEventForm.get(field).touched) ||
-      (this.addEventForm.get(field).untouched &&
-        this.submitted &&
-        this.addEventForm.get(field).value === "");
+    return (!this.addEventForm.get(field).valid && this.addEventForm.get(field).touched) ||
+      (this.addEventForm.get(field).untouched && this.submitted && this.addEventForm.get(field).value === null);
   }
 
 }

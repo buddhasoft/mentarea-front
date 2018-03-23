@@ -59,7 +59,7 @@ app-add-event-form {
   width: 200px;
 }
 
-input.error {
+select.error ,input.error {
   border: 1px solid red;
   color: red;
   box-shadow: 0 0 5px red;
