@@ -40,6 +40,7 @@ import {selectAuthorizedUser} from "../../store/auth/auth.selectors"
 import {AuthorizedUser} from "../../shared/models/authorizedUser"
 import {IUser} from "../../shared/interfaces/users.interfaces"
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
+import {SelectEventToEdit} from "../../store/events/events.actions"
 
 
 @Component({
@@ -160,18 +161,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
   addEvent(): void {
     const modalRef = this.modal.open(AddEventFormComponent, {size: 'lg'});
     modalRef.componentInstance.name = 'AddEventFormComponent';
-    // this.events.push({
-    //   title: 'New event',
-    //   start: startOfDay(new Date()),
-    //   end: endOfDay(new Date()),
-    //   color: COLORS.red,
-    //   draggable: true,
-    //   resizable: {
-    //     beforeStart: true,
-    //     afterEnd: true
-    //   }
-    // });
-    // this.refresh.next();
+  }
+
+  editEvent($event, eventId: string): void {
+    $event.preventDefault()
+    const modalRef = this.modal.open(AddEventFormComponent, {size: 'lg'});
+    modalRef.componentInstance.name = 'AddEventFormComponent';
+    this.store.dispatch(new SelectEventToEdit(eventId))
   }
 
   quit() {

@@ -5,10 +5,13 @@ import {selectAllUsers} from "../../store/users/users.selectors"
 import {Observable} from "rxjs/Observable"
 import {IUser} from "../../shared/interfaces/users.interfaces"
 import {NewEvent} from "../../shared/models/newEvent.model"
-import {CreateEvent} from "../../store/events/events.actions"
+import {CreateEvent, SelectEventToEdit} from "../../store/events/events.actions"
 import {AppState} from "../../store/index"
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap"
 import * as moment from 'moment';
+import {getSelectedEvent} from "../../store/events/events.selectors"
+import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
+
 
 @Component({
   selector: 'app-add-event-form',
@@ -19,7 +22,9 @@ export class AddEventFormComponent implements OnInit {
 
   users$: Observable<IUser[]>
   public submitted: boolean = false;
-
+  name: string;
+  addEventForm: FormGroup;
+  event: NewEvent;
 
   constructor(private fb: FormBuilder,
               private store: Store<AppState>,
@@ -28,20 +33,13 @@ export class AddEventFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.addEventForm = this.fb.group({
-      usersSelect: [null, Validators.required],
-      subject: [null, Validators.required],
-      timeDate: this.fb.group({
-        duration: [30, [
-          Validators.required,
-          Validators.min(0),
-        ]]
-      })
-    });
-
     this.users$ = this.store.select(selectAllUsers)
-
     this.event = new NewEvent()
+
+    this.store.select(getSelectedEvent).subscribe(event => {
+      this.initForm(event)
+    })
+
     this.onChanges()
   }
 
@@ -51,10 +49,21 @@ export class AddEventFormComponent implements OnInit {
     });
   }
 
+  initForm(event) {
+    this.addEventForm = this.fb.group({
+      usersSelect: [event.attendees.map(a => a.email) || null, Validators.required],
+      subject: [event.title || null, Validators.required],
+      timeDate: this.fb.group({
+        duration: [this.getEventDuration(event) || 30, [
+          Validators.required,
+          Validators.min(0),
+        ]]
+      })
+    });
+    this.event.start = event.start
+    this.onStartTimeChanged()
+  }
 
-  name: string;
-  addEventForm: FormGroup;
-  event: NewEvent;
 
   onFormSubmit() {
     this.submitted = true
@@ -64,6 +73,10 @@ export class AddEventFormComponent implements OnInit {
       this.store.dispatch(new CreateEvent(this.event))
       this.activeModal.close()
     }
+  }
+
+  getEventDuration(event: ICalendarEvent) {
+    return moment(event.end).diff(moment(event.start), 'minutes');
   }
 
   onStartTimeChanged(newStartTime: Date = this.event.start) {

@@ -12,7 +12,8 @@ export enum EventsActionTypes {
   FETCH_EVENTS_SUCCESS = '[EVENTS] FETCH_EVENTS_SUCCESS',
   INIT_CALENDAR = '[EVENTS] INIT_CALENDAR',
   INIT_CALENDAR_SUCCESS = '[EVENTS] INIT_CALENDAR_SUCCESS',
-  CREATE_EVENT = '[EVENTS] СREATE_EVENT'
+  CREATE_EVENT = '[EVENTS] СREATE_EVENT',
+  SELECT_EVENT_TO_EDIT = '[EVENTS] SELECT_EVENT_TO_EDIT'
 }
 
 
@@ -79,8 +80,15 @@ export class CreateEvent implements Action {
   }
 }
 
+export class SelectEventToEdit implements Action {
+  readonly type = EventsActionTypes.SELECT_EVENT_TO_EDIT;
 
-export type EventsActions =
+  constructor(public id: string) {
+  }
+}
+
+
+export type EventsActionsType =
   AddOne |
   addMany |
   UpdateOne |
@@ -90,4 +98,5 @@ export type EventsActions =
   InitCalendar |
   InitCalendarSuccess |
   FetchEventsSuccess |
-  CreateEvent
+  CreateEvent |
+  SelectEventToEdit
