@@ -10,7 +10,7 @@ import {CalendarEvent} from "../../shared/models/calendarEvent.model"
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
 import {SetActiveUser} from "../users/users.actions"
 import {COMMON_USER} from "../../shared/constants/users"
-import {map, switchMap} from "rxjs/operators"
+import {map, pluck, switchMap} from "rxjs/operators"
 
 @Injectable()
 export class EventsEffects {
@@ -21,9 +21,10 @@ export class EventsEffects {
   @Effect()
   fetchEvents = this.actions$.pipe(
     ofType(EventsActionTypes.FETCH_EVENTS),
-    switchMap((action: FetchEvents): Observable<any[]> =>
-      this.calendarService.callGapiMethod<any[]>('fetchUpcomingEvents', action.id)
+    switchMap((action: FetchEvents): Observable<any> =>
+      this.calendarService.callGapiMethod('fetchUpcomingEvents', action.id)
     ),
+    pluck<any, any[]>('items'),
     map((events = []) => events.map(event => ( new CalendarEvent(event) ))),
     switchMap((events: ICalendarEvent[]) => ([new FetchEventsSuccess(), new AddAll(events)]))
   )

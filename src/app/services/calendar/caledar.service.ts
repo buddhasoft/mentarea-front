@@ -5,6 +5,8 @@ import {randomId} from "../../shared/utils/randomId"
 import {fromPromise} from "rxjs/observable/fromPromise"
 import {backToZone} from "../../shared/utils/customLetOperators"
 import {Observable} from "rxjs/Observable"
+import {of} from "rxjs/observable/of"
+import {catchError, pluck} from "rxjs/operators"
 
 
 @Injectable()
@@ -13,9 +15,11 @@ export class CalendarService {
   constructor(private zone: NgZone) {
   }
 
-  callGapiMethod<T>(name, param): Observable<T> {
-    return fromPromise<T>(this[name](param)).pipe<T>(
-      backToZone(this.zone)
+  callGapiMethod(name, param): Observable<any> {
+    return fromPromise(this[name](param)).pipe(
+      backToZone(this.zone),
+      pluck('result'),
+      catchError(error => of(`GAPI Response Error: ${error}`)),
     )
   }
 
@@ -27,10 +31,10 @@ export class CalendarService {
       'singleEvents': true,
       'maxResults': 30,
       'orderBy': 'startTime'
-    }).then(response => response.result.items).catch(err => console.error('ERROR: ', err));
+    })
   }
 
-    createEvent({event, calendarId = MAIN_CALENDAR_ID}: { event: any, calendarId: string }) {
+  createEvent({event, calendarId = MAIN_CALENDAR_ID}: { event: any, calendarId: string }) {
     return gapi.client['calendar'].events.insert({
       'calendarId': calendarId,
       "start": {
@@ -54,8 +58,6 @@ export class CalendarService {
         }
       },
       'conferenceDataVersion': 1
-    }).then(req => {
-      return req.result
-    }).catch(err => console.error('ERROR: ', err))
+    })
   }
 }
