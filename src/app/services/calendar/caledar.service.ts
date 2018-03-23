@@ -62,7 +62,6 @@ export class CalendarService {
   }
 
   updateEvent({event, calendarId = MAIN_CALENDAR_ID}: { event: any, calendarId: string }) {
-    debugger
     return gapi.client['calendar'].events.update({
       "calendarId": calendarId,
       "eventId": event.id,

@@ -9,7 +9,7 @@ import {
 } from "./events.actions"
 import {Observable} from "rxjs/Observable"
 import {CalendarService} from "../../services/calendar/caledar.service"
-import {CalendarEvent} from "../../shared/models/calendarEvent.model"
+import {AppCalendarEvent} from "../../shared/models/calendarEvent.model"
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
 import {SetActiveUser} from "../users/users.actions"
 import {COMMON_USER} from "../../shared/constants/users"
@@ -28,7 +28,7 @@ export class EventsEffects {
       this.calendarService.callGapiMethod('fetchUpcomingEvents', action.id)
     ),
     pluck<any, any[]>('items'),
-    map((events = []) => events.map(event => ( new CalendarEvent(event) ))),
+    map((events = []) => events.map(event => ( new AppCalendarEvent(event) ))),
     switchMap((events: ICalendarEvent[]) => ([new FetchEventsSuccess(), new AddAll(events)]))
   )
 
@@ -44,7 +44,7 @@ export class EventsEffects {
     switchMap(({event}: CreateEvent): Observable<any[]> =>
       this.calendarService.callGapiMethod('createEvent', {event})
     ),
-    map(event => new CalendarEvent(event)),
+    map(event => new AppCalendarEvent(event)),
     switchMap(event => of(new AddOne(event)))
   )
 
@@ -54,7 +54,7 @@ export class EventsEffects {
     switchMap(({event}: CreateEvent): Observable<any[]> =>
       this.calendarService.callGapiMethod('updateEvent', {event})
     ),
-    map(event => new CalendarEvent(event)),
+    map(event => new AppCalendarEvent(event)),
     switchMap(event => of(new UpdateOne(event.id, event)))
   )
 }

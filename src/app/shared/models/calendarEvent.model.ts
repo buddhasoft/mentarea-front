@@ -5,7 +5,7 @@ import {IAttendee} from "../interfaces/users.interfaces"
 const PRIMARY_COLOR = '#3ee0c666'
 const SECONDARY_COLOR = '#3ee0c666'
 
-export class CalendarEvent implements ICalendarEvent {
+export class AppCalendarEvent implements ICalendarEvent {
   public id: string
   public start: Date
   public end: Date

@@ -20,11 +20,10 @@ import {COLORS} from './calendar.constants';
 
 import * as authActions from "../../store/auth/auth.actions"
 import * as usersActions from "../../store/users/users.actions"
-import {selectAllEvents} from "../../store/events/events.selectors"
+import {getSelectedEvent, selectAllEvents} from "../../store/events/events.selectors"
 import {selectActiveUser, selectAllUsers} from "../../store/users/users.selectors"
 
 import {
-  CalendarEvent,
   CalendarEventAction,
   CalendarEventTimesChangedEvent
 } from 'angular-calendar';
@@ -41,7 +40,7 @@ import {AuthorizedUser} from "../../shared/models/authorizedUser"
 import {IUser} from "../../shared/interfaces/users.interfaces"
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
 import {SelectEventToEdit} from "../../store/events/events.actions"
-
+import {CalendarEvent} from "../../shared/models/newEvent.model"
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -66,14 +65,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
       onClick: ({event}: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
+        // this.handleEvent('Edited', event);
       }
     },
     {
       label: '<i class="fa fa-fw fa-times"></i>',
       onClick: ({event}: { event: CalendarEvent }): void => {
         // this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
+        // this.handleEvent('Deleted', event);
       }
     }
   ];
@@ -83,6 +82,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   events$: Observable<ICalendarEvent[]>
   users$: Observable<IUser[]>
   selectedUsers$: Observable<IUser>
+  selectedEventSub: Subscription
   authorizedUser$: Observable<AuthorizedUser>
 
   // events: ICalendarEvent[] = [
@@ -117,10 +117,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.users$ = this.store.select(selectAllUsers)
     this.authorizedUser$ = this.store.select(selectAuthorizedUser)
     this.selectedUsers$ = this.store.select(selectActiveUser)
+    this.selectedEventSub = this.store.select(getSelectedEvent).subscribe(event => {
+      this.modalData = {...this.modalData, event}
+    })
   }
 
   ngOnDestroy() {
     this.isLoggedInSub.unsubscribe()
+    this.selectedEventSub.unsubscribe()
   }
 
   changeUser(user) {
@@ -149,11 +153,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
                     }: CalendarEventTimesChangedEvent): void {
     event.start = newStart;
     event.end = newEnd;
-    this.handleEvent('Dropped or resized', event);
+    // this.handleEvent('Dropped or resized', event);
     this.refresh.next();
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
+  handleEvent(action: string, event: CalendarEvent ): void {
     this.modalData = {event, action};
     this.modal.open(this.modalContent, {size: 'lg'});
   }
