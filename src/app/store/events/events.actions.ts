@@ -91,7 +91,7 @@ export class UpdateEvent implements Action {
 export class SelectEventToEdit implements Action {
   readonly type = EventsActionTypes.SELECT_EVENT_TO_EDIT;
 
-  constructor(public id: string) {
+  constructor(public id: string | null) {
   }
 }
 
