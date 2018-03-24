@@ -1,0 +1,30 @@
+<div class="user-room-wrap">
+  <div class="toolbar-wrap">
+    <a routerLink="/calendar">Calendar</a>
+  </div>
+  <div class="events-table-wrap">
+    <div class="container">
+      <p>All your events:</p>
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>Event</th>
+          <th>Date</th>
+          <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let event of allUserEvents$ | async; let index = index">
+          <td>{{event.title}}</td>
+          <td class="column-content">
+            <span>start: {{event.start  | date:'yyyy-MM-dd HH:mm'}}</span>
+            <span>end: {{event.end | date:'yyyy-MM-dd HH:mm'}}</span>
+          </td>
+          <td>john@example.com</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

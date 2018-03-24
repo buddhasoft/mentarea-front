@@ -1,0 +1,17 @@
+.user-room-wrap {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.toolbar-wrap {
+  width: 100%;
+  position: relative;
+  height: 100px;
+}
+
+.column-content {
+  display: flex;
+  flex-direction: column;
+}
