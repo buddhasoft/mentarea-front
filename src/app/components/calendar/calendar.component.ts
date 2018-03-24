@@ -167,6 +167,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
     return true
   }
 
+  onClosePress(close){
+    this.unselectEvent()
+    close()
+  }
+
   addEvent(): void {
     const modalRef = this.modal.open(AddEventFormComponent, {size: 'lg'});
     modalRef.componentInstance.name = 'AddEventFormComponent';
