@@ -2,13 +2,12 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AppState} from "../../store/index"
 import {Store} from "@ngrx/store"
 import {Observable} from "rxjs/Observable"
-import {AppCalendarEvent} from "../../shared/models/newEvent.model"
-import {selectAllEvents} from "../../store/events/events.selectors"
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
-import {authorizedUserEvents} from "../../store/selectors"
 import {selectAuthorizedUser} from "../../store/auth/auth.selectors"
 import {AuthorizedUser} from "../../shared/models/authorizedUser"
 import {SetActiveUser} from "../../store/users/users.actions"
+import {authUserEventsFromGroup} from "../../store/selectors"
+import {COMMON_USER} from "../../shared/constants/users"
 
 
 @Component({
@@ -27,8 +26,8 @@ export class UserRoomComponent implements OnInit {
 
   ngOnInit() {
     this.store.select(selectAuthorizedUser).subscribe((user: AuthorizedUser) => {
-      this.store.dispatch(new SetActiveUser({name: user.userName, id: user.email}))
-      this.allUserEvents$ = this.store.select(authorizedUserEvents)
+      this.store.dispatch(new SetActiveUser(COMMON_USER))
+      this.allUserEvents$ = this.store.select(authUserEventsFromGroup)
     })
   }
 
