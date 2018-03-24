@@ -162,8 +162,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.modal.open(this.modalContent, {size: 'lg', beforeDismiss: () => this.unselectEvent()});
   }
 
-  unselectEvent(): boolean {
-    debugger
+  unselectEvent(): boolean {g
     this.store.dispatch(new SelectEventToEdit(null))
     return true
   }
