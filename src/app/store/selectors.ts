@@ -18,7 +18,10 @@ export const authUserEventsFromGroup = createSelector(
   fromAuth.selectAuthorizedUser,
   (allEvents: ICalendarEvent[], authUser: AuthorizedUser): ICalendarEvent[] => {
     return allEvents
-      .filter(event => event.attendees.filter(attendee => attendee.email === authUser.email).length !== 0)
+      .filter(event => {
+        if(!event.attendees) return false
+        return event.attendees.filter(attendee => attendee.email === authUser.email).length !== 0
+      })
       .map(event => ({
         ...event,
         responseStatus: event.attendees.filter(
