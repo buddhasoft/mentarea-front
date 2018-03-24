@@ -48,7 +48,7 @@ export class CalendarService {
       'attendees': event.attendees.map(attendee => ({email: attendee})),
       'singleEvents': true,
       'sendNotifications': true,
-      'summary': event.title,
+      'summary': event.summary,
       'conferenceData': {
         createRequest: {
           conferenceSolutionKey: {
@@ -76,7 +76,7 @@ export class CalendarService {
       'attendees': event.attendees.map(attendee => ({email: attendee})),
       'singleEvents': true,
       'sendNotifications': true,
-      'summary': event.title,
+      'summary': event.summary,
       'conferenceData': {
         createRequest: {
           conferenceSolutionKey: {

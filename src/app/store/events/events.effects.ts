@@ -9,11 +9,11 @@ import {
 } from "./events.actions"
 import {Observable} from "rxjs/Observable"
 import {CalendarService} from "../../services/calendar/caledar.service"
-import {AppCalendarEvent} from "../../shared/models/calendarEvent.model"
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
 import {SetActiveUser} from "../users/users.actions"
 import {COMMON_USER} from "../../shared/constants/users"
 import {map, pluck, switchMap} from "rxjs/operators"
+import {AppCalendarEvent} from "../../shared/models/newEvent.model"
 
 @Injectable()
 export class EventsEffects {
@@ -41,7 +41,7 @@ export class EventsEffects {
   @Effect()
   createEvent = this.actions$.pipe(
     ofType(EventsActionTypes.CREATE_EVENT),
-    switchMap(({event}: CreateEvent): Observable<any[]> =>
+    switchMap(({event}: CreateEvent): Observable<any> =>
       this.calendarService.callGapiMethod('createEvent', {event})
     ),
     map(event => new AppCalendarEvent(event)),
@@ -51,7 +51,7 @@ export class EventsEffects {
   @Effect()
   updateEvent = this.actions$.pipe(
     ofType(EventsActionTypes.UPDATE_EVENT),
-    switchMap(({event}: CreateEvent): Observable<any[]> =>
+    switchMap(({event}: CreateEvent): Observable<any> =>
       this.calendarService.callGapiMethod('updateEvent', {event})
     ),
     map(event => new AppCalendarEvent(event)),

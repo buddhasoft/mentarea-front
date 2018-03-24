@@ -1,7 +1,9 @@
+import {IUser} from "../interfaces/users.interfaces"
+
 export const COMMON_USER = {name: 'Common', id: 'fnh6kgqiqego15vj2egmd7q2go@group.calendar.google.com'}
 
 
-export const USERS = [
+export const USERS: IUser[] = [
   {name: 'Alex', id: 'alex.zolotarenko@gmail.com'},
   {name: 'Vitto', id: 'v.mozharovsky@gmail.com'},
   {name: 'Nikita', id: 'boyko.nikita@gmail.com'},

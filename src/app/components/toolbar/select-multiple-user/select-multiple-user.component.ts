@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {IUser} from "../../../shared/interfaces/users.interfaces"
 
 @Component({
@@ -14,13 +14,14 @@ export class SelectMultipleUserComponent implements OnInit {
   @Output() changeUser: EventEmitter<IUser> = new EventEmitter()
 
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
   }
 
+  ngOnInit() {
 
-  onChangeUser(user){
+  }
+
+  onChangeUser(user) {
     this.changeUser.emit(user)
   }
 

@@ -15,12 +15,12 @@
         </thead>
         <tbody>
         <tr *ngFor="let event of allUserEvents$ | async; let index = index">
-          <td>{{event.title}}</td>
+          <td>{{event.summary}}</td>
           <td class="column-content">
             <span>start: {{event.start  | date:'yyyy-MM-dd HH:mm'}}</span>
             <span>end: {{event.end | date:'yyyy-MM-dd HH:mm'}}</span>
           </td>
-          <td>john@example.com</td>
+          <td>{{event.responseStatus}}</td>
         </tr>
         </tbody>
       </table>

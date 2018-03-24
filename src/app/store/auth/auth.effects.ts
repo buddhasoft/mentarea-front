@@ -18,7 +18,7 @@ import {AuthService} from "../../services/auth/auth.service"
 import {AppState} from "../index"
 import {Store} from "@ngrx/store"
 import {SetActiveUser} from "../users/users.actions"
-import {COMMON_USER} from "../../shared/constants/users"
+import {COMMON_USER, USERS} from "../../shared/constants/users"
 import {backToZone} from "../../shared/utils/customLetOperators"
 
 @Injectable()

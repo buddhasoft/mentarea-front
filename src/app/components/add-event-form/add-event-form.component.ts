@@ -4,7 +4,7 @@ import {Store} from "@ngrx/store"
 import {selectAllUsers} from "../../store/users/users.selectors"
 import {Observable} from "rxjs/Observable"
 import {IUser} from "../../shared/interfaces/users.interfaces"
-import {CalendarEvent} from "../../shared/models/newEvent.model"
+import {AppCalendarEvent} from "../../shared/models/newEvent.model"
 import {CreateEvent, SelectEventToEdit, UpdateEvent} from "../../store/events/events.actions"
 import {AppState} from "../../store/index"
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap"
@@ -24,7 +24,7 @@ export class AddEventFormComponent implements OnInit {
   public submitted: boolean = false;
   name: string;
   addEventForm: FormGroup;
-  event: CalendarEvent;
+  event: AppCalendarEvent;
   editMode: boolean = false;
 
   constructor(private fb: FormBuilder,
@@ -38,7 +38,7 @@ export class AddEventFormComponent implements OnInit {
 
     this.store.select(getSelectedEvent).subscribe(event => {
       this.editMode = !!event
-      this.event = event || new CalendarEvent()
+      this.event = event || new AppCalendarEvent()
       this.initForm(this.event)
     })
 
@@ -54,7 +54,7 @@ export class AddEventFormComponent implements OnInit {
   initForm(event) {
     this.addEventForm = this.fb.group({
       usersSelect: [event.attendees.map(a => a.email) || null, Validators.required],
-      subject: [event.title || null, Validators.required],
+      subject: [event.summary || null, Validators.required],
       timeDate: this.fb.group({
         duration: [this.getEventDuration(event) || 30, [
           Validators.required,
@@ -70,7 +70,7 @@ export class AddEventFormComponent implements OnInit {
   onFormSubmit() {
     this.submitted = true
     if (this.addEventForm.valid) {
-      this.event.title = this.addEventForm.value.subject
+      this.event.summary = this.addEventForm.value.subject
       this.event.attendees = this.addEventForm.value.usersSelect
       this.store.dispatch(
         this.editMode

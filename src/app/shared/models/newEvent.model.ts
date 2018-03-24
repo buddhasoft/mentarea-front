@@ -15,15 +15,17 @@ const defaultEvent = {
     "dateTime": new Date(),
     "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone
   },
+  "summary": '',
   "title": '',
   "attendees": []
 }
 
-export class CalendarEvent implements ICalendarEvent {
+export class AppCalendarEvent implements ICalendarEvent {
   public start: Date
   public end: Date
   public attendees: IAttendee[]
   public hangoutLink: string
+  public summary: string
   public title: string
   public id: string
   public color: {
@@ -39,7 +41,8 @@ export class CalendarEvent implements ICalendarEvent {
   constructor(event = defaultEvent) {
     this.start = new Date(event.start.dateTime)
     this.end = new Date(event.end.dateTime)
-    this.title = event.title
+    this.summary = event.summary
+    this.title = event.summary
     this.id = event.id
     this.attendees = event.attendees
     this.hangoutLink = event.hangoutLink

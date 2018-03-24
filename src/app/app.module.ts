@@ -40,7 +40,7 @@ let gapiClientConfig: NgGapiClientConfig = {
 const appRoutes: Routes = [
   {path: 'calendar', canActivate: [AuthGuard], component: CalendarComponent,},
   {path: 'auth', component: LoginComponent,},
-  {path: 'user-room', component: UserRoomComponent},
+  {path: 'user_room', canActivate: [AuthGuard], component: UserRoomComponent},
   {
     path: '',
     redirectTo: 'auth',

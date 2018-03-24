@@ -25,7 +25,8 @@ import {selectActiveUser, selectAllUsers} from "../../store/users/users.selector
 
 import {
   CalendarEventAction,
-  CalendarEventTimesChangedEvent
+  CalendarEventTimesChangedEvent,
+  CalendarEvent
 } from 'angular-calendar';
 import {Store} from "@ngrx/store"
 import {Observable} from "rxjs/Observable"
@@ -38,9 +39,8 @@ import {Logout} from "../../store/auth/auth.actions"
 import {selectAuthorizedUser} from "../../store/auth/auth.selectors"
 import {AuthorizedUser} from "../../shared/models/authorizedUser"
 import {IUser} from "../../shared/interfaces/users.interfaces"
-import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
 import {SelectEventToEdit} from "../../store/events/events.actions"
-import {CalendarEvent} from "../../shared/models/newEvent.model"
+import {AppCalendarEvent} from "../../shared/models/newEvent.model"
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,7 +58,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   modalData: {
     action: string;
-    event: CalendarEvent;
+    event: AppCalendarEvent;
   };
 
   actions: CalendarEventAction[] = [
@@ -79,7 +79,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   refresh: Subject<any> = new Subject();
 
-  events$: Observable<ICalendarEvent[]>
+  events$: Observable<AppCalendarEvent[]>
   users$: Observable<IUser[]>
   selectedUsers$: Observable<IUser>
   selectedEventSub: Subscription
@@ -132,7 +132,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.refresh.next()
   }
 
-  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
+  dayClicked({date, events}: { date: Date; events: AppCalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -157,7 +157,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.refresh.next();
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
+  handleEvent(action: string, event: AppCalendarEvent): void {
     this.modalData = {event, action};
     this.modal.open(this.modalContent, {size: 'lg', beforeDismiss: () => this.unselectEvent()});
   }

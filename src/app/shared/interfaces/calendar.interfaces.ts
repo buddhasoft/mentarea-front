@@ -5,6 +5,7 @@ export interface ICalendarEvent {
   start: Date,
   end: Date,
   title: string,
+  summary: string,
   hangoutLink: string,
   attendees: IAttendee[],
   color: {
