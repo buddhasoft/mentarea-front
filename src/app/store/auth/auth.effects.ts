@@ -19,7 +19,7 @@ import {AppState} from "../index"
 import {Store} from "@ngrx/store"
 import {SetActiveUser} from "../users/users.actions"
 import {COMMON_USER, USERS} from "../../shared/constants/users"
-import {backToZone} from "../../shared/utils/customLetOperators"
+import {backToAngularZone} from "../../shared/utils/customLetOperators"
 
 @Injectable()
 export class AuthEffects {
@@ -75,7 +75,7 @@ export class AuthEffects {
   tryLogin = this.actions$.pipe(
     ofType(AuthActionTypes.TRY_LOGIN),
     switchMap((): Observable<IParsedGoogleUser | boolean> => this.authService.signIn()),
-    backToZone(this.zone),
+    backToAngularZone(this.zone),
     switchMap((parsedGoogleUser: IParsedGoogleUser): Observable<AuthActionsType> => {
       return of(parsedGoogleUser ? new LoginSuccess() : new LoginFailure())
     }),

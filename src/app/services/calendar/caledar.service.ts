@@ -3,7 +3,7 @@ import {MAIN_CALENDAR_ID} from "../../shared/constants/users"
 import rfc3339 from "../../shared/utils/convertDate"
 import {randomId} from "../../shared/utils/randomId"
 import {fromPromise} from "rxjs/observable/fromPromise"
-import {backToZone} from "../../shared/utils/customLetOperators"
+import {backToAngularZone} from "../../shared/utils/customLetOperators"
 import {Observable} from "rxjs/Observable"
 import {of} from "rxjs/observable/of"
 import {catchError, pluck} from "rxjs/operators"
@@ -17,13 +17,13 @@ export class CalendarService {
 
   callGapiMethod(name, param): Observable<any> {
     return fromPromise(this[name](param)).pipe(
-      backToZone(this.zone),
+      backToAngularZone(this.zone),
       pluck('result'),
       catchError(error => of(`GAPI Response Error: ${error}`)),
     )
   }
 
-  fetchUpcomingEvents(calendarId: string = MAIN_CALENDAR_ID): Promise<any> {
+  private fetchUpcomingEvents(calendarId: string = MAIN_CALENDAR_ID): Promise<any> {
     return gapi.client['calendar'].events.list({
       'calendarId': calendarId,
       'timeMin': (new Date()).toISOString(),
@@ -34,7 +34,7 @@ export class CalendarService {
     })
   }
 
-  createEvent({event, calendarId = MAIN_CALENDAR_ID}: { event: any, calendarId: string }) {
+  private createEvent({event, calendarId = MAIN_CALENDAR_ID}: { event: any, calendarId: string }) {
     return gapi.client['calendar'].events.insert({
       'calendarId': calendarId,
       "start": {
@@ -61,7 +61,7 @@ export class CalendarService {
     })
   }
 
-  updateEvent({event, calendarId = MAIN_CALENDAR_ID}: { event: any, calendarId: string }) {
+  private updateEvent({event, calendarId = MAIN_CALENDAR_ID}: { event: any, calendarId: string }) {
     return gapi.client['calendar'].events.update({
       "calendarId": calendarId,
       "eventId": event.id,
