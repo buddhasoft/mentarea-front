@@ -1,5 +1,5 @@
-import {ActionReducerMap, combineReducers, compose, StoreModule} from '@ngrx/store';
-import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store';
+import {ActionReducerMap, StoreModule} from '@ngrx/store';
+import {routerReducer, RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../../environments/environment';
 import {UsersEffects} from "./users/users.effects"
@@ -13,6 +13,7 @@ import {EffectsModule} from "@ngrx/effects"
 import {RouterStateSnapshot} from "@angular/router"
 import {layoutReducer, LayoutState} from './layout';
 import {InjectionToken} from "@angular/core"
+import {CustomSerializer} from "./router/router.serializer"
 
 
 const EFFECTS_MODULE = EffectsModule.forRoot([
@@ -45,6 +46,10 @@ export function getReducers() {
 export const reducerProvider = [
   {provide: reducerToken, useFactory: getReducers}
 ];
+
+export const customSerializer = [
+  {provide: RouterStateSerializer, useClass: CustomSerializer}
+  ];
 
 
 const DEV_TOOLS_MODULE = environment.production ? [] :

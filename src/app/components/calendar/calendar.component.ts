@@ -20,7 +20,7 @@ import {COLORS} from './calendar.constants';
 
 import * as authActions from "../../store/auth/auth.actions"
 import * as usersActions from "../../store/users/users.actions"
-import {getSelectedEvent, selectAllEvents} from "../../store/events/events.selectors"
+import {getEventsTotal, getSelectedEvent, selectAllEvents} from "../../store/events/events.selectors"
 import {selectActiveUser, selectAllUsers} from "../../store/users/users.selectors"
 
 import {
@@ -80,6 +80,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   refresh: Subject<any> = new Subject();
 
   events$: Observable<AppCalendarEvent[]>
+  eventsTotal$: Observable<number>
   users$: Observable<IUser[]>
   selectedUsers$: Observable<IUser>
   selectedEventSub: Subscription
@@ -114,6 +115,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     })
 
     this.events$ = this.store.select(selectAllEvents)
+    this.eventsTotal$ = this.store.select(getEventsTotal)
     this.users$ = this.store.select(selectAllUsers)
     this.authorizedUser$ = this.store.select(selectAuthorizedUser)
     this.selectedUsers$ = this.store.select(selectActiveUser)

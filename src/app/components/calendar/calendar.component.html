@@ -29,7 +29,7 @@
     <button type="button" class="btn btn-outline-secondary" (click)="onClosePress(close)">OK</button>
   </div>
 </ng-template>
-
+<div>Total events count: {{eventsTotal$ | async}}</div>
 <app-toolbar
   [selectedUser]="selectedUsers$ | async"
   [users]="users$ | async"

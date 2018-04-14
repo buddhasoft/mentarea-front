@@ -33,3 +33,8 @@ export function eventsReducer(state: EventsState = initialState, action: EventsA
   }
   return state;
 }
+
+export const {
+  selectTotal: selectEventsTotal
+} = eventsAdapter.getSelectors();
+

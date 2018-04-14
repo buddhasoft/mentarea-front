@@ -10,6 +10,8 @@ import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
 export const reducers: ActionReducerMap<any> = {events: fromEvents.eventsReducer};
 export const selectEventsState = createFeatureSelector<fromEvents.EventsState>('events');
 export const {selectAll: selectAllEvents} = fromEvents.eventsAdapter.getSelectors(selectEventsState);
+export const getEventsTotal = createSelector(selectEventsState, fromEvents.selectEventsTotal);
+
 export const getSelectedEvent = createSelector(
   selectEventsState,
   (state: fromEvents.EventsState): ICalendarEvent => {
