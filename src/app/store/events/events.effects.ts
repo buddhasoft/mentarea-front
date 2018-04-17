@@ -1,12 +1,7 @@
 import {Injectable} from "@angular/core"
 import {Actions, Effect, ofType} from "@ngrx/effects"
 
-import {of} from "rxjs/observable/of"
-import 'rxjs/Rx';
-import {
-  AddAll, AddOne, CreateEvent, EventsActionTypes, FetchEvents, FetchEventsSuccess,
-  UpdateOne
-} from "./events.actions"
+import * as fromEvents from "./events.actions"
 import {Observable} from "rxjs/Observable"
 import {CalendarService} from "../../services/calendar/caledar.service"
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
@@ -23,38 +18,38 @@ export class EventsEffects {
 
   @Effect()
   fetchEvents = this.actions$.pipe(
-    ofType(EventsActionTypes.FETCH_EVENTS),
-    switchMap((action: FetchEvents): Observable<any> =>
+    ofType(fromEvents.EventsActionTypes.FETCH_EVENTS),
+    switchMap((action: fromEvents.FetchEvents): Observable<any> =>
       this.calendarService.callGapiMethod('fetchUpcomingEvents', action.id)
     ),
     pluck<any, any[]>('items'),
     map((events = []) => events.map(event => ( new AppCalendarEvent(event) ))),
-    switchMap((events: ICalendarEvent[]) => ([new FetchEventsSuccess(), new AddAll(events)]))
+    switchMap((events: ICalendarEvent[]) => ([new fromEvents.FetchEventsSuccess(), new fromEvents.AddAll(events)]))
   )
 
   @Effect()
   initCalendarSuccess = this.actions$.pipe(
-    ofType(EventsActionTypes.INIT_CALENDAR_SUCCESS),
+    ofType(fromEvents.EventsActionTypes.INIT_CALENDAR_SUCCESS),
     map(() => new SetActiveUser(COMMON_USER))
   )
 
   @Effect()
   createEvent = this.actions$.pipe(
-    ofType(EventsActionTypes.CREATE_EVENT),
-    switchMap(({event}: CreateEvent): Observable<any> =>
+    ofType(fromEvents.EventsActionTypes.CREATE_EVENT),
+    switchMap(({event}: fromEvents.CreateEvent): Observable<any> =>
       this.calendarService.callGapiMethod('createEvent', {event})
     ),
     map(event => new AppCalendarEvent(event)),
-    map(event => new AddOne(event))
+    map(event => new fromEvents.AddOne(event))
   )
 
   @Effect()
   updateEvent = this.actions$.pipe(
-    ofType(EventsActionTypes.UPDATE_EVENT),
-    switchMap(({event}: CreateEvent): Observable<any> =>
+    ofType(fromEvents.EventsActionTypes.UPDATE_EVENT),
+    switchMap(({event}: fromEvents.CreateEvent): Observable<any> =>
       this.calendarService.callGapiMethod('updateEvent', {event})
     ),
     map(event => new AppCalendarEvent(event)),
-    map(event => new UpdateOne(event.id, event))
+    map(event => new fromEvents.UpdateOne(event.id, event))
   )
 }
