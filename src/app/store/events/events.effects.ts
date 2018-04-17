@@ -35,7 +35,7 @@ export class EventsEffects {
   @Effect()
   initCalendarSuccess = this.actions$.pipe(
     ofType(EventsActionTypes.INIT_CALENDAR_SUCCESS),
-    switchMap(() => of(new SetActiveUser(COMMON_USER)))
+    map(() => new SetActiveUser(COMMON_USER))
   )
 
   @Effect()
@@ -45,7 +45,7 @@ export class EventsEffects {
       this.calendarService.callGapiMethod('createEvent', {event})
     ),
     map(event => new AppCalendarEvent(event)),
-    switchMap(event => of(new AddOne(event)))
+    map(event => new AddOne(event))
   )
 
   @Effect()
@@ -55,6 +55,6 @@ export class EventsEffects {
       this.calendarService.callGapiMethod('updateEvent', {event})
     ),
     map(event => new AppCalendarEvent(event)),
-    switchMap(event => of(new UpdateOne(event.id, event)))
+    map(event => new UpdateOne(event.id, event))
   )
 }
