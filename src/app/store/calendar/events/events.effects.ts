@@ -3,12 +3,12 @@ import {Actions, Effect, ofType} from "@ngrx/effects"
 
 import * as fromEvents from "./events.actions"
 import {Observable} from "rxjs/Observable"
-import {CalendarService} from "../../services/calendar/caledar.service"
-import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
+import {CalendarService} from "../../../services/calendar/caledar.service"
+import {ICalendarEvent} from "../../../shared/interfaces/calendar.interfaces"
 import {SetActiveUser} from "../users/users.actions"
-import {COMMON_USER} from "../../shared/constants/users"
+import {COMMON_USER} from "../../../shared/constants/users"
 import {map, pluck, switchMap} from "rxjs/operators"
-import {AppCalendarEvent} from "../../shared/models/newEvent.model"
+import {AppCalendarEvent} from "../../../shared/models/newEvent.model"
 
 @Injectable()
 export class EventsEffects {
@@ -24,7 +24,7 @@ export class EventsEffects {
     ),
     pluck<any, any[]>('items'),
     map((events = []) => events.map(event => ( new AppCalendarEvent(event) ))),
-    switchMap((events: ICalendarEvent[]) => ([new fromEvents.FetchEventsSuccess(), new fromEvents.AddAll(events)]))
+    switchMap((events: ICalendarEvent[]) => ([new fromEvents.FetchEventsSuccess(), new fromEvents.AddAllEvents(events)]))
   )
 
   @Effect()
@@ -40,7 +40,7 @@ export class EventsEffects {
       this.calendarService.callGapiMethod('createEvent', {event})
     ),
     map(event => new AppCalendarEvent(event)),
-    map(event => new fromEvents.AddOne(event))
+    map(event => new fromEvents.AddOneEvent(event))
   )
 
   @Effect()
@@ -50,6 +50,6 @@ export class EventsEffects {
       this.calendarService.callGapiMethod('updateEvent', {event})
     ),
     map(event => new AppCalendarEvent(event)),
-    map(event => new fromEvents.UpdateOne(event.id, event))
+    map(event => new fromEvents.UpdateOneEvent(event.id, event))
   )
 }

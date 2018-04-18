@@ -1,5 +1,5 @@
 import {EventsActionsType, EventsActionTypes} from "./events.actions"
-import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
+import {ICalendarEvent} from "../../../shared/interfaces/calendar.interfaces"
 import {createEntityAdapter} from '@ngrx/entity';
 import {EntityState} from '@ngrx/entity';
 
@@ -9,7 +9,7 @@ export interface EventsState extends EntityState<ICalendarEvent> {
 
 export const eventsAdapter = createEntityAdapter<ICalendarEvent>();
 
-export const initialState: EventsState = eventsAdapter.getInitialState({
+const initialState: EventsState = eventsAdapter.getInitialState({
   selectedEventId: null
 })
 
@@ -27,7 +27,7 @@ export function eventsReducer(state: EventsState = initialState, action: EventsA
     case EventsActionTypes.DELETE_ONE:
       return eventsAdapter.removeOne(action.id, state);
     case EventsActionTypes.SELECT_EVENT_TO_EDIT:
-      return {...state, selectedEventId: action.id };
+      return {...state, selectedEventId: action.id};
     case EventsActionTypes.ADD_ALL:
       return eventsAdapter.addAll(action.events, state);
   }

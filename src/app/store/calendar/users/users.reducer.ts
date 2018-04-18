@@ -1,5 +1,5 @@
 import {UsersActions, UsersActionTypes} from "./users.actions"
-import {IUser} from "../../shared/interfaces/users.interfaces"
+import {IUser} from "../../../shared/interfaces/users.interfaces"
 import {createEntityAdapter} from '@ngrx/entity';
 import {EntityState} from '@ngrx/entity';
 

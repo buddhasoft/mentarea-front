@@ -1,16 +1,13 @@
-//
-// import {combineReducers} from "@ngrx/store"
-//
 export interface CalendarState {
   users: UsersState,
   events: EventsState,
 }
-//
+
 import {combineReducers} from "@ngrx/store"
-import {eventsReducer, EventsState} from "../events/events.reducer"
-import {usersReducer, UsersState} from "../users/users.reducer"
+import {eventsReducer, EventsState} from "./events/events.reducer"
+import {usersReducer, UsersState} from "./users/users.reducer"
 
 export const calendarReducer = combineReducers({
-  users: eventsReducer,
-  events: usersReducer
+  users: usersReducer,
+  events: eventsReducer
 })

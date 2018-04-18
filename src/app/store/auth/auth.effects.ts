@@ -17,7 +17,7 @@ import {IParsedGoogleUser} from "../../shared/interfaces/users.interfaces"
 import {AuthService} from "../../services/auth/auth.service"
 import {AppState} from "../index"
 import {Store} from "@ngrx/store"
-import {SetActiveUser} from "../users/users.actions"
+import {SetActiveUser} from "../calendar/users/users.actions"
 import {COMMON_USER, USERS} from "../../shared/constants/users"
 import {backToAngularZone} from "../../shared/utils/customLetOperators"
 

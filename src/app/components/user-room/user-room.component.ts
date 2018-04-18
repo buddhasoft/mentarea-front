@@ -5,7 +5,7 @@ import {Observable} from "rxjs/Observable"
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
 import {selectAuthorizedUser} from "../../store/auth/auth.selectors"
 import {AuthorizedUser} from "../../shared/models/authorizedUser"
-import {SetActiveUser} from "../../store/users/users.actions"
+import {SetActiveUser} from "../../store/calendar/users/users.actions"
 import {authUserEventsFromGroup} from "../../store/selectors"
 import {COMMON_USER} from "../../shared/constants/users"
 

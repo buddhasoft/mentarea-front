@@ -19,9 +19,7 @@ import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {COLORS} from './calendar.constants';
 
 import * as authActions from "../../store/auth/auth.actions"
-import * as usersActions from "../../store/users/users.actions"
-import {getEventsTotal, getSelectedEvent, selectAllEvents} from "../../store/events/events.selectors"
-import {selectActiveUser, selectAllUsers} from "../../store/users/users.selectors"
+import * as usersActions from "../../store/calendar/users/users.actions"
 
 import {
   CalendarEventAction,
@@ -39,8 +37,9 @@ import {Logout} from "../../store/auth/auth.actions"
 import {selectAuthorizedUser} from "../../store/auth/auth.selectors"
 import {AuthorizedUser} from "../../shared/models/authorizedUser"
 import {IUser} from "../../shared/interfaces/users.interfaces"
-import {SelectEventToEdit} from "../../store/events/events.actions"
+import {SelectEventToEdit} from "../../store/calendar/events/events.actions"
 import {AppCalendarEvent} from "../../shared/models/newEvent.model"
+import {getAllUsers, getActiveUser, getAllEvents, getEventsTotal, getActiveEvent} from "../../store/selectors"
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -111,15 +110,15 @@ export class CalendarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoggedInSub = this.store.select(state => state.auth.isLoggedIn).subscribe(isLoggedIn => {
       isLoggedIn && this.store.dispatch(new authActions.InitClient())
-      isLoggedIn && this.store.dispatch(new usersActions.AddAll(USERS))
+      isLoggedIn && this.store.dispatch(new usersActions.AddAllUsers(USERS))
     })
 
-    this.events$ = this.store.select(selectAllEvents)
+    this.events$ = this.store.select(getAllEvents)
     this.eventsTotal$ = this.store.select(getEventsTotal)
-    this.users$ = this.store.select(selectAllUsers)
+    this.users$ = this.store.select(getAllUsers)
+    this.selectedUsers$ = this.store.select(getActiveUser)
     this.authorizedUser$ = this.store.select(selectAuthorizedUser)
-    this.selectedUsers$ = this.store.select(selectActiveUser)
-    this.selectedEventSub = this.store.select(getSelectedEvent).subscribe(event => {
+    this.selectedEventSub = this.store.select(getActiveEvent).subscribe(event => {
       this.modalData = {...this.modalData, event}
     })
   }

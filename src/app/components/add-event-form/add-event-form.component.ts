@@ -1,16 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms"
 import {Store} from "@ngrx/store"
-import {selectAllUsers} from "../../store/users/users.selectors"
 import {Observable} from "rxjs/Observable"
 import {IUser} from "../../shared/interfaces/users.interfaces"
 import {AppCalendarEvent} from "../../shared/models/newEvent.model"
-import {CreateEvent, SelectEventToEdit, UpdateEvent} from "../../store/events/events.actions"
+import {CreateEvent, UpdateEvent} from "../../store/calendar/events/events.actions"
 import {AppState} from "../../store/index"
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap"
 import * as moment from 'moment';
-import {getSelectedEvent} from "../../store/events/events.selectors"
 import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
+import {getActiveEvent, getAllUsers} from "../../store/selectors"
 
 
 @Component({
@@ -34,9 +33,9 @@ export class AddEventFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.users$ = this.store.select(selectAllUsers)
+    this.users$ = this.store.select(getAllUsers)
 
-    this.store.select(getSelectedEvent).subscribe(event => {
+    this.store.select(getActiveEvent).subscribe(event => {
       this.editMode = !!event
       this.event = event || new AppCalendarEvent()
       this.initForm(this.event)

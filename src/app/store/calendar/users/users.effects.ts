@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from "@ngrx/effects"
 import 'rxjs/Rx';
 import {SetActiveUser, UsersActionTypes} from "./users.actions"
 import {FetchEvents} from "../events/events.actions"
-import {hideLoader} from "../layout/loaders/loaders.actions"
+import {hideLoader} from "../../layout/loaders/loaders.actions"
 import {switchMap} from "rxjs/operators"
 import {from} from "rxjs/observable/from"
 

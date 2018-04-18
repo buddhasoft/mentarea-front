@@ -1,6 +1,6 @@
 import {Action} from '@ngrx/store'
-import {ICalendarEvent} from "../../shared/interfaces/calendar.interfaces"
-import {AppCalendarEvent} from "../../shared/models/newEvent.model"
+import {ICalendarEvent} from "../../../shared/interfaces/calendar.interfaces"
+import {AppCalendarEvent} from "../../../shared/models/newEvent.model"
 
 export enum EventsActionTypes {
   ADD_ONE = '[EVENTS] ADD_ONE',
@@ -38,21 +38,21 @@ export class InitCalendarSuccess implements Action {
 }
 
 
-export class AddOne implements Action {
+export class AddOneEvent implements Action {
   readonly type = EventsActionTypes.ADD_ONE;
 
   constructor(public event: ICalendarEvent) {
   }
 }
 
-export class addMany implements Action {
+export class addManyEvents implements Action {
   readonly type = EventsActionTypes.ADD_MANY;
 
   constructor(public events: ICalendarEvent[]) {
   }
 }
 
-export class UpdateOne implements Action {
+export class UpdateOneEvent implements Action {
   readonly type = EventsActionTypes.UPDATE_ONE;
 
   constructor(public id: string,
@@ -60,14 +60,14 @@ export class UpdateOne implements Action {
   }
 }
 
-export class DeleteOne implements Action {
+export class DeleteOneEvent implements Action {
   readonly type = EventsActionTypes.DELETE_ONE;
 
   constructor(public id: string) {
   }
 }
 
-export class AddAll implements Action {
+export class AddAllEvents implements Action {
   readonly type = EventsActionTypes.ADD_ALL;
 
   constructor(public events: ICalendarEvent[]) {
@@ -97,11 +97,11 @@ export class SelectEventToEdit implements Action {
 
 
 export type EventsActionsType =
-  AddOne |
-  addMany |
-  UpdateOne |
-  DeleteOne |
-  AddAll |
+  AddOneEvent |
+  addManyEvents |
+  UpdateOneEvent |
+  DeleteOneEvent |
+  AddAllEvents |
   FetchEvents |
   InitCalendar |
   InitCalendarSuccess |

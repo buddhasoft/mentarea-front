@@ -2,13 +2,13 @@ import {ActionReducerMap, StoreModule} from '@ngrx/store';
 import {routerReducer, RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../../environments/environment';
-import {UsersEffects} from "./users/users.effects"
+import {UsersEffects} from "./calendar/users/users.effects"
 import {RouterEffects} from "./router/router.effects"
-import {EventsEffects} from "./events/events.effects"
+import {EventsEffects} from "./calendar/events/events.effects"
 import {AuthEffects} from "./auth/auth.effects"
 import {authReducer, AuthState} from "./auth/auth.reducer"
-import {eventsReducer, EventsState} from "./events/events.reducer"
-import {usersReducer, UsersState} from "./users/users.reducer"
+import {eventsReducer, EventsState} from "./calendar/events/events.reducer"
+import {usersReducer, UsersState} from "./calendar/users/users.reducer"
 import {EffectsModule} from "@ngrx/effects"
 import {RouterStateSnapshot} from "@angular/router"
 import {layoutReducer, LayoutState} from './layout';

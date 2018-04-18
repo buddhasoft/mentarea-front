@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store'
-import {IUser} from "../../shared/interfaces/users.interfaces"
+import {IUser} from "../../../shared/interfaces/users.interfaces"
 
 export enum
 UsersActionTypes
@@ -22,19 +22,19 @@ export class FetchUsersSuccess implements Action {
   readonly type = UsersActionTypes.FETCH_USERS_SUCCESS;
 }
 
-export class AddOne implements Action {
+export class AddOneUser implements Action {
   readonly type = UsersActionTypes.ADD_ONE;
 
   constructor(public user: IUser) {}
 }
 
-export class addMany implements Action {
+export class addManyUsers implements Action {
   readonly type = UsersActionTypes.ADD_MANY;
 
   constructor(public users: IUser[]) {}
 }
 
-export class UpdateOne implements Action {
+export class UpdateOneUser implements Action {
   readonly type = UsersActionTypes.UPDATE_ONE;
 
   constructor(public id: string,
@@ -42,13 +42,13 @@ export class UpdateOne implements Action {
   ) {}
 }
 
-export class DeleteOne implements Action {
+export class DeleteOneUser implements Action {
   readonly type = UsersActionTypes.DELETE_ONE;
 
   constructor(public id: string) {}
 }
 
-export class AddAll implements Action {
+export class AddAllUsers implements Action {
   readonly type = UsersActionTypes.ADD_ALL;
 
   constructor(public users: IUser[]) {}
@@ -63,11 +63,9 @@ export class SetActiveUser implements Action {
 
 
 export type UsersActions =
-  AddOne |
-  addMany |
-  UpdateOne |
-  DeleteOne |
-  AddAll |
+  AddOneUser |
+  addManyUsers |
+  UpdateOneUser |
+  DeleteOneUser |
+  AddAllUsers |
   SetActiveUser
-  // FetchUsers |
-  // FetchUsersSuccess
