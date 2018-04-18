@@ -14,6 +14,7 @@ import {RouterStateSnapshot} from "@angular/router"
 import {layoutReducer, LayoutState} from './layout';
 import {InjectionToken} from "@angular/core"
 import {CustomSerializer} from "./router/router.serializer"
+import {calendarReducer, CalendarState} from "./calendar/calendar.reducer"
 
 
 const EFFECTS_MODULE = EffectsModule.forRoot([
@@ -26,25 +27,22 @@ const EFFECTS_MODULE = EffectsModule.forRoot([
 export interface AppState {
   router: RouterStateSnapshot,
   auth: AuthState,
-  events: EventsState,
-  users: UsersState,
+  calendar: CalendarState,
   layout: LayoutState
 }
 
 export const reducerToken = new InjectionToken<ActionReducerMap<AppState>>('Reducers');
 
-export function getReducers() {
+export function getRootReducers() {
   return {
     router: routerReducer,
     auth: authReducer,
-    events: eventsReducer,
-    users: usersReducer,
     layout: layoutReducer
   }
 }
 
 export const reducerProvider = [
-  {provide: reducerToken, useFactory: getReducers}
+  {provide: reducerToken, useFactory: getRootReducers}
 ];
 
 export const customSerializer = [

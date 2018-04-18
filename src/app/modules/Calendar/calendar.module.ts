@@ -10,10 +10,13 @@ import {AddEventFormComponent} from "../../components/add-event-form/add-event-f
 import {NgbModal, NgbModule} from "@ng-bootstrap/ng-bootstrap"
 import {CalendarModule} from "angular-calendar"
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {StoreModule} from "@ngrx/store"
+import {calendarReducer} from "../../store/calendar/calendar.reducer"
 
 @NgModule({
   imports: [
     routing,
+    StoreModule.forFeature('calendar', calendarReducer),
     CommonModule,
     CalendarModule.forRoot(),
     NgbModule.forRoot(),
