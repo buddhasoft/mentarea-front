@@ -12,6 +12,7 @@ import {CalendarModule} from "angular-calendar"
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {StoreModule} from "@ngrx/store"
 import {calendarReducer} from "../../store/calendar/calendar.reducer"
+import {ConfirmComponent} from "../../shared/components/confirm/confirm/confirm.component"
 
 @NgModule({
   imports: [
@@ -28,11 +29,13 @@ import {calendarReducer} from "../../store/calendar/calendar.reducer"
     DateTimePickerComponent,
     ToolbarComponent,
     AddEventFormComponent,
+    ConfirmComponent,
     UserRoomComponent,
     SelectMultipleUserComponent
   ],
   entryComponents: [
-    AddEventFormComponent
+    AddEventFormComponent,
+    ConfirmComponent
   ],
   providers: [
     NgbModal,

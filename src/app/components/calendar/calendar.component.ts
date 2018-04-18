@@ -33,13 +33,14 @@ import {AddEventFormComponent} from "../add-event-form/add-event-form.component"
 import {Subscription} from "rxjs/Subscription"
 import "rxjs/add/operator/do"
 import {AppState} from "../../store/index"
-import {Logout} from "../../store/auth/auth.actions"
+import {TryLogout} from "../../store/auth/auth.actions"
 import {selectAuthorizedUser} from "../../store/auth/auth.selectors"
 import {AuthorizedUser} from "../../shared/models/authorizedUser"
 import {IUser} from "../../shared/interfaces/users.interfaces"
 import {SelectEventToEdit} from "../../store/calendar/events/events.actions"
 import {AppCalendarEvent} from "../../shared/models/newEvent.model"
 import {getAllUsers, getActiveUser, getAllEvents, getEventsTotal, getActiveEvent} from "../../store/selectors"
+import {ConfirmComponent} from "../../shared/components/confirm/confirm/confirm.component"
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -168,7 +169,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     return true
   }
 
-  onClosePress(close){
+  onClosePress(close) {
     this.unselectEvent()
     close()
   }
@@ -186,6 +187,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   quit() {
-    this.store.dispatch(new Logout())
+    const modalRef = this.modal.open(ConfirmComponent, {size: 'lg'});
+    modalRef.componentInstance.name = 'ConfirmComponent';
+    this.store.dispatch(new TryLogout())
   }
 }

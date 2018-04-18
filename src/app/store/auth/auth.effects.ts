@@ -8,7 +8,7 @@ import {LoginFailure, LoginSuccess} from "./auth.actions"
 
 import {of} from "rxjs/observable/of"
 import * as fromRouter from "../router"
-import {catchError, map, switchMap} from "rxjs/operators"
+import {catchError, map, switchMap, zip} from "rxjs/operators"
 import {from} from "rxjs/observable/from"
 import * as fromLoaders from "../layout/loaders"
 
@@ -97,12 +97,24 @@ export class AuthEffects {
   )
 
 
+  // @Effect()
+  // logout = this.actions$.pipe(
+  //   ofType(AuthActionTypes.TRY_LOGOUT),
+  //   map((): fromRouter.RouterActionType => {
+  //     sessionStorage.clear()
+  //     return new fromRouter.Go({path: ['/auth']})
+  //   })
+  // )
+
   @Effect()
-  logout = this.actions$.pipe(
-    ofType(AuthActionTypes.LOGIN_LOGOUT),
-    switchMap((): Observable<fromRouter.RouterActionType> => {
+  aggregator = this.actions$.pipe(
+    zip(
+      this.actions$.ofType(AuthActionTypes.TRY_LOGOUT),
+      this.actions$.ofType(AuthActionTypes.LOGOUT_CONFIRMED),
+    ),
+    map(() => {
       sessionStorage.clear()
-      return of(new fromRouter.Go({path: ['/auth']}))
+      return new fromRouter.Go({path: ['/auth']})
     })
   )
 

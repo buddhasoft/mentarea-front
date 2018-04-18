@@ -25,7 +25,7 @@ export function authReducer(state = initilalState, action: AuthActionsType) {
       return {...state, loggingIn: false}
     case AuthActionTypes.CHECK_TOKEN_SUCCESS:
       return {...state, isLoggedIn: true}
-    case AuthActionTypes.LOGIN_LOGOUT:
+    case AuthActionTypes.LOGOUT_CONFIRMED:
       return {...state, isLoggedIn: false, authorizedUser: null}
   }
   return state

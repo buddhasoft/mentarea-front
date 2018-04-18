@@ -9,7 +9,8 @@ export enum AuthActionTypes {
   TRY_LOGIN = '[AUTH] TRY_LOGIN',
   LOGIN_SUCCESS = '[AUTH] LOGIN_SUCCESS',
   LOGIN_FAILURE = '[AUTH] LOGIN_FAILURE',
-  LOGIN_LOGOUT = '[AUTH] LOGOUT',
+  TRY_LOGOUT = '[AUTH] TRY_LOGOUT',
+  LOGOUT_CONFIRMED = '[AUTH] LOGOUT_CONFIRMED',
   INIT_CLIENT = '[AUTH] INIT_CLIENT',
   INIT_CLIENT_SUCCESS = '[AUTH] INIT_CLIENT_SUCCESS',
   SET_CURRENT_USER_INFO = '[AUTH] SET_CURRENT_USER_INFO',
@@ -46,8 +47,12 @@ export class CheckTokenSuccess implements Action {
 }
 
 
-export class Logout implements Action {
-  readonly type = AuthActionTypes.LOGIN_LOGOUT;
+export class TryLogout implements Action {
+  readonly type = AuthActionTypes.TRY_LOGOUT;
+}
+
+export class LogoutConfirmed implements Action {
+  readonly type = AuthActionTypes.LOGOUT_CONFIRMED;
 }
 
 
@@ -66,7 +71,8 @@ export type AuthActionsType =
   CheckTokenSuccess |
   LoginSuccess |
   LoginFailure |
-  Logout |
+  TryLogout |
+  LogoutConfirmed |
   InitClient |
   InitClientSuccess |
   SetCurrentUserInfo
