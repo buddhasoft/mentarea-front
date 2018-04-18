@@ -1,4 +1,5 @@
 import {AuthActionsType, AuthActionTypes, SetCurrentUserInfo} from './auth.actions'
+
 import {Injectable, NgZone} from "@angular/core"
 import {Actions, Effect, ofType} from "@ngrx/effects"
 import {Observable} from "rxjs/Observable"
@@ -6,11 +7,10 @@ import {Observable} from "rxjs/Observable"
 import {LoginFailure, LoginSuccess} from "./auth.actions"
 
 import {of} from "rxjs/observable/of"
-import * as RouterActions from "../router/router.actions"
-import {RouterActionType} from "../router/router.actions"
+import * as fromRouter from "../router"
 import {catchError, map, switchMap} from "rxjs/operators"
 import {from} from "rxjs/observable/from"
-import {LoadersActionsType, showLoader} from "../layout/loaders/loaders.actions"
+import * as fromLoaders from "../layout/loaders"
 
 import {AuthorizedUser} from "../../shared/models/authorizedUser"
 import {IParsedGoogleUser} from "../../shared/interfaces/users.interfaces"
@@ -27,8 +27,7 @@ export class AuthEffects {
   constructor(public actions$: Actions,
               private authService: AuthService,
               private store: Store<AppState>,
-              private zone: NgZone
-  ) {
+              private zone: NgZone) {
   }
 
   @Effect()
@@ -36,7 +35,7 @@ export class AuthEffects {
     ofType(AuthActionTypes.CHECK_TOKEN),
     map(() => this.authService.checkToken()),
     //TODO here we should be sure about token validity
-    switchMap((token: string) => of( token ? new LoginSuccess() : new LoginFailure()))
+    switchMap((token: string) => of(token ? new LoginSuccess() : new LoginFailure()))
   )
 
 
@@ -88,19 +87,22 @@ export class AuthEffects {
   @Effect()
   loginSuccess = this.actions$.pipe(
     ofType(AuthActionTypes.LOGIN_SUCCESS),
-    switchMap((): Observable<RouterActionType | LoadersActionsType> => from([
-        new RouterActions.Go({path: ['/calendar']}),
-        new showLoader('globalLoader')
+    switchMap((): Observable<fromRouter.RouterActionType |
+      fromLoaders.LoadersActionsType> =>
+      from([
+        new fromRouter.Go({path: ['/calendar']}),
+        new fromLoaders.showLoader('globalLoader')
       ])
     )
   )
 
+
   @Effect()
   logout = this.actions$.pipe(
     ofType(AuthActionTypes.LOGIN_LOGOUT),
-    switchMap((): Observable<RouterActionType> => {
+    switchMap((): Observable<fromRouter.RouterActionType> => {
       sessionStorage.clear()
-      return of(new RouterActions.Go({path: ['/auth']}))
+      return of(new fromRouter.Go({path: ['/auth']}))
     })
   )
 
