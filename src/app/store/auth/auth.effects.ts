@@ -10,7 +10,7 @@ import * as RouterActions from "../router/router.actions"
 import {RouterActionType} from "../router/router.actions"
 import {catchError, map, switchMap} from "rxjs/operators"
 import {from} from "rxjs/observable/from"
-import {LoadersActionsType, showLoader} from "../layout/layout.actions"
+import {LoadersActionsType, showLoader} from "../layout/loaders/loaders.actions"
 
 import {AuthorizedUser} from "../../shared/models/authorizedUser"
 import {IParsedGoogleUser} from "../../shared/interfaces/users.interfaces"

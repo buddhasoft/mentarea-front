@@ -1,25 +1,13 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {CalendarModule} from 'angular-calendar';
 import {GoogleApiModule, NG_GAPI_CONFIG, NgGapiClientConfig} from "ng-gapi"
 import {AppComponent} from './app.component';
-import {CalendarComponent} from './components/calendar/calendar.component'
 import {CalendarService} from "./services/calendar/caledar.service"
-import {AuthState} from "./store/auth/auth.reducer";
-import {eventsReducer, EventsState} from "./store/events/events.reducer"
-import {NgbModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {DateTimePickerComponent} from './components/date-time-picker/date-time-picker.component';
-import {ToolbarComponent} from './components/toolbar/toolbar.component'
-import {usersReducer, UsersState} from "./store/users/users.reducer"
-import {RouterModule, RouterStateSnapshot, Routes} from "@angular/router";
+import {RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from './components/login/login.component'
-import {routerReducer, RouterStateSerializer, StoreRouterConnectingModule} from "@ngrx/router-store"
-import {RouterEffects} from "./store/router/router.effects";
-import {AddEventFormComponent} from './components/add-event-form/add-event-form.component'
 import {FormsModule, ReactiveFormsModule} from "@angular/forms"
 import {HttpClientModule} from '@angular/common/http';
-import {CustomSerializer} from "./store/router/router.serializer"
 import {SocialLoginModule} from "angular4-social-login";
 import {CLIENT_ID} from "./shared/constants/gapi.config"
 import {APP_STORE_MODULE, customSerializer, reducerProvider} from "./store/index"
@@ -27,7 +15,6 @@ import {AuthGuard} from "./services/guards/auth/auth-guard.service";
 import {AuthService} from "./services/auth/auth.service";
 import {UserRoomComponent} from './components/user-room/user-room.component';
 import {GlobalLoaderComponent} from './shared/components/global-loader/global-loader.component';
-import {SelectMultipleUserComponent} from './components/toolbar/select-multiple-user/select-multiple-user.component'
 
 let gapiClientConfig: NgGapiClientConfig = {
   client_id: CLIENT_ID,
@@ -38,9 +25,9 @@ let gapiClientConfig: NgGapiClientConfig = {
 };
 
 const appRoutes: Routes = [
-  {path: 'calendar', canActivate: [AuthGuard], component: CalendarComponent,},
+  {path: 'calendar', canActivate: [AuthGuard], loadChildren:'./modules/Calendar/calendar.module#AppCalendarModule'},
   {path: 'auth', component: LoginComponent,},
-  {path: 'user_room', canActivate: [AuthGuard], component: UserRoomComponent},
+  // {path: 'user_room', canActivate: [AuthGuard], component: UserRoomComponent},
   {
     path: '',
     redirectTo: 'auth',
@@ -52,14 +39,8 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    CalendarComponent,
-    DateTimePickerComponent,
-    ToolbarComponent,
     LoginComponent,
-    AddEventFormComponent,
-    UserRoomComponent,
     GlobalLoaderComponent,
-    SelectMultipleUserComponent
   ],
   imports: [
     BrowserModule,
@@ -68,10 +49,8 @@ const appRoutes: Routes = [
     SocialLoginModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes, {useHash: false}),
     ...APP_STORE_MODULE,
-    CalendarModule.forRoot(),
     GoogleApiModule.forRoot({
       provide: NG_GAPI_CONFIG,
       useValue: gapiClientConfig
@@ -83,10 +62,6 @@ const appRoutes: Routes = [
     CalendarService,
     AuthService,
     AuthGuard,
-    NgbModal,
-  ],
-  entryComponents: [
-    AddEventFormComponent
   ],
   bootstrap: [AppComponent]
 })
