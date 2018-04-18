@@ -5,6 +5,12 @@ import {Effect, Actions, ofType, EffectsModule} from '@ngrx/effects';
 import {map, tap} from 'rxjs/operators';
 import {RouterActionTypes, Go} from './router.actions';
 
+interface RouterNavigationConfig {
+  path: any[];
+  query?: object;
+  extras?: NavigationExtras
+}
+
 @Injectable()
 export class RouterEffects {
   constructor(private actions$: Actions,
@@ -27,7 +33,7 @@ export class RouterEffects {
     })
   )
 
-  routerNavigate({path, query: queryParams, extras}: { path: any[]; query?: object; extras?: NavigationExtras; }) {
+  routerNavigate({path, query: queryParams, extras}: RouterNavigationConfig) {
     if (queryParams) this.router.navigate(path, {queryParams, ...extras})
     this.router.navigate(path)
   }

@@ -38,7 +38,7 @@ export class AuthService {
   }
 
   initClient() {
-    return gapi.client.init(GAPI_CONFIG).then(() => {
+    gapi.client.init(GAPI_CONFIG).then(() => {
       this.zone.run(() => {
         this.store.dispatch(new InitClientSuccess())
       })

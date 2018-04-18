@@ -74,10 +74,11 @@ export class AuthEffects {
   tryLogin = this.actions$.pipe(
     ofType(AuthActionTypes.TRY_LOGIN),
     switchMap((): Observable<IParsedGoogleUser | boolean> => this.authService.signIn()),
-    backToAngularZone(this.zone),
-    map((parsedGoogleUser: IParsedGoogleUser): AuthActionsType => {
-      return parsedGoogleUser ? new LoginSuccess() : new LoginFailure()
+    switchMap((parsedGoogleUser: IParsedGoogleUser): Observable<AuthActionsType> => {
+      return of(parsedGoogleUser ? new LoginSuccess() : new LoginFailure())
     }),
+    map(v => v),
+    backToAngularZone(this.zone),
     catchError(error => {
       console.error('ERROR ', error);
       return of(new LoginFailure())
