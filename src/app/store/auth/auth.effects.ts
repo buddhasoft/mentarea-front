@@ -74,10 +74,10 @@ export class AuthEffects {
   tryLogin = this.actions$.pipe(
     ofType(AuthActionTypes.TRY_LOGIN),
     switchMap((): Observable<IParsedGoogleUser | boolean> => this.authService.signIn()),
-    backToAngularZone(this.zone),
-    switchMap((parsedGoogleUser: IParsedGoogleUser): Observable<AuthActionsType> => {
-      return of(parsedGoogleUser ? new LoginSuccess() : new LoginFailure())
+    map((parsedGoogleUser: IParsedGoogleUser): AuthActionsType => {
+      return parsedGoogleUser ? new LoginSuccess() : new LoginFailure()
     }),
+    backToAngularZone(this.zone),
     catchError(error => {
       console.error('ERROR ', error);
       return of(new LoginFailure())
@@ -96,18 +96,8 @@ export class AuthEffects {
     )
   )
 
-
-  // @Effect()
-  // logout = this.actions$.pipe(
-  //   ofType(AuthActionTypes.TRY_LOGOUT),
-  //   map((): fromRouter.RouterActionType => {
-  //     sessionStorage.clear()
-  //     return new fromRouter.Go({path: ['/auth']})
-  //   })
-  // )
-
   @Effect()
-  aggregator = this.actions$.pipe(
+  logoutAggregator = this.actions$.pipe(
     zip(
       this.actions$.ofType(AuthActionTypes.TRY_LOGOUT),
       this.actions$.ofType(AuthActionTypes.LOGOUT_CONFIRMED),
