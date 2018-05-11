@@ -41,6 +41,7 @@ import {SelectEventToEdit} from "../../store/calendar/events/events.actions"
 import {AppCalendarEvent} from "../../shared/models/newEvent.model"
 import {getAllUsers, getActiveUser, getAllEvents, getEventsTotal, getActiveEvent} from "../../store/selectors"
 import {ConfirmComponent} from "../../shared/components/confirm/confirm/confirm.component"
+import {Back, Forward} from "../../store/router/router.actions"
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -191,4 +192,5 @@ export class CalendarComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.name = 'ConfirmComponent';
     this.store.dispatch(new TryLogout())
   }
+
 }

@@ -13,7 +13,6 @@ import {CLIENT_ID} from "./shared/constants/gapi.config"
 import {APP_STORE_MODULE, customSerializer, reducerProvider} from "./store/index"
 import {AuthGuard} from "./services/guards/auth/auth-guard.service";
 import {AuthService} from "./services/auth/auth.service";
-import {UserRoomComponent} from './components/user-room/user-room.component';
 import {GlobalLoaderComponent} from './shared/components/global-loader/global-loader.component';
 
 let gapiClientConfig: NgGapiClientConfig = {
@@ -25,7 +24,7 @@ let gapiClientConfig: NgGapiClientConfig = {
 };
 
 const appRoutes: Routes = [
-  {path: 'calendar', canActivate: [AuthGuard], loadChildren:'./modules/Calendar/calendar.module#AppCalendarModule'},
+  {path: 'calendar', canActivate: [AuthGuard], loadChildren: './modules/Calendar/calendar.module#AppCalendarModule'},
   {path: 'auth', component: LoginComponent,},
   {
     path: '',

@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core'
+import {InjectionToken, NgModule} from '@angular/core'
 import {routing} from './calendar.routing'
 import {CommonModule} from "@angular/common"
 import {ToolbarComponent} from "../../components/toolbar/toolbar.component"

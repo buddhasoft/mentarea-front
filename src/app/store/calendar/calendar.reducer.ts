@@ -3,11 +3,10 @@ export interface CalendarState {
   events: EventsState,
 }
 
-import {combineReducers} from "@ngrx/store"
 import {eventsReducer, EventsState} from "./events/events.reducer"
 import {usersReducer, UsersState} from "./users/users.reducer"
 
-export const calendarReducer = combineReducers({
+export const calendarReducer = {
   users: usersReducer,
   events: eventsReducer
-})
+}
